@@ -1,22 +1,52 @@
+import { Arg, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import Booking from "../entities/Booking";
-import { Arg, Mutation, Query, Resolver } from "type-graphql";
+import getUserId from "../helpers/get_user_id";
+import { MyValidation } from "../helpers/validation";
+import isAuthAdmin from "../middleware/is_auth_admin";
+import { FieldInput } from "../utils/enums";
+import { BookingResponse, CreateBookingInput } from "../utils/type";
 
 @Resolver()
 export default class BookingResolver {
-  @Mutation(() => Booking)
-  async createBooking(@Arg("body") body: string): Promise<Booking> {
-    return await Booking.save({
-      body,
+  @UseMiddleware(isAuthAdmin)
+  @Mutation(() => BookingResponse)
+  async createBooking(
+    @Arg(FieldInput.OPTIONS) options: CreateBookingInput
+  ): Promise<BookingResponse> {
+    const userId = getUserId(); // gets the user id
+
+    // validate
+    const errors = new MyValidation().validateBooking(options);
+    console.log(errors);
+
+    if (errors.length) {
+      return {
+        errors,
+      };
+    }
+
+    // saves the booking
+    const booking = await Booking.save({
+      ...options,
+      user: {
+        id: userId,
+      },
     });
+
+    return {
+      booking,
+    };
   }
 
   @Query(() => [Booking])
-  async readBookings(): Promise<Booking[]> {
+  async readAllBookings(): Promise<Booking[]> {
     return await Booking.find();
   }
 
   @Query(() => Booking, { nullable: true })
-  async readBookingById(@Arg("id") id: number): Promise<Booking | null> {
+  async readBookingById(
+    @Arg(FieldInput.ID) id: number
+  ): Promise<Booking | null> {
     return await Booking.findOne({
       where: {
         id: id,
@@ -24,8 +54,9 @@ export default class BookingResolver {
     });
   }
 
+  @UseMiddleware(isAuthAdmin)
   @Mutation(() => Boolean)
-  async deleteBookingById(@Arg("id") id: number): Promise<boolean> {
+  async deleteBookingById(@Arg(FieldInput.ID) id: number): Promise<boolean> {
     try {
       const booking = await Booking.findOne({
         where: { id },
@@ -41,8 +72,9 @@ export default class BookingResolver {
     }
   }
 
+  @UseMiddleware(isAuthAdmin)
   @Mutation(() => Boolean)
-  async deleteBookings() {
+  async deleteAllBookings() {
     try {
       const Bookings = await Booking.find();
 
@@ -56,4 +88,3 @@ export default class BookingResolver {
     }
   }
 }
-

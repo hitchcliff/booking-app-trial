@@ -8,10 +8,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
 const enums_1 = require("../utils/enums");
+const Booking_1 = __importDefault(require("./Booking"));
 let User = class User extends typeorm_1.BaseEntity {
 };
 __decorate([
@@ -78,6 +82,11 @@ __decorate([
     }),
     __metadata("design:type", String)
 ], User.prototype, "picture", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(() => [Booking_1.default], { nullable: true }),
+    (0, typeorm_1.OneToMany)(() => Booking_1.default, (booking) => booking.user),
+    __metadata("design:type", Array)
+], User.prototype, "bookings", void 0);
 User = __decorate([
     (0, type_graphql_1.ObjectType)(),
     (0, typeorm_1.Entity)("user")

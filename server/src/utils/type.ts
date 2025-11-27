@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import { Session, SessionData } from "express-session";
 import { Field, InputType, ObjectType } from "type-graphql";
 import User from "../entities/User";
+import Booking from "../entities/Booking";
 
 export type MyContext = {
   req: Request & {
@@ -74,4 +75,22 @@ export class UpdateRoleInput {
 
   @Field()
   role: string;
+}
+
+@InputType()
+export class CreateBookingInput {
+  @Field()
+  title: string;
+
+  @Field()
+  body: string;
+}
+
+@ObjectType()
+export class BookingResponse {
+  @Field(() => [FieldError], { nullable: true })
+  errors?: FieldError[];
+
+  @Field(() => Booking, { nullable: true })
+  booking?: Booking;
 }

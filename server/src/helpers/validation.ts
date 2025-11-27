@@ -1,4 +1,5 @@
-import { FieldError, RegisterInput } from "../utils/type";
+import { FieldInput } from "../utils/enums";
+import { CreateBookingInput, FieldError, RegisterInput } from "../utils/type";
 
 /**
  * Validation for Register
@@ -15,6 +16,13 @@ export class MyValidation {
     this.emptyText("dialCode", options.dialCode);
     this.emptyText("phoneNumber", options.phoneNumber);
     this.accepted(options.acceptedTermsAndConditions);
+
+    return this.errors;
+  }
+
+  public validateBooking(options: CreateBookingInput) {
+    this.emptyText(FieldInput.TITLE, options.title);
+    this.emptyText(FieldInput.BODY, options.body);
 
     return this.errors;
   }

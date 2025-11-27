@@ -7,19 +7,20 @@ export enum UserRole {
 
 export enum UserAccountType {
   BOOKER = "booker",
+  AGENT = "agent",
   SELLER = "seller",
 }
 
 export enum FieldInput {
   ID = "id",
   UID = "uid",
-  IMG = "img",
   OPTIONS = "options",
-  CATEGORY_NAME = "name",
-  CATEGORY_IMAGE = "image",
-  UPDATE_CATEGORY = "update_category",
-  BANNER_IMAGE = "upload_image",
-  FILE_IMG = "file_img",
+  TITLE = "title",
+  BODY = "body",
+}
+
+export enum FieldMessage {
+  REQUIRED = "required",
 }
 
 registerEnumType(UserRole, {

@@ -8,9 +8,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
+const User_1 = __importDefault(require("./User"));
 let Booking = class Booking extends typeorm_1.BaseEntity {
 };
 __decorate([
@@ -33,6 +37,17 @@ __decorate([
     (0, typeorm_1.Column)({ type: "text" }),
     __metadata("design:type", String)
 ], Booking.prototype, "body", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    (0, typeorm_1.Column)({ type: "text" }),
+    __metadata("design:type", String)
+], Booking.prototype, "title", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(() => User_1.default, { nullable: true }),
+    (0, typeorm_1.ManyToOne)(() => User_1.default, (user) => user.bookings, { eager: true }),
+    (0, typeorm_1.JoinColumn)(),
+    __metadata("design:type", User_1.default)
+], Booking.prototype, "user", void 0);
 Booking = __decorate([
     (0, type_graphql_1.ObjectType)(),
     (0, typeorm_1.Entity)("booking")

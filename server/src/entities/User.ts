@@ -4,10 +4,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  OneToMany,
   PrimaryColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { UserRole, UserAccountType } from "../utils/enums";
+import { UserAccountType, UserRole } from "../utils/enums";
+import Booking from "./Booking";
 
 @ObjectType()
 @Entity("user")
@@ -63,6 +66,13 @@ class User extends BaseEntity {
     nullable: true,
   })
   picture?: string;
+
+  // the one who created the booking
+  @Field(() => [Booking], { nullable: true })
+  @OneToMany(() => Booking, (booking) => booking.user)
+  bookings: Booking[];
+
+  // scheduled bookings
 }
 
 export default User;

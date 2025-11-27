@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MyValidation = void 0;
+const enums_1 = require("../utils/enums");
 class MyValidation {
     constructor() {
         this.errors = [];
@@ -13,6 +14,11 @@ class MyValidation {
         this.emptyText("dialCode", options.dialCode);
         this.emptyText("phoneNumber", options.phoneNumber);
         this.accepted(options.acceptedTermsAndConditions);
+        return this.errors;
+    }
+    validateBooking(options) {
+        this.emptyText(enums_1.FieldInput.TITLE, options.title);
+        this.emptyText(enums_1.FieldInput.BODY, options.body);
         return this.errors;
     }
     emptyText(field, text) {

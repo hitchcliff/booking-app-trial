@@ -12,9 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpdateRoleInput = exports.UserResponse = exports.RegisterInput = exports.LoginInput = exports.FieldError = void 0;
+exports.BookingResponse = exports.CreateBookingInput = exports.UpdateRoleInput = exports.UserResponse = exports.RegisterInput = exports.LoginInput = exports.FieldError = void 0;
 const type_graphql_1 = require("type-graphql");
 const User_1 = __importDefault(require("../entities/User"));
+const Booking_1 = __importDefault(require("../entities/Booking"));
 let FieldError = class FieldError {
 };
 exports.FieldError = FieldError;
@@ -109,3 +110,31 @@ __decorate([
 exports.UpdateRoleInput = UpdateRoleInput = __decorate([
     (0, type_graphql_1.InputType)()
 ], UpdateRoleInput);
+let CreateBookingInput = class CreateBookingInput {
+};
+exports.CreateBookingInput = CreateBookingInput;
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", String)
+], CreateBookingInput.prototype, "title", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", String)
+], CreateBookingInput.prototype, "body", void 0);
+exports.CreateBookingInput = CreateBookingInput = __decorate([
+    (0, type_graphql_1.InputType)()
+], CreateBookingInput);
+let BookingResponse = class BookingResponse {
+};
+exports.BookingResponse = BookingResponse;
+__decorate([
+    (0, type_graphql_1.Field)(() => [FieldError], { nullable: true }),
+    __metadata("design:type", Array)
+], BookingResponse.prototype, "errors", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(() => Booking_1.default, { nullable: true }),
+    __metadata("design:type", Booking_1.default)
+], BookingResponse.prototype, "booking", void 0);
+exports.BookingResponse = BookingResponse = __decorate([
+    (0, type_graphql_1.ObjectType)()
+], BookingResponse);
