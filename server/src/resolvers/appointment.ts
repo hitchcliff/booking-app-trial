@@ -64,18 +64,36 @@ export default class AppointmentResolver {
     };
   }
 
+  @UseMiddleware(isAuthAdmin) // must be adming to read all appointments
   @Query(() => [Appointment])
   async readAllAppointments(): Promise<Appointment[]> {
     return await Appointment.find();
   }
 
-  @Query(() => Appointment, { nullable: true })
-  async readAppointmentById(
-    @Arg(FieldInput.ID) id: number
-  ): Promise<Appointment | null> {
-    return await Appointment.findOne({
+  @UseMiddleware(isAuth)
+  @Query(() => [Appointment], { nullable: true })
+  async readAllMyAppointments(): Promise<Appointment[] | null> {
+    const id = getUserId();
+
+    return await Appointment.find({
       where: {
-        id: id,
+        user: {
+          id,
+        },
+      },
+    });
+  }
+
+  @UseMiddleware(isAuthAdmin) // they must be admin to read specific booking appointment
+  @Query(() => [Appointment], { nullable: true })
+  async readAppointmentsByBookingId(
+    @Arg(FieldInput.ID) id: number
+  ): Promise<Appointment[] | null> {
+    return await Appointment.find({
+      where: {
+        booking: {
+          id,
+        },
       },
     });
   }

@@ -66,10 +66,22 @@ let AppointmentResolver = class AppointmentResolver {
     async readAllAppointments() {
         return await Appointment_1.default.find();
     }
-    async readAppointmentById(id) {
-        return await Appointment_1.default.findOne({
+    async readAllMyAppointments() {
+        const id = (0, get_user_id_1.default)();
+        return await Appointment_1.default.find({
             where: {
-                id: id,
+                user: {
+                    id,
+                },
+            },
+        });
+    }
+    async readAppointmentsByBookingId(id) {
+        return await Appointment_1.default.find({
+            where: {
+                booking: {
+                    id,
+                },
             },
         });
     }
@@ -111,18 +123,27 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AppointmentResolver.prototype, "createAppointment", null);
 __decorate([
+    (0, type_graphql_1.UseMiddleware)(is_auth_admin_1.default),
     (0, type_graphql_1.Query)(() => [Appointment_1.default]),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], AppointmentResolver.prototype, "readAllAppointments", null);
 __decorate([
-    (0, type_graphql_1.Query)(() => Appointment_1.default, { nullable: true }),
+    (0, type_graphql_1.UseMiddleware)(is_auth_1.default),
+    (0, type_graphql_1.Query)(() => [Appointment_1.default], { nullable: true }),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], AppointmentResolver.prototype, "readAllMyAppointments", null);
+__decorate([
+    (0, type_graphql_1.UseMiddleware)(is_auth_admin_1.default),
+    (0, type_graphql_1.Query)(() => [Appointment_1.default], { nullable: true }),
     __param(0, (0, type_graphql_1.Arg)(enums_1.FieldInput.ID)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
-], AppointmentResolver.prototype, "readAppointmentById", null);
+], AppointmentResolver.prototype, "readAppointmentsByBookingId", null);
 __decorate([
     (0, type_graphql_1.UseMiddleware)(is_auth_admin_1.default),
     (0, type_graphql_1.Mutation)(() => Boolean),
