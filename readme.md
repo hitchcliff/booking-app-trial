@@ -86,6 +86,31 @@
 }
 `
 
+### UpdateRole (admin role can update any users to admin) will not be implemented in the Frontend
+
+`mutation UpdateRole($options: UpdateRoleInput!) {
+  updateRole( options: $options) {
+    errors {
+      field
+      message
+    }
+    user {
+      id
+      createdAt
+      updatedAt
+      acceptedTermsAndConditions
+      name
+      email
+      emailVerified
+      role
+      accountType
+      dialCode
+      phoneNumber
+      picture
+    }
+  }
+}`
+
 #### Me
 
 `query Me {
