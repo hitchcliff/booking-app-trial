@@ -17,10 +17,16 @@ export enum FieldInput {
   OPTIONS = "options",
   TITLE = "title",
   BODY = "body",
+  DATE = "date",
+  TIME = "time",
+  FROM = "from",
+  TO = "to",
 }
 
 export enum FieldMessage {
   REQUIRED = "required",
+  NOT_BOOKER = "not a booker",
+  DUPLICATE = "duplicate",
 }
 
 registerEnumType(UserRole, {

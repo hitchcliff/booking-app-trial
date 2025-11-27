@@ -12,10 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.BookingResponse = exports.CreateBookingInput = exports.UpdateRoleInput = exports.UserResponse = exports.RegisterInput = exports.LoginInput = exports.FieldError = void 0;
+exports.AppointmentResponse = exports.CreateAppointmentInput = exports.BookingResponse = exports.CreateBookingInput = exports.UpdateRoleInput = exports.UserResponse = exports.RegisterInput = exports.LoginInput = exports.FieldError = void 0;
 const type_graphql_1 = require("type-graphql");
 const User_1 = __importDefault(require("../entities/User"));
 const Booking_1 = __importDefault(require("../entities/Booking"));
+const Appointment_1 = __importDefault(require("../entities/Appointment"));
 let FieldError = class FieldError {
 };
 exports.FieldError = FieldError;
@@ -138,3 +139,39 @@ __decorate([
 exports.BookingResponse = BookingResponse = __decorate([
     (0, type_graphql_1.ObjectType)()
 ], BookingResponse);
+let CreateAppointmentInput = class CreateAppointmentInput {
+};
+exports.CreateAppointmentInput = CreateAppointmentInput;
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", Number)
+], CreateAppointmentInput.prototype, "id", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", String)
+], CreateAppointmentInput.prototype, "date", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", String)
+], CreateAppointmentInput.prototype, "from", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", String)
+], CreateAppointmentInput.prototype, "to", void 0);
+exports.CreateAppointmentInput = CreateAppointmentInput = __decorate([
+    (0, type_graphql_1.InputType)()
+], CreateAppointmentInput);
+let AppointmentResponse = class AppointmentResponse {
+};
+exports.AppointmentResponse = AppointmentResponse;
+__decorate([
+    (0, type_graphql_1.Field)(() => [FieldError], { nullable: true }),
+    __metadata("design:type", Array)
+], AppointmentResponse.prototype, "errors", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(() => Appointment_1.default, { nullable: true }),
+    __metadata("design:type", Appointment_1.default)
+], AppointmentResponse.prototype, "appointment", void 0);
+exports.AppointmentResponse = AppointmentResponse = __decorate([
+    (0, type_graphql_1.ObjectType)()
+], AppointmentResponse);

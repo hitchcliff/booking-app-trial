@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
 const enums_1 = require("../utils/enums");
+const Appointment_1 = __importDefault(require("./Appointment"));
 const Booking_1 = __importDefault(require("./Booking"));
 let User = class User extends typeorm_1.BaseEntity {
 };
@@ -87,6 +88,11 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => Booking_1.default, (booking) => booking.user),
     __metadata("design:type", Array)
 ], User.prototype, "bookings", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(() => [Appointment_1.default], { nullable: true }),
+    (0, typeorm_1.OneToMany)(() => Appointment_1.default, (appointment) => appointment.user),
+    __metadata("design:type", Array)
+], User.prototype, "appointments", void 0);
 User = __decorate([
     (0, type_graphql_1.ObjectType)(),
     (0, typeorm_1.Entity)("user")

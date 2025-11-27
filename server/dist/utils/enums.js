@@ -20,10 +20,16 @@ var FieldInput;
     FieldInput["OPTIONS"] = "options";
     FieldInput["TITLE"] = "title";
     FieldInput["BODY"] = "body";
+    FieldInput["DATE"] = "date";
+    FieldInput["TIME"] = "time";
+    FieldInput["FROM"] = "from";
+    FieldInput["TO"] = "to";
 })(FieldInput || (exports.FieldInput = FieldInput = {}));
 var FieldMessage;
 (function (FieldMessage) {
     FieldMessage["REQUIRED"] = "required";
+    FieldMessage["NOT_BOOKER"] = "not a booker";
+    FieldMessage["DUPLICATE"] = "duplicate";
 })(FieldMessage || (exports.FieldMessage = FieldMessage = {}));
 (0, type_graphql_1.registerEnumType)(UserRole, {
     name: "UserRole",

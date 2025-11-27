@@ -16,117 +16,22 @@
 - read all bookings in a list
 - read scheduled bookings
 
-### model:
-
-#### booking model:
-
-- id
-- title
-- body
-- appointment time
-- schedule
-  - list of users and appointed time
-
 ### relationships
+
+<!-- one to many and many to one -->
 
 - admin can create many booking
 - booking will be own by admin role
-- user can `schedule` to many booking
-- booking can be `schedule` by many users
 
-### graphql schema
+<!-- many to many -->
+<!-- user <-> booking -->
+<!-- user -> appointment <- booking -->
 
-#### register
+`appointment` act as the @JoinTable
 
-`mutation Register($options: RegisterInput!) {
-  register(options: $options) {
-    errors {
-      field
-      message
-    }
-    user {
-      id
-      createdAt
-      updatedAt
-      name
-      email
-      emailVerified
-      dialCode
-      phoneNumber
-      acceptedTermsAndConditions
-      role
-      accountType
-    }
-  }
-}`
+- booking can `appoint` by many users
+- users can `appoint` many bookings
 
-#### login
+### Note:
 
-`mutation Login($options: LoginInput!) {
-  login(options: $options) {
-    errors {
-      field
-      message
-    }
-    user {
-      id
-      createdAt
-      updatedAt
-      name
-      email
-      emailVerified
-      dialCode
-      phoneNumber
-      acceptedTermsAndConditions
-      picture
-      role
-      accountType
-    }
-  }
-}
-`
-
-### UpdateRole (admin role can update any users to admin) will not be implemented in the Frontend
-
-`mutation UpdateRole($options: UpdateRoleInput!) {
-  updateRole( options: $options) {
-    errors {
-      field
-      message
-    }
-    user {
-      id
-      createdAt
-      updatedAt
-      acceptedTermsAndConditions
-      name
-      email
-      emailVerified
-      role
-      accountType
-      dialCode
-      phoneNumber
-      picture
-    }
-  }
-}`
-
-#### Me
-
-`query Me {
-  me {
-    id
-    createdAt
-    updatedAt
-    name
-    email
-    emailVerified
-    dialCode
-    phoneNumber
-    acceptedTermsAndConditions
-    picture
-    role
-    accountType
-  }
-}
-`
+P.S. graphql schema has introspection enabled at `http://localhost:4000/graphql`

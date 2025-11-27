@@ -4,12 +4,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   OneToMany,
   PrimaryColumn,
   UpdateDateColumn,
 } from "typeorm";
 import { UserAccountType, UserRole } from "../utils/enums";
+import Appointment from "./Appointment";
 import Booking from "./Booking";
 
 @ObjectType()
@@ -72,7 +72,10 @@ class User extends BaseEntity {
   @OneToMany(() => Booking, (booking) => booking.user)
   bookings: Booking[];
 
-  // scheduled bookings
+  // appointment/scheduled bookings
+  @Field(() => [Appointment], { nullable: true })
+  @OneToMany(() => Appointment, (appointment) => appointment.user)
+  appointments: Appointment[];
 }
 
 export default User;

@@ -5,11 +5,12 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
-  JoinTable,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
+import Appointment from "./Appointment";
 import User from "./User";
 
 @ObjectType()
@@ -40,4 +41,9 @@ export default class Booking extends BaseEntity {
   @ManyToOne(() => User, (user) => user.bookings, { eager: true })
   @JoinColumn()
   user: User;
+
+  // appointment of the booking
+  @Field(() => [Appointment], { nullable: true })
+  @OneToMany(() => Appointment, (appointment) => appointment.booking)
+  appointments: Appointment[];
 }

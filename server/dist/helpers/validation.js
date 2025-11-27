@@ -21,6 +21,12 @@ class MyValidation {
         this.emptyText(enums_1.FieldInput.BODY, options.body);
         return this.errors;
     }
+    validateAppointment(options) {
+        this.emptyText(enums_1.FieldInput.DATE, options.date);
+        this.emptyText(enums_1.FieldInput.FROM, options.from);
+        this.emptyText(enums_1.FieldInput.TO, options.to);
+        return this.errors;
+    }
     emptyText(field, text) {
         if (text === null || text.length === 0) {
             this.errors.push({

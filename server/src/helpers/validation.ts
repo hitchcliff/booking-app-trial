@@ -1,5 +1,10 @@
 import { FieldInput } from "../utils/enums";
-import { CreateBookingInput, FieldError, RegisterInput } from "../utils/type";
+import {
+  CreateAppointmentInput,
+  CreateBookingInput,
+  FieldError,
+  RegisterInput,
+} from "../utils/type";
 
 /**
  * Validation for Register
@@ -23,6 +28,14 @@ export class MyValidation {
   public validateBooking(options: CreateBookingInput) {
     this.emptyText(FieldInput.TITLE, options.title);
     this.emptyText(FieldInput.BODY, options.body);
+
+    return this.errors;
+  }
+
+  public validateAppointment(options: CreateAppointmentInput) {
+    this.emptyText(FieldInput.DATE, options.date);
+    this.emptyText(FieldInput.FROM, options.from);
+    this.emptyText(FieldInput.TO, options.to);
 
     return this.errors;
   }

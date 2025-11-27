@@ -14,48 +14,44 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
-const Appointment_1 = __importDefault(require("./Appointment"));
+const Booking_1 = __importDefault(require("./Booking"));
 const User_1 = __importDefault(require("./User"));
-let Booking = class Booking extends typeorm_1.BaseEntity {
+let Appointment = class Appointment extends typeorm_1.BaseEntity {
 };
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
-], Booking.prototype, "id", void 0);
-__decorate([
-    (0, type_graphql_1.Field)(),
-    (0, typeorm_1.CreateDateColumn)(),
-    __metadata("design:type", Date)
-], Booking.prototype, "createdAt", void 0);
-__decorate([
-    (0, type_graphql_1.Field)(),
-    (0, typeorm_1.UpdateDateColumn)(),
-    __metadata("design:type", Date)
-], Booking.prototype, "updatedAt", void 0);
+], Appointment.prototype, "id", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)({ type: "text" }),
     __metadata("design:type", String)
-], Booking.prototype, "body", void 0);
+], Appointment.prototype, "date", void 0);
 __decorate([
     (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)({ type: "text" }),
     __metadata("design:type", String)
-], Booking.prototype, "title", void 0);
+], Appointment.prototype, "from", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    (0, typeorm_1.Column)({ type: "text" }),
+    __metadata("design:type", String)
+], Appointment.prototype, "to", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(() => Booking_1.default, { nullable: true }),
+    (0, typeorm_1.ManyToOne)(() => Booking_1.default, (booking) => booking.appointments, { eager: true }),
+    (0, typeorm_1.JoinColumn)(),
+    __metadata("design:type", Booking_1.default)
+], Appointment.prototype, "booking", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => User_1.default, { nullable: true }),
-    (0, typeorm_1.ManyToOne)(() => User_1.default, (user) => user.bookings, { eager: true }),
+    (0, typeorm_1.ManyToOne)(() => User_1.default, (user) => user.appointments, { eager: true }),
     (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", User_1.default)
-], Booking.prototype, "user", void 0);
-__decorate([
-    (0, type_graphql_1.Field)(() => [Appointment_1.default], { nullable: true }),
-    (0, typeorm_1.OneToMany)(() => Appointment_1.default, (appointment) => appointment.booking),
-    __metadata("design:type", Array)
-], Booking.prototype, "appointments", void 0);
-Booking = __decorate([
+], Appointment.prototype, "user", void 0);
+Appointment = __decorate([
     (0, type_graphql_1.ObjectType)(),
-    (0, typeorm_1.Entity)("booking")
-], Booking);
-exports.default = Booking;
+    (0, typeorm_1.Entity)("appointment")
+], Appointment);
+exports.default = Appointment;

@@ -4,6 +4,7 @@ import { Session, SessionData } from "express-session";
 import { Field, InputType, ObjectType } from "type-graphql";
 import User from "../entities/User";
 import Booking from "../entities/Booking";
+import Appointment from "../entities/Appointment";
 
 export type MyContext = {
   req: Request & {
@@ -93,4 +94,28 @@ export class BookingResponse {
 
   @Field(() => Booking, { nullable: true })
   booking?: Booking;
+}
+
+@InputType()
+export class CreateAppointmentInput {
+  @Field()
+  id: number;
+
+  @Field()
+  date: string;
+
+  @Field()
+  from: string;
+
+  @Field()
+  to: string;
+}
+
+@ObjectType()
+export class AppointmentResponse {
+  @Field(() => [FieldError], { nullable: true })
+  errors?: FieldError[];
+
+  @Field(() => Appointment, { nullable: true })
+  appointment?: Appointment;
 }

@@ -6,7 +6,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.entities = void 0;
 const User_1 = __importDefault(require("./User"));
 const Booking_1 = __importDefault(require("./Booking"));
+const Appointment_1 = __importDefault(require("./Appointment"));
 exports.entities = [
     User_1.default,
-    Booking_1.default
+    Booking_1.default,
+    Appointment_1.default,
 ];
