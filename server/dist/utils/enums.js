@@ -9,7 +9,7 @@ var UserRole;
 })(UserRole || (exports.UserRole = UserRole = {}));
 var UserAccountType;
 (function (UserAccountType) {
-    UserAccountType["BUYER"] = "buyer";
+    UserAccountType["BOOKER"] = "booker";
     UserAccountType["SELLER"] = "seller";
 })(UserAccountType || (exports.UserAccountType = UserAccountType = {}));
 var FieldInput;

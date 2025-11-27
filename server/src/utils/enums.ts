@@ -6,7 +6,7 @@ export enum UserRole {
 }
 
 export enum UserAccountType {
-  BUYER = "buyer",
+  BOOKER = "booker",
   SELLER = "seller",
 }
 

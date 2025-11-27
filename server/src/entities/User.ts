@@ -56,13 +56,13 @@ class User extends BaseEntity {
   @Column({ type: "text", nullable: false })
   phoneNumber: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Column({
     type: "text",
     default: process.env.DEFAULT_PROFILE_PICTURE,
     nullable: true,
   })
-  picture: string;
+  picture?: string;
 }
 
 export default User;
