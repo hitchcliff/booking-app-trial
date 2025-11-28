@@ -22,9 +22,11 @@ const validation_1 = require("../helpers/validation");
 const is_auth_admin_1 = __importDefault(require("../middleware/is_auth_admin"));
 const enums_1 = require("../utils/enums");
 const type_1 = require("../utils/type");
+const get_user_1 = __importDefault(require("../helpers/get_user"));
 let BookingResolver = class BookingResolver {
     async createBooking(options) {
         const userId = (0, get_user_id_1.default)();
+        const user = await (0, get_user_1.default)({ id: userId });
         const errors = new validation_1.MyValidation().validateBooking(options);
         console.log(errors);
         if (errors.length) {
@@ -35,7 +37,7 @@ let BookingResolver = class BookingResolver {
         const booking = await Booking_1.default.save({
             ...options,
             user: {
-                id: userId,
+                ...user,
             },
         });
         return {
@@ -43,7 +45,7 @@ let BookingResolver = class BookingResolver {
         };
     }
     async readAllBookings() {
-        return await Booking_1.default.find({
+        const bookings = await Booking_1.default.find({
             order: {
                 id: "DESC",
             },
@@ -51,6 +53,8 @@ let BookingResolver = class BookingResolver {
                 user: true,
             },
         });
+        console.log(bookings);
+        return bookings;
     }
     async readBookingById(id) {
         return await Booking_1.default.findOne({

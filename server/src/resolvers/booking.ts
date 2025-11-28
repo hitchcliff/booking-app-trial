@@ -5,6 +5,7 @@ import { MyValidation } from "../helpers/validation";
 import isAuthAdmin from "../middleware/is_auth_admin";
 import { FieldInput } from "../utils/enums";
 import { BookingResponse, CreateBookingInput } from "../utils/type";
+import getUser from "../helpers/get_user";
 
 @Resolver()
 export default class BookingResolver {
@@ -14,6 +15,7 @@ export default class BookingResolver {
     @Arg(FieldInput.OPTIONS) options: CreateBookingInput
   ): Promise<BookingResponse> {
     const userId = getUserId(); // gets the user id
+    const user = await getUser({ id: userId! });
 
     // validate
     const errors = new MyValidation().validateBooking(options);
@@ -29,7 +31,7 @@ export default class BookingResolver {
     const booking = await Booking.save({
       ...options,
       user: {
-        id: userId,
+        ...user,
       },
     });
 
@@ -40,7 +42,7 @@ export default class BookingResolver {
 
   @Query(() => [Booking])
   async readAllBookings(): Promise<Booking[]> {
-    return await Booking.find({
+    const bookings = await Booking.find({
       order: {
         id: "DESC",
       },
@@ -48,6 +50,10 @@ export default class BookingResolver {
         user: true,
       },
     });
+
+    console.log(bookings);
+
+    return bookings;
   }
 
   @Query(() => Booking, { nullable: true })
