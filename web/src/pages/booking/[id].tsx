@@ -14,6 +14,7 @@ import Button from "../../components/Button";
 import { Form, Formik } from "formik";
 import InputField from "../../components/Form/InputField";
 import toRecordError from "../../utils/toRecordError";
+import { ThrowSuccess } from "../../utils/swal";
 
 const Booking = () => {
   const { data, fetching, error } = useGetBookingFromUrl();
@@ -53,7 +54,7 @@ const Booking = () => {
 
       <div className="relative py-7 w-full flex flex-col gap-7">
         <Feeds booking={data.readBookingById} showBookingButton={false} />
-        <div className="bg-white rounded-md shadow-md p-5">
+        <div className="bg-light dark:bg-dark rounded-md shadow-md p-5">
           <Formik
             key={4}
             initialValues={{
@@ -67,6 +68,10 @@ const Booking = () => {
 
               if (data?.createAppointment.errors) {
                 setErrors(toRecordError(data.createAppointment.errors));
+              } else if (data?.createAppointment.appointment) {
+                ThrowSuccess({ text: "Appointment successfully!" });
+
+                resetForm();
               }
             }}
           >
