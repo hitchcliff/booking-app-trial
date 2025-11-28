@@ -21,6 +21,8 @@ const MyFeeds = ({
   const { toggleComments } = useGlobalSelector();
   const { user, booking, date, from, to } = appointment;
 
+  console.log(booking?.user);
+
   if (!post) return <Loader />;
 
   return (
@@ -42,20 +44,17 @@ const MyFeeds = ({
           <PosterInfo
             title={booking!.title}
             body={booking!.body}
-            user={user}
+            user={booking!.user}
             updatedAt={booking?.updatedAt}
           />
           <div className="mt-5">
             <span className="opacity-80 mr-2 font-bold">
-              When:{" "}
-              <span className="">
-                {dayjs(appointment.date).format("MM/DD/YYYY")}
-              </span>
+              When: <span className="">{dayjs(date).format("MM/DD/YYYY")}</span>
             </span>
             <span className="opacity-80 mr-2 font-bold">
               Time:{" "}
               <span className="">
-                {appointment.from} - {appointment.to}
+                {from} - {to}
               </span>
             </span>
           </div>

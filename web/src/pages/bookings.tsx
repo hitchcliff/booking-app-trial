@@ -33,6 +33,8 @@ const Bookings = () => {
     );
   }
 
+  console.log(appointment);
+
   return (
     <div className="relative bg-light-mode dark:bg-dark-mode flex flex-row min-h-screen gap-7 transition-all w-full">
       <div className="relative skeleton">
