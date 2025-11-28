@@ -9,14 +9,16 @@ import PrivateRoute from "../../components/Route/PrivateRoute";
 import SearchBar from "../../components/SearchBar";
 import Trendings from "../../components/Trendings";
 import { useGetBookingFromUrl } from "../../utils/useGetBookingFromUrl";
-import { useMeQuery } from "../../gen/graphql";
+import { useCreateAppointmentMutation, useMeQuery } from "../../gen/graphql";
 import Button from "../../components/Button";
 import { Form, Formik } from "formik";
 import InputField from "../../components/Form/InputField";
+import toRecordError from "../../utils/toRecordError";
 
 const Booking = () => {
   const { data, fetching, error } = useGetBookingFromUrl();
   const [{ data: user }] = useMeQuery();
+  const [, setAppointment] = useCreateAppointmentMutation();
 
   if (fetching) {
     return (
@@ -53,13 +55,20 @@ const Booking = () => {
         <Feeds booking={data.readBookingById} showBookingButton={false} />
         <div className="bg-white rounded-md shadow-md p-5">
           <Formik
+            key={4}
             initialValues={{
               id: data.readBookingById.id,
               date: "",
               from: "",
               to: "",
             }}
-            onSubmit={() => {}}
+            onSubmit={async (values, { setErrors, resetForm }) => {
+              const { data } = await setAppointment({ options: values });
+
+              if (data?.createAppointment.errors) {
+                setErrors(toRecordError(data.createAppointment.errors));
+              }
+            }}
           >
             {({ isSubmitting }) => (
               <Form>
@@ -71,7 +80,7 @@ const Booking = () => {
                   <InputField type="time" name="to" label="to" />
                 </div>
                 {data!.readBookingById?.user?.id !== user?.me?.id && (
-                  <Button isSubmitting={isSubmitting}>
+                  <Button type="submit" isSubmitting={isSubmitting}>
                     <FontAwesomeIcon className="mr-2" icon={faCalendar} />
                     Set appointment
                   </Button>
