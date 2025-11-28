@@ -8,5 +8,5 @@ export function useGetBookingFromUrl() {
     variables: {
       id: intId,
     },
-  });
+  })[0];
 }

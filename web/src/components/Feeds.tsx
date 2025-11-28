@@ -8,9 +8,10 @@ import PostReactions from "./PostReactions";
 
 interface FeedsProps {
   booking: Booking;
+  showBookingButton?: boolean;
 }
 
-const Feeds = ({ booking, ...post }: FeedsProps) => {
+const Feeds = ({ booking, showBookingButton = true, ...post }: FeedsProps) => {
   const { toggleComments } = useGlobalSelector();
   const { title, body, updatedAt, user } = booking;
 
@@ -38,7 +39,7 @@ const Feeds = ({ booking, ...post }: FeedsProps) => {
             user={user}
             updatedAt={updatedAt}
           />
-          <BookingButtons booking={booking} />
+          {showBookingButton && <BookingButtons booking={booking} />}
           {toggleComments && <Comments />}
         </div>
       </div>
