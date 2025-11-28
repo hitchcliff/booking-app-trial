@@ -19,7 +19,13 @@ export default function Booked({ user }: BookedProps) {
       <span>Members who booked: </span>
       <div className="mt-5 flex">
         <div className="h-7 w-7 mr-5 border-2 dark:border-dark rounded-full overflow-hidden">
-          <Img className="object-cover" src={PROFILE_IMG} alt="kevin nacario" />
+          {user?.picture && (
+            <img
+              className="object-cover h-full w-full object-top m-0"
+              src={user!.picture}
+              alt={user!.name}
+            />
+          )}
         </div>
         <p>{user?.name}</p>
         <div className="ml-auto">
