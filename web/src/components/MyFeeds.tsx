@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { Appointment, Booking } from "../gen/graphql";
-import { useDayJs } from "../hooks";
+import { useAuthService, useDayJs } from "../hooks";
 import { useGlobalSelector } from "../redux/features/global.selector";
 import BookingButtons from "./BookingButtons";
 import Comments from "./Comments";
@@ -19,6 +19,7 @@ const MyFeeds = ({
   showBookingButton = true,
   ...post
 }: FeedsProps) => {
+  const [{ user: me }] = useAuthService();
   const { toggleComments } = useGlobalSelector();
   const { user, booking, date, from, to } = appointment;
 
@@ -60,7 +61,9 @@ const MyFeeds = ({
           {showBookingButton && (
             <BookingButtons showCommentButton={false} booking={booking} />
           )}
-          <Booked user={appointment.user} />
+
+          {/* this agent text is temporarily, potentially bug from graphql */}
+          {me?.accountType === "agent" && <Booked user={appointment.user} />}
         </div>
       </div>
     </div>

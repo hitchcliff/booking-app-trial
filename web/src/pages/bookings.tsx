@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import Button from "../components/Button";
 import Feeds from "../components/Feeds";
 import FriendSuggestions from "../components/FriendSuggestions";
@@ -8,10 +9,12 @@ import SearchBar from "../components/SearchBar";
 import Trendings from "../components/Trendings";
 import { useMeQuery, useReadAllMyAppointmentsQuery } from "../gen/graphql";
 import { useGetBookingFromUrl } from "../utils/useGetBookingFromUrl";
+import RoutePattern from "../routes/RoutePattern";
 
 const Bookings = () => {
   const [{ data: appointment, fetching, error }] =
     useReadAllMyAppointmentsQuery();
+  const router = useRouter();
 
   if (fetching) {
     return (
@@ -48,7 +51,13 @@ const Bookings = () => {
         {appointment.readAllMyAppointments.length <= 0 && (
           <div className="flex flex-row gap-5 items-center">
             <span>You have no bookings yet.</span>
-            <Button>Go home</Button>
+            <Button
+              onClick={() => {
+                router.push(RoutePattern.HOME);
+              }}
+            >
+              Go home
+            </Button>
           </div>
         )}
         {appointment?.readAllMyAppointments.map((appointment, idx) => (
