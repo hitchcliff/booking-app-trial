@@ -1,4 +1,6 @@
+import dayjs from "dayjs";
 import { Appointment, Booking } from "../gen/graphql";
+import { useDayJs } from "../hooks";
 import { useGlobalSelector } from "../redux/features/global.selector";
 import BookingButtons from "./BookingButtons";
 import Comments from "./Comments";
@@ -43,6 +45,20 @@ const MyFeeds = ({
             user={user}
             updatedAt={booking?.updatedAt}
           />
+          <div className="mt-5">
+            <span className="opacity-80 mr-2 font-bold">
+              When:{" "}
+              <span className="">
+                {dayjs(appointment.date).format("MM/DD/YYYY")}
+              </span>
+            </span>
+            <span className="opacity-80 mr-2 font-bold">
+              Time:{" "}
+              <span className="">
+                {appointment.from} - {appointment.to}
+              </span>
+            </span>
+          </div>
           {showBookingButton && <BookingButtons booking={booking} />}
           {toggleComments && <Comments />}
         </div>
