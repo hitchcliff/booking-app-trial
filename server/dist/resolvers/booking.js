@@ -53,7 +53,6 @@ let BookingResolver = class BookingResolver {
                 user: true,
             },
         });
-        console.log(bookings);
         return bookings;
     }
     async readBookingById(id) {

@@ -51,8 +51,6 @@ export default class BookingResolver {
       },
     });
 
-    console.log(bookings);
-
     return bookings;
   }
 

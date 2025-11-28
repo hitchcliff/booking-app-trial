@@ -1,5 +1,6 @@
 import { Booking } from "../gen/graphql";
 import { useGlobalSelector } from "../redux/features/global.selector";
+import BookingButtons from "./BookingButtons";
 import Comments from "./Comments";
 import Loader from "./Loader";
 import PosterInfo from "./PosterInfo";
@@ -39,7 +40,7 @@ const Feeds = ({
             user={user}
             updatedAt={updatedAt}
           />
-          <PostReactions />
+          <BookingButtons bookingOwner={user} />
           {toggleComments && <Comments />}
         </div>
       </div>
