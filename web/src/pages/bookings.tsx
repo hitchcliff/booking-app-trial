@@ -1,3 +1,4 @@
+import Button from "../components/Button";
 import Feeds from "../components/Feeds";
 import FriendSuggestions from "../components/FriendSuggestions";
 import InfoBar from "../components/InfoBar";
@@ -44,6 +45,12 @@ const Bookings = () => {
       </div>
 
       <div className="relative py-7 w-full flex flex-col gap-7">
+        {appointment.readAllMyAppointments.length <= 0 && (
+          <div className="flex flex-row gap-5 items-center">
+            <span>You have no bookings yet.</span>
+            <Button>Go home</Button>
+          </div>
+        )}
         {appointment?.readAllMyAppointments.map((appointment, idx) => (
           <MyFeeds appointment={appointment} />
         ))}

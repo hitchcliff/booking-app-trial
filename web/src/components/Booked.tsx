@@ -1,10 +1,5 @@
-import { faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Form, Formik } from "formik";
-import InputField from "./Form/InputField";
-import Img from "next/image";
-import PROFILE_IMG from "../assets/images/profile.jpg";
-import ButtonSecondary from "./ButtonSecondary";
 import { Maybe } from "graphql/jsutils/Maybe";
 import { User } from "../gen/graphql";
 import Button from "./Button";
