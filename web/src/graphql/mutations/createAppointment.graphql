@@ -1,0 +1,10 @@
+mutation CreateAppointment($options: CreateAppointmentInput!) {
+  createAppointment(options: $options) {
+    errors {
+      ...FieldError
+    }
+    appointment {
+      ...Appointment
+    }
+  }
+}

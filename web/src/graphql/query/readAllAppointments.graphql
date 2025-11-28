@@ -1,0 +1,11 @@
+query ReadAllAppointments {
+  readAllAppointments {
+    ...Appointment
+    booking {
+      ...Booking
+    }
+    user {
+      ...User
+    }
+  }
+}

@@ -2,10 +2,14 @@ import { Cache, cacheExchange } from "@urql/exchange-graphcache";
 import { debugExchange, fetchExchange } from "urql";
 
 import {
+  CreateBookingDocument,
+  CreateBookingMutation,
   LoginMutation,
   LogoutMutation,
   MeDocument,
   MeQuery,
+  ReadAllBookingsDocument,
+  ReadAllBookingsQuery,
   RegisterMutation,
 } from "../gen/graphql";
 
@@ -40,34 +44,41 @@ const createUrqlClient = (ssrExchange: any, ctx: any) => {
       cacheExchange({
         updates: {
           Mutation: {
-            // createPost: (
-            //   result: CreatePostMutation,
-            //   _args,
-            //   cache: Cache,
-            //   _info
-            // ) => {
-            //   const fields = cache.inspectFields("Query");
-            //   const fieldInfos = fields.filter(
-            //     (field) => field.fieldName === "posts"
-            //   );
+            createBooking: (
+              result: CreateBookingMutation,
+              _args,
+              cache: Cache,
+              _info
+            ) => {
+              const fields = cache.inspectFields("Query");
+              const fieldInfos = fields.filter(
+                (field) => field.fieldName === "readAllBookings"
+              );
 
-            //   fieldInfos.forEach((fieldInfo) => {
-            //     cache.updateQuery(
-            //       {
-            //         query: PostsDocument,
-            //         variables: fieldInfo.arguments,
-            //       },
-            //       (data: PostsQuery | null): PostsQuery | null => {
-            //         if (data && result.createPost) {
-            //           data.posts.unshift(result.createPost);
-            //           return data;
-            //         }
+              console.log(fieldInfos);
 
-            //         return data;
-            //       }
-            //     );
-            //   });
-            // },
+              fieldInfos.forEach((fieldInfo) => {
+                console.log("info: ", fieldInfo);
+                cache.updateQuery(
+                  {
+                    query: ReadAllBookingsDocument,
+                    // variables: fieldInfo.arguments,
+                  },
+                  (
+                    data: ReadAllBookingsQuery | null
+                  ): ReadAllBookingsQuery | null => {
+                    if (data && result.createBooking.booking) {
+                      data.readAllBookings.unshift(
+                        result.createBooking.booking
+                      );
+                      return data;
+                    }
+
+                    return data;
+                  }
+                );
+              });
+            },
             register: (result: RegisterMutation, args, cache: Cache, _info) => {
               cache.updateQuery({ query: MeDocument }, (): MeQuery => {
                 if (result.register.errors) {

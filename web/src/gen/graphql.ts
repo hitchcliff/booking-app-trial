@@ -197,6 +197,25 @@ export type UserFragment = { __typename?: 'User', id: string, createdAt: any, up
 
 export type UserResponseFragment = { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field?: string | null, message?: string | null }> | null, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null };
 
+export type CreateAppointmentMutationVariables = Exact<{
+  options: CreateAppointmentInput;
+}>;
+
+
+export type CreateAppointmentMutation = { __typename?: 'Mutation', createAppointment: { __typename?: 'AppointmentResponse', errors?: Array<{ __typename?: 'FieldError', field?: string | null, message?: string | null }> | null, appointment?: { __typename?: 'Appointment', id: number, date: string, from: string, to: string } | null } };
+
+export type CreateBookingMutationVariables = Exact<{
+  options: CreateBookingInput;
+}>;
+
+
+export type CreateBookingMutation = { __typename?: 'Mutation', createBooking: { __typename?: 'BookingResponse', errors?: Array<{ __typename?: 'FieldError', field?: string | null, message?: string | null }> | null, booking?: { __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null, appointments?: Array<{ __typename?: 'Appointment', id: number, date: string, from: string, to: string, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null, booking?: { __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string } | null }> | null } | null } };
+
+export type DeleteAllAppointmentsMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type DeleteAllAppointmentsMutation = { __typename?: 'Mutation', deleteAllAppointments: boolean };
+
 export type LoginMutationVariables = Exact<{
   options: LoginInput;
 }>;
@@ -220,6 +239,28 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null };
+
+export type ReadAllAppointmentsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ReadAllAppointmentsQuery = { __typename?: 'Query', readAllAppointments: Array<{ __typename?: 'Appointment', id: number, date: string, from: string, to: string, booking?: { __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string } | null, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null }> };
+
+export type ReadAllBookingsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ReadAllBookingsQuery = { __typename?: 'Query', readAllBookings: Array<{ __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null, appointments?: Array<{ __typename?: 'Appointment', id: number, date: string, from: string, to: string, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null }> | null }> };
+
+export type ReadAllMyAppointmentsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ReadAllMyAppointmentsQuery = { __typename?: 'Query', readAllMyAppointments?: Array<{ __typename?: 'Appointment', id: number, date: string, from: string, to: string, booking?: { __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string } | null, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null }> | null };
+
+export type ReadBookingByIdQueryVariables = Exact<{
+  readBookingByIdId: Scalars['Float']['input'];
+}>;
+
+
+export type ReadBookingByIdQuery = { __typename?: 'Query', readBookingById?: { __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null } | null };
 
 import { IntrospectionQuery } from 'graphql';
 export default {
@@ -1077,6 +1118,43 @@ export const UserResponseFragmentDoc = gql`
 }
     ${FieldErrorFragmentDoc}
 ${UserFragmentDoc}`;
+export const CreateAppointmentDocument = gql`
+    mutation CreateAppointment($options: CreateAppointmentInput!) {
+  createAppointment(options: $options) {
+    errors {
+      ...FieldError
+    }
+    appointment {
+      ...Appointment
+    }
+  }
+}
+    ${FieldErrorFragmentDoc}
+${AppointmentFragmentDoc}`;
+
+export function useCreateAppointmentMutation() {
+  return Urql.useMutation<CreateAppointmentMutation, CreateAppointmentMutationVariables>(CreateAppointmentDocument);
+};
+export const CreateBookingDocument = gql`
+    mutation CreateBooking($options: CreateBookingInput!) {
+  createBooking(options: $options) {
+    ...BookingResponse
+  }
+}
+    ${BookingResponseFragmentDoc}`;
+
+export function useCreateBookingMutation() {
+  return Urql.useMutation<CreateBookingMutation, CreateBookingMutationVariables>(CreateBookingDocument);
+};
+export const DeleteAllAppointmentsDocument = gql`
+    mutation DeleteAllAppointments {
+  deleteAllAppointments
+}
+    `;
+
+export function useDeleteAllAppointmentsMutation() {
+  return Urql.useMutation<DeleteAllAppointmentsMutation, DeleteAllAppointmentsMutationVariables>(DeleteAllAppointmentsDocument);
+};
 export const LoginDocument = gql`
     mutation Login($options: LoginInput!) {
   login(options: $options) {
@@ -1118,4 +1196,79 @@ export const MeDocument = gql`
 
 export function useMeQuery(options?: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'>) {
   return Urql.useQuery<MeQuery, MeQueryVariables>({ query: MeDocument, ...options });
+};
+export const ReadAllAppointmentsDocument = gql`
+    query ReadAllAppointments {
+  readAllAppointments {
+    ...Appointment
+    booking {
+      ...Booking
+    }
+    user {
+      ...User
+    }
+  }
+}
+    ${AppointmentFragmentDoc}
+${BookingFragmentDoc}
+${UserFragmentDoc}`;
+
+export function useReadAllAppointmentsQuery(options?: Omit<Urql.UseQueryArgs<ReadAllAppointmentsQueryVariables>, 'query'>) {
+  return Urql.useQuery<ReadAllAppointmentsQuery, ReadAllAppointmentsQueryVariables>({ query: ReadAllAppointmentsDocument, ...options });
+};
+export const ReadAllBookingsDocument = gql`
+    query ReadAllBookings {
+  readAllBookings {
+    ...Booking
+    user {
+      ...User
+    }
+    appointments {
+      ...Appointment
+      user {
+        ...User
+      }
+    }
+  }
+}
+    ${BookingFragmentDoc}
+${UserFragmentDoc}
+${AppointmentFragmentDoc}`;
+
+export function useReadAllBookingsQuery(options?: Omit<Urql.UseQueryArgs<ReadAllBookingsQueryVariables>, 'query'>) {
+  return Urql.useQuery<ReadAllBookingsQuery, ReadAllBookingsQueryVariables>({ query: ReadAllBookingsDocument, ...options });
+};
+export const ReadAllMyAppointmentsDocument = gql`
+    query ReadAllMyAppointments {
+  readAllMyAppointments {
+    ...Appointment
+    booking {
+      ...Booking
+    }
+    user {
+      ...User
+    }
+  }
+}
+    ${AppointmentFragmentDoc}
+${BookingFragmentDoc}
+${UserFragmentDoc}`;
+
+export function useReadAllMyAppointmentsQuery(options?: Omit<Urql.UseQueryArgs<ReadAllMyAppointmentsQueryVariables>, 'query'>) {
+  return Urql.useQuery<ReadAllMyAppointmentsQuery, ReadAllMyAppointmentsQueryVariables>({ query: ReadAllMyAppointmentsDocument, ...options });
+};
+export const ReadBookingByIdDocument = gql`
+    query ReadBookingById($readBookingByIdId: Float!) {
+  readBookingById(id: $readBookingByIdId) {
+    ...Booking
+    user {
+      ...User
+    }
+  }
+}
+    ${BookingFragmentDoc}
+${UserFragmentDoc}`;
+
+export function useReadBookingByIdQuery(options: Omit<Urql.UseQueryArgs<ReadBookingByIdQueryVariables>, 'query'>) {
+  return Urql.useQuery<ReadBookingByIdQuery, ReadBookingByIdQueryVariables>({ query: ReadBookingByIdDocument, ...options });
 };

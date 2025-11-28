@@ -40,7 +40,15 @@ export default class BookingResolver {
 
   @Query(() => [Booking])
   async readAllBookings(): Promise<Booking[]> {
-    return await Booking.find();
+    return await Booking.find({
+      order: {
+        id: "DESC",
+      },
+      relations: {
+        user: true,
+        appointments: true,
+      },
+    });
   }
 
   @Query(() => Booking, { nullable: true })

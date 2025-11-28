@@ -8,6 +8,7 @@ import Loader from "../components/Loader";
 import PrivateRoute from "../components/Route/PrivateRoute";
 import SearchBar from "../components/SearchBar";
 import Trendings from "../components/Trendings";
+import { useReadAllBookingsQuery } from "../gen/graphql";
 // import { Post, usePostsQuery } from "../gen/graphql";
 
 const Home = () => {
@@ -18,8 +19,9 @@ const Home = () => {
   //     take,
   //   },
   // });
+  const [{ data, fetching }] = useReadAllBookingsQuery();
 
-  // if (!fetchPosts?.posts) return <Loader />;
+  if (!data?.readAllBookings) return <Loader />;
 
   return (
     <div className="relative bg-light-mode dark:bg-dark-mode flex flex-row min-h-screen gap-7 transition-all">
@@ -32,9 +34,9 @@ const Home = () => {
         </div>
       </div>
       <div className="relative py-7 w-full flex flex-col gap-7">
-        {/* <CreateFeed />
-        {fetchPosts?.posts.map((post, idx) => (
-          <Feeds key={idx} post={post as any} />
+        <CreateFeed />
+        {data?.readAllBookings.map((booking, idx) => (
+          <Feeds key={idx} booking={booking} />
         ))}
         <div className="text-center">
           <Button
@@ -45,7 +47,7 @@ const Home = () => {
           >
             Load More
           </Button>
-        </div> */}
+        </div>
       </div>
       <div className="relative py-7 pr-7 w-1/2">
         <div className="flex flex-col gap-7">

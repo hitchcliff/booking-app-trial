@@ -1,0 +1,5 @@
+mutation CreateBooking($options: CreateBookingInput!) {
+  createBooking(options: $options) {
+    ...BookingResponse
+  }
+}

@@ -43,7 +43,15 @@ let BookingResolver = class BookingResolver {
         };
     }
     async readAllBookings() {
-        return await Booking_1.default.find();
+        return await Booking_1.default.find({
+            order: {
+                id: "DESC",
+            },
+            relations: {
+                user: true,
+                appointments: true,
+            },
+        });
     }
     async readBookingById(id) {
         return await Booking_1.default.findOne({

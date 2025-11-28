@@ -1,0 +1,8 @@
+query ReadBookingById($readBookingByIdId: Float!) {
+  readBookingById(id: $readBookingByIdId) {
+    ...Booking
+    user {
+      ...User
+    }
+  }
+}
