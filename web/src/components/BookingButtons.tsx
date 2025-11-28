@@ -7,10 +7,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useGlobalService from "../hooks/useGlobalService";
 import { useGlobalSelector } from "../redux/features/global.selector";
 import ButtonSecondary from "./ButtonSecondary";
-import { Booking, useMeQuery, User } from "../gen/graphql";
+import { Booking, Maybe, useMeQuery, User } from "../gen/graphql";
 
 interface BookingButtons {
-  bookingOwner: User | null;
+  bookingOwner?: Maybe<User>;
 }
 
 export default function BookingButtons({ bookingOwner }: BookingButtons) {
