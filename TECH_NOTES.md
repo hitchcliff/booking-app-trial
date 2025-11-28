@@ -1,6 +1,7 @@
 # Outline
 
 – What was built
+
 A booking application prioritizing the requirements based on the docs. This app is built from Express with Apollo Graphql middleware in the backend and NextJS in the frontend.
 
 – Reasoning behind your approach
