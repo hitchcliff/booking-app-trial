@@ -15,10 +15,14 @@ const RegisterForm = () => {
       <div className="bg-white rounded-md shadow-md p-5 mt-5">
         <Formik
           initialValues={{
-            username: "",
+            name: "",
             email: "",
             confirmPassword: "",
             password: "",
+            dialCode: "+63",
+            phoneNumber: "1234567890",
+            acceptedTermsAndConditions: true,
+            accountType: "booker",
           }}
           onSubmit={async (values, { setErrors }) => {
             const res = await register({ options: values });
@@ -34,9 +38,9 @@ const RegisterForm = () => {
             <Form>
               <div className="mt-2">
                 <InputField
-                  name="username"
-                  placeholder="New Username"
-                  label="username"
+                  name="name"
+                  placeholder="New name"
+                  label="name"
                   type="text"
                 />
               </div>
@@ -66,7 +70,7 @@ const RegisterForm = () => {
                   type="password"
                 />
               </div>
-              <div className="mt-2">
+              <div className="mt-5">
                 <Button type="submit" isSubmitting={isSubmitting}>
                   Signup
                 </Button>

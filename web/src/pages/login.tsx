@@ -19,11 +19,11 @@ const login = () => {
               Register here
             </Link>
           </div>
-          <div className="mt-5">
+          {/* <div className="mt-5">
             <Link className="text-dark" href={RoutePattern.FORGOT_PASSWORD}>
               Forgot password?
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

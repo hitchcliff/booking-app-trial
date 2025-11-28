@@ -25,15 +25,15 @@ const Index = () => {
         <div className="w-full h-full px-10 flex flex-col relative">
           <div className="my-auto">
             <h1 className="text-5xl uppercase font-brand text-primary">
-              poster.asia
+              Booking Appointments
             </h1>
             <p className="mt-5 text-2xl">
-              A lightweight social media app,{" "}
+              A lightweight booking app,{" "}
               <span className="text-primary font-bold">WELCOME!</span>
             </p>
             <p className="text-xl mt-5">
               This app is built in NextJs, Postress, NodeJs, Graphql, Urql,
-              Apollo, Redis, AWS, and much more.
+              Apollo, and much more.
             </p>
           </div>
 
@@ -63,11 +63,11 @@ const Index = () => {
                 Register here
               </Link>
             </div>
-            <div className="mt-5">
+            {/* <div className="mt-5">
               <Link className="text-white" href={RoutePattern.FORGOT_PASSWORD}>
                 Forgot password?
               </Link>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
