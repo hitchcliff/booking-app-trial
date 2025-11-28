@@ -7,6 +7,7 @@ import Comments from "./Comments";
 import Loader from "./Loader";
 import PosterInfo from "./PosterInfo";
 import PostReactions from "./PostReactions";
+import Booked from "./Booked";
 
 interface FeedsProps {
   appointment: Appointment;
@@ -20,8 +21,6 @@ const MyFeeds = ({
 }: FeedsProps) => {
   const { toggleComments } = useGlobalSelector();
   const { user, booking, date, from, to } = appointment;
-
-  console.log(booking?.user);
 
   if (!post) return <Loader />;
 
@@ -58,8 +57,10 @@ const MyFeeds = ({
               </span>
             </span>
           </div>
-          {showBookingButton && <BookingButtons booking={booking} />}
-          {toggleComments && <Comments />}
+          {showBookingButton && (
+            <BookingButtons showCommentButton={false} booking={booking} />
+          )}
+          <Booked user={appointment.user} />
         </div>
       </div>
     </div>

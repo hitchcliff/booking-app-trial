@@ -7,8 +7,8 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 const Button = ({ isSubmitting, ...props }: ButtonProps) => {
   return (
     <button
-      {...props}
       className="text-center py-2 px-7 text-white gradient rounded-full"
+      {...props}
     >
       {isSubmitting ? (
         <span className="flex flex-row items-center">

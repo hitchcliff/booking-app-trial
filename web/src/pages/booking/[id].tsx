@@ -54,46 +54,47 @@ const Booking = () => {
 
       <div className="relative py-7 w-full flex flex-col gap-7">
         <Feeds booking={data.readBookingById} showBookingButton={false} />
-        <div className="bg-light dark:bg-dark rounded-md shadow-md p-5">
-          <Formik
-            key={4}
-            initialValues={{
-              id: data.readBookingById.id,
-              date: "",
-              from: "",
-              to: "",
-            }}
-            onSubmit={async (values, { setErrors, resetForm }) => {
-              const { data } = await setAppointment({ options: values });
+        {data!.readBookingById?.user?.id !== user?.me?.id && (
+          <div className="bg-light dark:bg-dark rounded-md shadow-md p-5">
+            <Formik
+              key={4}
+              initialValues={{
+                id: data.readBookingById.id,
+                date: "",
+                from: "",
+                to: "",
+              }}
+              onSubmit={async (values, { setErrors, resetForm }) => {
+                const { data } = await setAppointment({ options: values });
 
-              if (data?.createAppointment.errors) {
-                setErrors(toRecordError(data.createAppointment.errors));
-              } else if (data?.createAppointment.appointment) {
-                ThrowSuccess({ text: "Appointment successfully!" });
+                if (data?.createAppointment.errors) {
+                  setErrors(toRecordError(data.createAppointment.errors));
+                } else if (data?.createAppointment.appointment) {
+                  ThrowSuccess({ text: "Appointment successfully!" });
 
-                resetForm();
-              }
-            }}
-          >
-            {({ isSubmitting }) => (
-              <Form>
-                <div className="flex flex-row w-full gap-2 mb-5">
-                  <div>
-                    <InputField type="date" name="date" label="date" />
+                  resetForm();
+                }
+              }}
+            >
+              {({ isSubmitting }) => (
+                <Form>
+                  <div className="flex flex-row w-full gap-2 mb-5">
+                    <div>
+                      <InputField type="date" name="date" label="date" />
+                    </div>
+                    <InputField type="time" name="from" label="from" />
+                    <InputField type="time" name="to" label="to" />
                   </div>
-                  <InputField type="time" name="from" label="from" />
-                  <InputField type="time" name="to" label="to" />
-                </div>
-                {data!.readBookingById?.user?.id !== user?.me?.id && (
+
                   <Button type="submit" isSubmitting={isSubmitting}>
                     <FontAwesomeIcon className="mr-2" icon={faCalendar} />
                     Set appointment
                   </Button>
-                )}
-              </Form>
-            )}
-          </Formik>
-        </div>
+                </Form>
+              )}
+            </Formik>
+          </div>
+        )}
       </div>
 
       <div className="relative py-7 pr-7 w-1/2">

@@ -13,9 +13,13 @@ import RoutePattern from "../routes/RoutePattern";
 
 interface BookingButtons {
   booking?: Maybe<Booking>;
+  showCommentButton?: boolean;
 }
 
-export default function BookingButtons({ booking }: BookingButtons) {
+export default function BookingButtons({
+  showCommentButton = true,
+  booking,
+}: BookingButtons) {
   const { setToggleComments } = useGlobalService();
   const { toggleComments } = useGlobalSelector();
   const [{ data }] = useMeQuery();
@@ -30,13 +34,15 @@ export default function BookingButtons({ booking }: BookingButtons) {
         </ButtonSecondary>
       )} */}
 
-      <button
-        onClick={() => setToggleComments(!toggleComments)}
-        className="mr-5"
-      >
-        <FontAwesomeIcon className="mr-2" icon={faComment} />
-        Write a comment
-      </button>
+      {showCommentButton && (
+        <button
+          onClick={() => setToggleComments(!toggleComments)}
+          className="mr-5"
+        >
+          <FontAwesomeIcon className="mr-2" icon={faComment} />
+          Write a comment
+        </button>
+      )}
 
       <button
         onClick={() => {
