@@ -46,6 +46,7 @@ let BookingResolver = class BookingResolver {
     }
     async readAllBookings() {
         const bookings = await Booking_1.default.find({
+            take: 10,
             order: {
                 id: "DESC",
             },

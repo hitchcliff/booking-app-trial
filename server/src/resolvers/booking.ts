@@ -43,6 +43,7 @@ export default class BookingResolver {
   @Query(() => [Booking])
   async readAllBookings(): Promise<Booking[]> {
     const bookings = await Booking.find({
+      take: 10,
       order: {
         id: "DESC",
       },
