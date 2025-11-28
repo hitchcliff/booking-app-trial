@@ -1,5 +1,5 @@
-query ReadBookingById($readBookingByIdId: Float!) {
-  readBookingById(id: $readBookingByIdId) {
+query ReadBookingById($id: Float!) {
+  readBookingById(id: $id) {
     ...Booking
     user {
       ...User

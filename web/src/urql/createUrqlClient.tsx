@@ -13,14 +13,7 @@ import {
   RegisterMutation,
 } from "../gen/graphql";
 
-// export const ssrExchange = () => ({
-//   url: "http://localhost:4000/graphql",
-//   exchanges: [cacheExchange, ssrExchange, fetchExchange],
-// });
-
 const createUrqlClient = (ssrExchange: any, ctx: any) => {
-  const isServer = typeof window === "undefined";
-
   let cookie = "";
 
   if (typeof window === "undefined" && ctx) {
@@ -54,10 +47,6 @@ const createUrqlClient = (ssrExchange: any, ctx: any) => {
               const fieldInfos = fields.filter(
                 (field) => field.fieldName === "readAllBookings"
               );
-
-              const userFieldInfos = fields.filter(
-                (field) => field.fieldName === "me"
-              )[0];
 
               fieldInfos.forEach((fieldInfo) => {
                 cache.updateQuery(

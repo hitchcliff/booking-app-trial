@@ -8,19 +8,22 @@ import useGlobalService from "../hooks/useGlobalService";
 import { useGlobalSelector } from "../redux/features/global.selector";
 import ButtonSecondary from "./ButtonSecondary";
 import { Booking, Maybe, useMeQuery, User } from "../gen/graphql";
+import { useRouter } from "next/router";
+import RoutePattern from "../routes/RoutePattern";
 
 interface BookingButtons {
-  bookingOwner?: Maybe<User>;
+  booking?: Maybe<Booking>;
 }
 
-export default function BookingButtons({ bookingOwner }: BookingButtons) {
+export default function BookingButtons({ booking }: BookingButtons) {
   const { setToggleComments } = useGlobalService();
   const { toggleComments } = useGlobalSelector();
   const [{ data }] = useMeQuery();
+  const router = useRouter();
 
   return (
     <div className="mt-5 flex flex-row">
-      {data!.me?.id !== bookingOwner?.id && (
+      {data!.me?.id !== booking?.user?.id && (
         <ButtonSecondary className="mr-5 btn-primary">
           <FontAwesomeIcon className="mr-2" icon={faThumbsUp} />
           Set appointment
@@ -36,7 +39,9 @@ export default function BookingButtons({ bookingOwner }: BookingButtons) {
       </button>
 
       <button
-        onClick={() => setToggleComments(!toggleComments)}
+        onClick={() => {
+          router.push(RoutePattern.BOOKING + "/" + booking?.id);
+        }}
         className="italic text-blue-500"
       >
         View detail

@@ -10,11 +10,9 @@ interface FeedsProps {
   booking: Booking;
 }
 
-const Feeds = ({
-  booking: { title, body, updatedAt, user },
-  ...post
-}: FeedsProps) => {
+const Feeds = ({ booking, ...post }: FeedsProps) => {
   const { toggleComments } = useGlobalSelector();
+  const { title, body, updatedAt, user } = booking;
 
   if (!post) return <Loader />;
 
@@ -40,7 +38,7 @@ const Feeds = ({
             user={user}
             updatedAt={updatedAt}
           />
-          <BookingButtons bookingOwner={user} />
+          <BookingButtons booking={booking} />
           {toggleComments && <Comments />}
         </div>
       </div>

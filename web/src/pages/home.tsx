@@ -2,14 +2,14 @@ import { useState } from "react";
 import Button from "../components/Button";
 import CreateFeed from "../components/CreateFeed";
 import Feeds from "../components/Feeds";
-import FriendSuggestions from "../components/FriendSuggestions";
-import InfoBar from "../components/InfoBar";
+import Layout from "../components/Layout";
 import Loader from "../components/Loader";
 import PrivateRoute from "../components/Route/PrivateRoute";
+import { useMeQuery, useReadAllBookingsQuery } from "../gen/graphql";
+import FriendSuggestions from "../components/FriendSuggestions";
 import SearchBar from "../components/SearchBar";
 import Trendings from "../components/Trendings";
-import { useMeQuery, useReadAllBookingsQuery } from "../gen/graphql";
-// import { Post, usePostsQuery } from "../gen/graphql";
+import InfoBar from "../components/InfoBar";
 
 const Home = () => {
   const [take, setTake] = useState<number>(3);
@@ -25,7 +25,7 @@ const Home = () => {
   if (!data?.readAllBookings) return <Loader />;
 
   return (
-    <div className="relative bg-light-mode dark:bg-dark-mode flex flex-row min-h-screen gap-7 transition-all">
+    <div className="relative bg-light-mode dark:bg-dark-mode flex flex-row min-h-screen gap-7 transition-all w-full">
       <div className="relative skeleton">
         <div className="opacity-0">
           <InfoBar />
