@@ -1,0 +1,20 @@
+fragment BookingResponse on BookingResponse {
+  errors {
+    ...FieldError
+  }
+  booking {
+    ...Booking
+    user {
+      ...User
+    }
+    appointments {
+      ...Appointment
+      user {
+        ...User
+      }
+      booking {
+        ...Booking
+      }
+    }
+  }
+}

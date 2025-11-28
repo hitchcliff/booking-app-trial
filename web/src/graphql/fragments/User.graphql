@@ -1,0 +1,14 @@
+fragment User on User {
+  id
+  createdAt
+  updatedAt
+  name
+  email
+  emailVerified
+  dialCode
+  phoneNumber
+  acceptedTermsAndConditions
+  picture
+  role
+  accountType
+}

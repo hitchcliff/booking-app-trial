@@ -1,0 +1,6 @@
+fragment Appointment on Appointment {
+  id
+  date
+  from
+  to
+}

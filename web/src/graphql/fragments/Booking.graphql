@@ -1,0 +1,7 @@
+fragment Booking on Booking {
+  id
+  createdAt
+  updatedAt
+  body
+  title
+}

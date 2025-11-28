@@ -1,0 +1,8 @@
+fragment AppointmentResponse on AppointmentResponse {
+  errors {
+    ...FieldError
+  }
+  appointment {
+    ...Appointment
+  }
+}

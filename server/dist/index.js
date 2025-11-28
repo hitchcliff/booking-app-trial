@@ -57,7 +57,11 @@ const resolvers_1 = require("./resolvers/resolvers");
     apolloServer.applyMiddleware({
         app: app,
         cors: {
-            origin: ["*", "https://studio.apollographql.com"],
+            origin: [
+                "*",
+                "http://localhost:3000",
+                "https://studio.apollographql.com",
+            ],
             credentials: true,
         },
     });
