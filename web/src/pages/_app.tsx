@@ -10,10 +10,10 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
       <Head>
-        <title>Poster Asia</title>
+        <title>Booking App</title>
         <meta
           name="description"
-          content="A lightweight social media app, welcome!"
+          content="A lightweight booking app, welcome!"
           key="desc"
         />
       </Head>

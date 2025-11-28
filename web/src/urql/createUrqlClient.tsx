@@ -55,22 +55,28 @@ const createUrqlClient = (ssrExchange: any, ctx: any) => {
                 (field) => field.fieldName === "readAllBookings"
               );
 
-              console.log(fieldInfos);
+              const userFieldInfos = fields.filter(
+                (field) => field.fieldName === "me"
+              )[0];
+
+              console.log(userFieldInfos);
 
               fieldInfos.forEach((fieldInfo) => {
-                console.log("info: ", fieldInfo);
                 cache.updateQuery(
                   {
                     query: ReadAllBookingsDocument,
-                    // variables: fieldInfo.arguments,
+                    variables: fieldInfo.arguments,
                   },
                   (
                     data: ReadAllBookingsQuery | null
                   ): ReadAllBookingsQuery | null => {
                     if (data && result.createBooking.booking) {
-                      data.readAllBookings.unshift(
-                        result.createBooking.booking
-                      );
+                      // console.log(data.readAllBookings);
+
+                      const booking = result.createBooking.booking;
+
+                      // put it in the first array
+                      data.readAllBookings.unshift(booking);
                       return data;
                     }
 

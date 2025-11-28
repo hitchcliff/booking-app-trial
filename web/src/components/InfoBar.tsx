@@ -24,7 +24,6 @@ const InfoBar = () => {
   if (fetching || !data?.me) return null;
 
   const { me } = data;
-  console.log(me.email);
 
   return (
     <div className="h-full px-2 py-2 bg-light text-dark dark:bg-dark dark:text-light flex flex-col justify-start items-center transition-all">
