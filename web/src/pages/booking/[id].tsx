@@ -1,4 +1,4 @@
-import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
+import { faCalendar, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ButtonSecondary from "../../components/ButtonSecondary";
 import Feeds from "../../components/Feeds";
@@ -10,6 +10,8 @@ import SearchBar from "../../components/SearchBar";
 import Trendings from "../../components/Trendings";
 import { useGetBookingFromUrl } from "../../utils/useGetBookingFromUrl";
 import { useMeQuery } from "../../gen/graphql";
+import Button from "../../components/Button";
+import { Form, Formik } from "formik";
 
 const Booking = () => {
   const { data, fetching, error } = useGetBookingFromUrl();
@@ -48,12 +50,26 @@ const Booking = () => {
 
       <div className="relative py-7 w-full flex flex-col gap-7">
         <Feeds booking={data.readBookingById} showBookingButton={false} />
-        {data!.readBookingById?.user?.id !== user?.me?.id && (
-          <ButtonSecondary className="mr-5 btn-primary">
-            <FontAwesomeIcon className="mr-2" icon={faThumbsUp} />
-            Set appointment
-          </ButtonSecondary>
-        )}
+        <Formik
+          initialValues={{
+            id: data.readBookingById.id,
+            date: "",
+            from: "",
+            to: "",
+          }}
+          onSubmit={() => {}}
+        >
+          {({ isSubmitting }) => (
+            <Form>
+              {data!.readBookingById?.user?.id !== user?.me?.id && (
+                <Button isSubmitting={isSubmitting}>
+                  <FontAwesomeIcon className="mr-2" icon={faCalendar} />
+                  Set appointment
+                </Button>
+              )}
+            </Form>
+          )}
+        </Formik>
       </div>
 
       <div className="relative py-7 pr-7 w-1/2">
