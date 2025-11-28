@@ -12,5 +12,5 @@
 - email: user@email.com pw:123456
 - email: user2@email.com pw:123456
 
-P.S. If you encounter database errors which usually happen when `postgres` is not installed.
+P.S. If you encounter database errors which usually happen when `postgres` is not installed in your local.
 you can use the postgres database in vscode :)
