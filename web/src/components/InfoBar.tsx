@@ -1,6 +1,7 @@
 import {
   faArrowRightFromBracket,
   faBell,
+  faCalendar,
   faGear,
   faHome,
   faMessage,
@@ -43,6 +44,12 @@ const InfoBar = () => {
           </Link>
         </button>
         <button className="relative" aria-label="notifications">
+          <Link href={RoutePattern.BOOKINGS}>
+            <FontAwesomeIcon icon={faCalendar} />
+            {/* <Notifications>10</Notifications> */}
+          </Link>
+        </button>
+        {/* <button className="relative" aria-label="notifications">
           <Link href={RoutePattern.NOTIFICATIONS}>
             <FontAwesomeIcon icon={faBell} />
             <Notifications>10</Notifications>
@@ -58,7 +65,7 @@ const InfoBar = () => {
           <Link href={RoutePattern.SETTINGS}>
             <FontAwesomeIcon icon={faGear} />
           </Link>
-        </button>
+        </button> */}
         <button
           aria-label="mode-switch"
           onClick={() => {

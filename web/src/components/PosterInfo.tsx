@@ -32,11 +32,11 @@ const PosterInfo = ({ body, title, user, updatedAt }: PosterInfoProps) => {
             {date}
           </span>
         </div>
-        {u!.id === user?.id && (
+        {/* {u!.id === user?.id && (
           <div className="ml-auto cursor-pointer hover:opacity-80">
             <FontAwesomeIcon icon={faPenToSquare} />
           </div>
-        )}
+        )} */}
       </div>
       <div className="mt-2">
         <span className="whitespace-nowrap overflow-ellipses font-bold">

@@ -1,6 +1,5 @@
 import Doornav from "../components/Doornav";
 import ProfileForm from "../components/Form/ProfileForm";
-import ProfilePicture from "../components/Form/ProfilePicture";
 import SecurityForm from "../components/Form/SecurityForm";
 import InfoBar from "../components/InfoBar";
 import PrivateRoute from "../components/Route/PrivateRoute";
@@ -23,7 +22,6 @@ const Settings = () => {
         >
           <ProfileForm />
           <SecurityForm />
-          <ProfilePicture />
         </Doornav>
       </div>
     </div>
