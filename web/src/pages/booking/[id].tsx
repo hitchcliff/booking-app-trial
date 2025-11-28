@@ -12,6 +12,7 @@ import { useGetBookingFromUrl } from "../../utils/useGetBookingFromUrl";
 import { useMeQuery } from "../../gen/graphql";
 import Button from "../../components/Button";
 import { Form, Formik } from "formik";
+import InputField from "../../components/Form/InputField";
 
 const Booking = () => {
   const { data, fetching, error } = useGetBookingFromUrl();
@@ -50,26 +51,35 @@ const Booking = () => {
 
       <div className="relative py-7 w-full flex flex-col gap-7">
         <Feeds booking={data.readBookingById} showBookingButton={false} />
-        <Formik
-          initialValues={{
-            id: data.readBookingById.id,
-            date: "",
-            from: "",
-            to: "",
-          }}
-          onSubmit={() => {}}
-        >
-          {({ isSubmitting }) => (
-            <Form>
-              {data!.readBookingById?.user?.id !== user?.me?.id && (
-                <Button isSubmitting={isSubmitting}>
-                  <FontAwesomeIcon className="mr-2" icon={faCalendar} />
-                  Set appointment
-                </Button>
-              )}
-            </Form>
-          )}
-        </Formik>
+        <div className="bg-white rounded-md shadow-md p-5">
+          <Formik
+            initialValues={{
+              id: data.readBookingById.id,
+              date: "",
+              from: "",
+              to: "",
+            }}
+            onSubmit={() => {}}
+          >
+            {({ isSubmitting }) => (
+              <Form>
+                <div className="flex flex-row w-full gap-2 mb-5">
+                  <div>
+                    <InputField type="date" name="date" label="date" />
+                  </div>
+                  <InputField type="time" name="from" label="from" />
+                  <InputField type="time" name="to" label="to" />
+                </div>
+                {data!.readBookingById?.user?.id !== user?.me?.id && (
+                  <Button isSubmitting={isSubmitting}>
+                    <FontAwesomeIcon className="mr-2" icon={faCalendar} />
+                    Set appointment
+                  </Button>
+                )}
+              </Form>
+            )}
+          </Formik>
+        </div>
       </div>
 
       <div className="relative py-7 pr-7 w-1/2">

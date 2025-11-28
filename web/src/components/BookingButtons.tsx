@@ -23,12 +23,12 @@ export default function BookingButtons({ booking }: BookingButtons) {
 
   return (
     <div className="mt-5 flex flex-row">
-      {data!.me?.id !== booking?.user?.id && (
+      {/* {data!.me?.id !== booking?.user?.id && (
         <ButtonSecondary className="mr-5 btn-primary">
           <FontAwesomeIcon className="mr-2" icon={faThumbsUp} />
           Set appointment
         </ButtonSecondary>
-      )}
+      )} */}
 
       <button
         onClick={() => setToggleComments(!toggleComments)}
