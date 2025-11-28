@@ -27,7 +27,7 @@ I am making it as scalaeable, maintainable for long term development to producti
 For now, I dont have assumptions I made based on the requirements
 
 – Potential improvements
-File uploads,
+File uploads, Handle cache better for every mutation, More features to make it to production
 
 – How AI assisted your workflow
 Unfortunately, I don't use AI to sped up my work but if Google AI counts then that's the one I used everytime I ran into problems unheard of.
