@@ -46,7 +46,6 @@ export default class BookingResolver {
       },
       relations: {
         user: true,
-        appointments: true,
       },
     });
   }

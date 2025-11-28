@@ -49,7 +49,6 @@ let BookingResolver = class BookingResolver {
             },
             relations: {
                 user: true,
-                appointments: true,
             },
         });
     }

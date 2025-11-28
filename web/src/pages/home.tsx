@@ -8,7 +8,7 @@ import Loader from "../components/Loader";
 import PrivateRoute from "../components/Route/PrivateRoute";
 import SearchBar from "../components/SearchBar";
 import Trendings from "../components/Trendings";
-import { useReadAllBookingsQuery } from "../gen/graphql";
+import { useMeQuery, useReadAllBookingsQuery } from "../gen/graphql";
 // import { Post, usePostsQuery } from "../gen/graphql";
 
 const Home = () => {
@@ -20,6 +20,7 @@ const Home = () => {
   //   },
   // });
   const [{ data, fetching }] = useReadAllBookingsQuery();
+  const [{ data: user }] = useMeQuery();
 
   if (!data?.readAllBookings) return <Loader />;
 
@@ -34,7 +35,7 @@ const Home = () => {
         </div>
       </div>
       <div className="relative py-7 w-full flex flex-col gap-7">
-        <CreateFeed />
+        {user?.me != null && user.me.accountType === "agent" && <CreateFeed />}
         {data?.readAllBookings.map((booking, idx) => (
           <Feeds key={idx} booking={booking} />
         ))}

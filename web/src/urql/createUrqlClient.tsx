@@ -59,8 +59,6 @@ const createUrqlClient = (ssrExchange: any, ctx: any) => {
                 (field) => field.fieldName === "me"
               )[0];
 
-              console.log(userFieldInfos);
-
               fieldInfos.forEach((fieldInfo) => {
                 cache.updateQuery(
                   {
@@ -70,13 +68,14 @@ const createUrqlClient = (ssrExchange: any, ctx: any) => {
                   (
                     data: ReadAllBookingsQuery | null
                   ): ReadAllBookingsQuery | null => {
-                    if (data && result.createBooking.booking) {
+                    if (data && result.createBooking?.booking) {
                       // console.log(data.readAllBookings);
 
                       const booking = result.createBooking.booking;
+                      console.log(booking);
 
                       // put it in the first array
-                      data.readAllBookings.unshift(booking);
+                      data.readAllBookings?.unshift(booking);
                       return data;
                     }
 
