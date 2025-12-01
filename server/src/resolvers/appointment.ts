@@ -7,6 +7,7 @@ import isAuth from "../middleware/is_auth";
 import isAuthAdmin from "../middleware/is_auth_admin";
 import { FieldInput, FieldMessage, UserAccountType } from "../utils/enums";
 import { AppointmentResponse, CreateAppointmentInput } from "../utils/type";
+import User from "../entities/User";
 
 @Resolver()
 export default class AppointmentResolver {
@@ -72,16 +73,17 @@ export default class AppointmentResolver {
 
   @UseMiddleware(isAuth)
   @Query(() => [Appointment], { nullable: true })
-  async readAllMyAppointments(): Promise<Appointment[] | null> {
+  async readAllMyAppointments(): Promise<Appointment[] | undefined> {
     const id = getUserId();
-
-    return await Appointment.find({
-      where: {
-        user: {
-          id,
-        },
+    const user = await User.findOne({
+      where: { id: id },
+      relations: {
+        appointments: true,
       },
     });
+    console.log(user?.appointments);
+
+    return user?.appointments;
   }
 
   @UseMiddleware(isAuthAdmin) // they must be admin to read specific booking appointment

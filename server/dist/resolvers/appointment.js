@@ -24,6 +24,7 @@ const is_auth_1 = __importDefault(require("../middleware/is_auth"));
 const is_auth_admin_1 = __importDefault(require("../middleware/is_auth_admin"));
 const enums_1 = require("../utils/enums");
 const type_1 = require("../utils/type");
+const User_1 = __importDefault(require("../entities/User"));
 let AppointmentResolver = class AppointmentResolver {
     async createAppointment(options) {
         const errors = new validation_1.MyValidation().validateAppointment(options);
@@ -68,13 +69,14 @@ let AppointmentResolver = class AppointmentResolver {
     }
     async readAllMyAppointments() {
         const id = (0, get_user_id_1.default)();
-        return await Appointment_1.default.find({
-            where: {
-                user: {
-                    id,
-                },
+        const user = await User_1.default.findOne({
+            where: { id: id },
+            relations: {
+                appointments: true,
             },
         });
+        console.log(user === null || user === void 0 ? void 0 : user.appointments);
+        return user === null || user === void 0 ? void 0 : user.appointments;
     }
     async readAppointmentsByBookingId(id) {
         return await Appointment_1.default.find({
