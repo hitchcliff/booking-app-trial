@@ -75,7 +75,6 @@ let AppointmentResolver = class AppointmentResolver {
                 appointments: true,
             },
         });
-        console.log(user === null || user === void 0 ? void 0 : user.appointments);
         return user === null || user === void 0 ? void 0 : user.appointments;
     }
     async readAppointmentsByBookingId(id) {
@@ -89,16 +88,15 @@ let AppointmentResolver = class AppointmentResolver {
     }
     async deleteAppointmentById(id) {
         try {
-            const booking = await Appointment_1.default.findOne({
+            const appointment = await Appointment_1.default.findOne({
                 where: { id },
             });
-            if (!Appointment_1.default)
+            if (!appointment)
                 throw Error("no Appointment");
-            await (booking === null || booking === void 0 ? void 0 : booking.remove());
+            await (appointment === null || appointment === void 0 ? void 0 : appointment.remove());
             return true;
         }
         catch (error) {
-            console.log(error);
             return false;
         }
     }
@@ -147,7 +145,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AppointmentResolver.prototype, "readAppointmentsByBookingId", null);
 __decorate([
-    (0, type_graphql_1.UseMiddleware)(is_auth_admin_1.default),
+    (0, type_graphql_1.UseMiddleware)(is_auth_1.default),
     (0, type_graphql_1.Mutation)(() => Boolean),
     __param(0, (0, type_graphql_1.Arg)(enums_1.FieldInput.ID)),
     __metadata("design:type", Function),

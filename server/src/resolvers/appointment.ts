@@ -81,7 +81,6 @@ export default class AppointmentResolver {
         appointments: true,
       },
     });
-    console.log(user?.appointments);
 
     return user?.appointments;
   }
@@ -100,22 +99,22 @@ export default class AppointmentResolver {
     });
   }
 
-  @UseMiddleware(isAuthAdmin)
+  @UseMiddleware(isAuth)
   @Mutation(() => Boolean)
   async deleteAppointmentById(
     @Arg(FieldInput.ID) id: number
   ): Promise<boolean> {
     try {
-      const booking = await Appointment.findOne({
+      const appointment = await Appointment.findOne({
         where: { id },
       });
 
-      if (!Appointment) throw Error("no Appointment");
+      if (!appointment) throw Error("no Appointment");
 
-      await booking?.remove();
+      // either the user/agent can delete appointment
+      await appointment?.remove();
       return true;
     } catch (error) {
-      console.log(error);
       return false;
     }
   }
