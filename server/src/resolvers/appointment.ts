@@ -114,6 +114,11 @@ export default class AppointmentResolver {
     });
   }
 
+  /**
+   * Delete the appointment of the user
+   * @param id number
+   * @returns boolean
+   */
   @UseMiddleware(isAuth)
   @Mutation(() => Boolean)
   async deleteAppointmentById(

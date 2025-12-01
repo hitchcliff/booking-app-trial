@@ -1,4 +1,4 @@
-import { Booking } from "../gen/graphql";
+import { Appointment, Booking } from "../gen/graphql";
 import { useGlobalSelector } from "../redux/features/global.selector";
 import BookingButtons from "./BookingButtons";
 import Comments from "./Comments";
@@ -7,11 +7,17 @@ import PosterInfo from "./PosterInfo";
 import PostReactions from "./PostReactions";
 
 interface FeedsProps {
+  appointments?: Appointment[]; // the appointments of the booking
   booking: Booking;
   showBookingButton?: boolean;
 }
 
-const Feeds = ({ booking, showBookingButton = true, ...post }: FeedsProps) => {
+const Feeds = ({
+  appointments,
+  booking,
+  showBookingButton = true,
+  ...post
+}: FeedsProps) => {
   const { toggleComments } = useGlobalSelector();
   const { id, title, body, updatedAt, user } = booking;
 
@@ -39,6 +45,7 @@ const Feeds = ({ booking, showBookingButton = true, ...post }: FeedsProps) => {
             body={body}
             user={user}
             updatedAt={updatedAt}
+            appointments={appointments}
           />
           {showBookingButton && <BookingButtons booking={booking} />}
           {toggleComments && <Comments />}

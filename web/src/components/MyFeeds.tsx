@@ -57,7 +57,11 @@ const MyFeeds = ({
             </span>
           </div>
           {showBookingButton && (
-            <BookingButtons showCommentButton={false} booking={booking} />
+            <BookingButtons
+              showViewDetailButton={false}
+              showCommentButton={false}
+              booking={booking}
+            />
           )}
 
           {/* this agent text is temporarily, potentially bug from graphql */}

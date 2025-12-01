@@ -37,7 +37,11 @@ const Home = () => {
       <div className="relative py-7 w-full flex flex-col gap-7">
         {user?.me != null && user.me.accountType === "agent" && <CreateFeed />}
         {data?.readAllBookings.map((booking, idx) => (
-          <Feeds key={idx} booking={booking} />
+          <Feeds
+            key={idx}
+            booking={booking}
+            appointments={booking.appointments!}
+          />
         ))}
         <div className="text-center">
           <Button

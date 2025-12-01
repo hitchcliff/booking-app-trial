@@ -14,11 +14,13 @@ import RoutePattern from "../routes/RoutePattern";
 interface BookingButtons {
   booking?: Maybe<Booking>;
   showCommentButton?: boolean;
+  showViewDetailButton?: boolean;
 }
 
 export default function BookingButtons({
   showCommentButton = true,
   booking,
+  showViewDetailButton = true,
 }: BookingButtons) {
   const { setToggleComments } = useGlobalService();
   const { toggleComments } = useGlobalSelector();
@@ -44,14 +46,16 @@ export default function BookingButtons({
         </button>
       )}
 
-      <button
-        onClick={() => {
-          router.push(RoutePattern.BOOKING + "/" + booking?.id);
-        }}
-        className="italic text-blue-500"
-      >
-        View detail
-      </button>
+      {showViewDetailButton && (
+        <button
+          onClick={() => {
+            router.push(RoutePattern.BOOKING + "/" + booking?.id);
+          }}
+          className="italic text-blue-500"
+        >
+          View detail
+        </button>
+      )}
     </div>
   );
 }

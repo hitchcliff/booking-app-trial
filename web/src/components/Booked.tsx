@@ -11,7 +11,7 @@ interface BookedProps {
 export default function Booked({ user }: BookedProps) {
   return (
     <div className="p-5">
-      <span>Members who booked: </span>
+      <span>Who booked: </span>
       <div className="mt-5 flex">
         <div className="h-7 w-7 mr-5 border-2 dark:border-dark rounded-full overflow-hidden">
           {user?.picture && (
@@ -23,7 +23,7 @@ export default function Booked({ user }: BookedProps) {
           )}
         </div>
         <p>{user?.name}</p>
-        <div className="ml-auto">
+        {/* <div className="ml-auto">
           <Button
             className="text-red-500"
             onClick={() => {
@@ -32,7 +32,7 @@ export default function Booked({ user }: BookedProps) {
           >
             Cancel appointment <FontAwesomeIcon icon={faTrash} />
           </Button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -1,11 +1,17 @@
 import {
+  faCheckCircle,
   faDeleteLeft,
   faDotCircle,
   faPenToSquare,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useDeleteBookingByIdMutation, User } from "../gen/graphql";
+import {
+  Appointment,
+  useDeleteAppointmentByIdMutation,
+  useDeleteBookingByIdMutation,
+  User,
+} from "../gen/graphql";
 import { useAuthService, useDayJs } from "../hooks";
 import Badge from "./Badge";
 import { UserAccountType } from "../utils/enums";
@@ -17,14 +23,27 @@ interface PosterInfoProps {
   body: string;
   updatedAt: string;
   user?: User | null;
+  appointments?: Appointment[];
 }
 
-const PosterInfo = ({ id, body, title, user, updatedAt }: PosterInfoProps) => {
+const PosterInfo = ({
+  id,
+  body,
+  title,
+  updatedAt,
+  user,
+  appointments,
+}: PosterInfoProps) => {
   const date = useDayJs({ fromNow: updatedAt });
   const [, deleteBooking] = useDeleteBookingByIdMutation();
   const [{ user: me }] = useAuthService();
+  const [, deleteAppointmentById] = useDeleteAppointmentByIdMutation();
 
-  console.log(user);
+  // checked if user is booked
+  const isUserBooked: boolean =
+    appointments?.findIndex(
+      (appointment) => appointment?.user?.id === me?.id
+    ) !== -1;
 
   return (
     <>
@@ -56,11 +75,11 @@ const PosterInfo = ({ id, body, title, user, updatedAt }: PosterInfoProps) => {
           </button>
         )}
 
-        {/* if they are a booker */}
-        {me?.accountType !== UserAccountType.AGENT && (
-          <Button className="text-red-500 whitespace-nowrap">
-            Cancel appointment <FontAwesomeIcon icon={faTrash} />
-          </Button>
+        {/* if they are already booked at this feed */}
+        {me?.accountType !== UserAccountType.AGENT && isUserBooked && (
+          <span className="text-green-500 whitespace-nowrap">
+            <FontAwesomeIcon icon={faCheckCircle} /> Already booked
+          </span>
         )}
       </div>
       <div className="mt-2">
