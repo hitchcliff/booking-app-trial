@@ -43,6 +43,8 @@ const PosterInfo = ({ id, body, title, user, updatedAt }: PosterInfoProps) => {
             {date}
           </span>
         </div>
+
+        {/* if agent or the owner */}
         {me?.accountType === UserAccountType.AGENT && me?.id === user?.id && (
           <button
             onClick={() => {
@@ -54,9 +56,12 @@ const PosterInfo = ({ id, body, title, user, updatedAt }: PosterInfoProps) => {
           </button>
         )}
 
-        <Button className="text-red-500 whitespace-nowrap">
-          Cancel appointment <FontAwesomeIcon icon={faTrash} />
-        </Button>
+        {/* if they are a booker */}
+        {me?.accountType !== UserAccountType.AGENT && (
+          <Button className="text-red-500 whitespace-nowrap">
+            Cancel appointment <FontAwesomeIcon icon={faTrash} />
+          </Button>
+        )}
       </div>
       <div className="mt-2">
         <span className="whitespace-nowrap overflow-ellipses font-bold">

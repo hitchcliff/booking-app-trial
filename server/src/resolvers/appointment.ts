@@ -68,7 +68,17 @@ export default class AppointmentResolver {
   @UseMiddleware(isAuthAdmin) // must be adming to read all appointments
   @Query(() => [Appointment])
   async readAllAppointments(): Promise<Appointment[]> {
-    return await Appointment.find();
+    const userId = getUserId();
+
+    return await Appointment.find({
+      where: {
+        booking: {
+          user: {
+            id: userId,
+          },
+        },
+      },
+    });
   }
 
   @UseMiddleware(isAuth)

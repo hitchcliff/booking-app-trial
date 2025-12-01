@@ -62,7 +62,7 @@ const Appointments = () => {
           </div>
         )}
         {appointment?.readAllAppointments.map((appointment, idx) => (
-          <MyFeeds appointment={appointment} />
+          <MyFeeds key={idx} appointment={appointment} />
         ))}
       </div>
 

@@ -1,13 +1,11 @@
 import dayjs from "dayjs";
-import { Appointment, Booking } from "../gen/graphql";
-import { useAuthService, useDayJs } from "../hooks";
+import { Appointment } from "../gen/graphql";
+import { useAuthService } from "../hooks";
 import { useGlobalSelector } from "../redux/features/global.selector";
+import Booked from "./Booked";
 import BookingButtons from "./BookingButtons";
-import Comments from "./Comments";
 import Loader from "./Loader";
 import PosterInfo from "./PosterInfo";
-import PostReactions from "./PostReactions";
-import Booked from "./Booked";
 
 interface FeedsProps {
   appointment: Appointment;
@@ -20,7 +18,6 @@ const MyFeeds = ({
   ...post
 }: FeedsProps) => {
   const [{ user: me }] = useAuthService();
-  const { toggleComments } = useGlobalSelector();
   const { user, booking, date, from, to } = appointment;
 
   if (!post) return <Loader />;

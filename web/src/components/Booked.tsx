@@ -24,7 +24,12 @@ export default function Booked({ user }: BookedProps) {
         </div>
         <p>{user?.name}</p>
         <div className="ml-auto">
-          <Button className="text-red-500">
+          <Button
+            className="text-red-500"
+            onClick={() => {
+              console.log("cancel appointment");
+            }}
+          >
             Cancel appointment <FontAwesomeIcon icon={faTrash} />
           </Button>
         </div>

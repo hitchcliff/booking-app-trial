@@ -65,7 +65,16 @@ let AppointmentResolver = class AppointmentResolver {
         };
     }
     async readAllAppointments() {
-        return await Appointment_1.default.find();
+        const userId = (0, get_user_id_1.default)();
+        return await Appointment_1.default.find({
+            where: {
+                booking: {
+                    user: {
+                        id: userId,
+                    },
+                },
+            },
+        });
     }
     async readAllMyAppointments() {
         const id = (0, get_user_id_1.default)();
