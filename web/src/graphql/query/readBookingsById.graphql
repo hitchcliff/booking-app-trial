@@ -4,5 +4,11 @@ query ReadBookingById($id: Float!) {
     user {
       ...User
     }
+    appointments {
+      ...Appointment
+      user {
+        ...User
+      }
+    }
   }
 }

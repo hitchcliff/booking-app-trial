@@ -1,20 +1,18 @@
-import { faCalendar, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
+import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import ButtonSecondary from "../../components/ButtonSecondary";
+import { Form, Formik } from "formik";
+import Button from "../../components/Button";
 import Feeds from "../../components/Feeds";
+import InputField from "../../components/Form/InputField";
 import FriendSuggestions from "../../components/FriendSuggestions";
 import InfoBar from "../../components/InfoBar";
-import Layout from "../../components/Layout";
 import PrivateRoute from "../../components/Route/PrivateRoute";
 import SearchBar from "../../components/SearchBar";
 import Trendings from "../../components/Trendings";
-import { useGetBookingFromUrl } from "../../utils/useGetBookingFromUrl";
 import { useCreateAppointmentMutation, useMeQuery } from "../../gen/graphql";
-import Button from "../../components/Button";
-import { Form, Formik } from "formik";
-import InputField from "../../components/Form/InputField";
-import toRecordError from "../../utils/toRecordError";
 import { ThrowSuccess } from "../../utils/swal";
+import toRecordError from "../../utils/toRecordError";
+import { useGetBookingFromUrl } from "../../utils/useGetBookingFromUrl";
 
 const Booking = () => {
   const { data, fetching, error } = useGetBookingFromUrl();
@@ -53,7 +51,11 @@ const Booking = () => {
       </div>
 
       <div className="relative py-7 w-full flex flex-col gap-7">
-        <Feeds booking={data.readBookingById} showBookingButton={false} />
+        <Feeds
+          booking={data.readBookingById}
+          showBookingButton={false}
+          appointments={data.readBookingById.appointments!}
+        />
         {data!.readBookingById?.user?.id !== user?.me?.id && (
           <div className="bg-light dark:bg-dark rounded-md shadow-md p-5">
             <Formik

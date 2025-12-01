@@ -19,7 +19,7 @@ const Feeds = ({
   ...post
 }: FeedsProps) => {
   const { toggleComments } = useGlobalSelector();
-  const { id, title, body, updatedAt, user } = booking;
+  const { id, title, body, updatedAt, user, appointments: appoints } = booking;
 
   if (!post) return <Loader />;
 

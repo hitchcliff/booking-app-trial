@@ -65,6 +65,11 @@ export default class BookingResolver {
       where: {
         id: id,
       },
+      relations: {
+        appointments: {
+          user: true,
+        },
+      },
     });
   }
 

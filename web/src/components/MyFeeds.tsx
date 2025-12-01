@@ -43,6 +43,7 @@ const MyFeeds = ({
             title={booking!.title}
             body={booking!.body}
             user={booking!.user}
+            appointment={appointment}
             updatedAt={booking?.updatedAt}
             showBookMarker={false}
             showCancelAppointmentButton={true}

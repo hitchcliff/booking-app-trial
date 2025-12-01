@@ -23,6 +23,7 @@ interface PosterInfoProps {
   body: string;
   updatedAt: string;
   user?: User | null;
+  appointment?: Appointment; // single appointment
   appointments?: Appointment[];
   showBookMarker?: boolean;
   showCancelAppointmentButton?: boolean;
@@ -34,6 +35,7 @@ const PosterInfo = ({
   title,
   updatedAt,
   user,
+  appointment,
   appointments,
   showBookMarker = true,
   showCancelAppointmentButton = false,
@@ -92,9 +94,17 @@ const PosterInfo = ({
         {showCancelAppointmentButton &&
           me?.accountType !== UserAccountType.AGENT &&
           isUserBooked && (
-            <span className="text-red-500 whitespace-nowrap">
+            <button
+              aria-label="cancel appointment"
+              className="text-red-500 whitespace-nowrap"
+              onClick={() => {
+                deleteAppointmentById({
+                  id: appointment?.id!,
+                });
+              }}
+            >
               <FontAwesomeIcon icon={faTrash} /> Cancel appointment
-            </span>
+            </button>
           )}
       </div>
       <div className="mt-2">

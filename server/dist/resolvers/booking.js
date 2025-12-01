@@ -63,6 +63,11 @@ let BookingResolver = class BookingResolver {
             where: {
                 id: id,
             },
+            relations: {
+                appointments: {
+                    user: true,
+                },
+            },
         });
     }
     async deleteBookingById(id) {
