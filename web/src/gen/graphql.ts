@@ -202,7 +202,7 @@ export type CreateAppointmentMutationVariables = Exact<{
 }>;
 
 
-export type CreateAppointmentMutation = { __typename?: 'Mutation', createAppointment: { __typename?: 'AppointmentResponse', errors?: Array<{ __typename?: 'FieldError', field?: string | null, message?: string | null }> | null, appointment?: { __typename?: 'Appointment', id: number, date: string, from: string, to: string } | null } };
+export type CreateAppointmentMutation = { __typename?: 'Mutation', createAppointment: { __typename?: 'AppointmentResponse', errors?: Array<{ __typename?: 'FieldError', field?: string | null, message?: string | null }> | null, appointment?: { __typename?: 'Appointment', id: number, date: string, from: string, to: string, booking?: { __typename?: 'Booking', id: number } | null } | null } };
 
 export type CreateBookingMutationVariables = Exact<{
   options: CreateBookingInput;
@@ -1140,6 +1140,9 @@ export const CreateAppointmentDocument = gql`
     }
     appointment {
       ...Appointment
+      booking {
+        id
+      }
     }
   }
 }

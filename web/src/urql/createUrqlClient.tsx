@@ -2,6 +2,7 @@ import { Cache, cacheExchange } from "@urql/exchange-graphcache";
 import { debugExchange, fetchExchange } from "urql";
 
 import {
+  CreateAppointmentMutation,
   CreateBookingDocument,
   CreateBookingMutation,
   DeleteBookingByIdMutation,
@@ -11,6 +12,8 @@ import {
   MeQuery,
   ReadAllBookingsDocument,
   ReadAllBookingsQuery,
+  ReadBookingByIdDocument,
+  ReadBookingByIdQuery,
   RegisterMutation,
 } from "../gen/graphql";
 
@@ -38,6 +41,42 @@ const createUrqlClient = (ssrExchange: any, ctx: any) => {
       cacheExchange({
         updates: {
           Mutation: {
+            createAppointment: (
+              result: CreateAppointmentMutation,
+              _args,
+              cache: Cache,
+              _info
+            ) => {
+              const appointment = result.createAppointment.appointment;
+
+              if (!appointment) return;
+
+              const fields = cache.inspectFields("Query");
+              const fieldInfos = fields.filter(
+                (filter) => filter.fieldName === "readBookingById"
+              );
+
+              fieldInfos.forEach((fi) => {
+                cache.updateQuery(
+                  {
+                    query: ReadBookingByIdDocument,
+                    variables: fi.arguments,
+                  },
+                  (
+                    data: ReadBookingByIdQuery | null
+                  ): ReadBookingByIdQuery | null => {
+                    if (data) {
+                      data.readBookingById?.appointments?.unshift(appointment);
+                      return data;
+                    }
+
+                    return data;
+                  }
+                );
+              });
+
+              console.log(fields, fieldInfos, _args);
+            },
             deleteBookingById: (
               result: DeleteBookingByIdMutation,
               _args,
@@ -104,7 +143,6 @@ const createUrqlClient = (ssrExchange: any, ctx: any) => {
                       // console.log(data.readAllBookings);
 
                       const booking = result.createBooking.booking;
-                      console.log(booking);
 
                       // put it in the first array
                       data.readAllBookings?.unshift(booking);

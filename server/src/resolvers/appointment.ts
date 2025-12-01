@@ -53,10 +53,10 @@ export default class AppointmentResolver {
     const appointment = await Appointment.save({
       ...options,
       user: {
-        id: userId,
+        id: userId, // save the whole User in Appointment
       },
       booking: {
-        id: options.id, // booking id
+        id: options.id, // save the whole Booking in Appointment
       },
     });
 

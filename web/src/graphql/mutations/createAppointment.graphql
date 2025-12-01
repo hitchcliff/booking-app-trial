@@ -5,6 +5,9 @@ mutation CreateAppointment($options: CreateAppointmentInput!) {
     }
     appointment {
       ...Appointment
+      booking {
+        id
+      }
     }
   }
 }

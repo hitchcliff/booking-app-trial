@@ -74,7 +74,6 @@ const Booking = () => {
 
                   if (data?.createAppointment.errors) {
                     setErrors(toRecordError(data.createAppointment.errors));
-                    console.log(data.createAppointment.errors);
                   } else if (data?.createAppointment.appointment) {
                     ThrowSuccess({ text: "You booked an appointment!" });
 
