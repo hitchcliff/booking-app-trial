@@ -21,6 +21,7 @@ interface PosterInfoProps {
 const PosterInfo = ({ id, body, title, user, updatedAt }: PosterInfoProps) => {
   const date = useDayJs({ fromNow: updatedAt });
   const [, deleteBooking] = useDeleteBookingByIdMutation();
+  const [{ user: me }] = useAuthService();
 
   return (
     <>
@@ -39,7 +40,7 @@ const PosterInfo = ({ id, body, title, user, updatedAt }: PosterInfoProps) => {
             {date}
           </span>
         </div>
-        {user?.accountType === UserAccountType.AGENT && (
+        {me?.accountType === UserAccountType.AGENT && me?.id === user?.id && (
           <button
             onClick={() => {
               deleteBooking({ id: id });

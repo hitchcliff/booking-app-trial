@@ -67,8 +67,14 @@ let BookingResolver = class BookingResolver {
     }
     async deleteBookingById(id) {
         try {
+            const userId = (0, get_user_id_1.default)();
             const booking = await Booking_1.default.findOne({
-                where: { id },
+                where: {
+                    id,
+                    user: {
+                        id: userId,
+                    },
+                },
             });
             if (!booking)
                 throw Error("no Booking");

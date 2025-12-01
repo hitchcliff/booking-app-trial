@@ -68,13 +68,19 @@ export default class BookingResolver {
     });
   }
 
-  @UseMiddleware(isAuthAdmin)
+  @UseMiddleware(isAuthAdmin) // or could be just agent
   @Mutation(() => Boolean)
   async deleteBookingById(@Arg(FieldInput.ID) id: number): Promise<boolean> {
     try {
+      const userId = getUserId();
       const booking = await Booking.findOne({
-        where: { id },
-      });
+        where: {
+          id,
+          user: {
+            id: userId,
+          },
+        },
+      }); // that owns the booking
 
       if (!booking) throw Error("no Booking");
 
