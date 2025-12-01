@@ -9,6 +9,7 @@ const RoutePattern = {
   NOTIFICATIONS: "/notifications",
   BOOKING: "/booking",
   BOOKINGS: "/bookings",
+  APPOINTMENTS: "/appointments",
 };
 
 export default RoutePattern;

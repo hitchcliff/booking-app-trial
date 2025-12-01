@@ -20,7 +20,7 @@ const Index = () => {
     );
 
   return (
-    <div className="bg-light min-h-screen relative">
+    <div className="bg-light min-h-screen relative w-full">
       <div className="flex flex-row justify-between items-center mx-auto h-screen">
         <div className="w-full h-full px-10 flex flex-col relative">
           <div className="my-auto">

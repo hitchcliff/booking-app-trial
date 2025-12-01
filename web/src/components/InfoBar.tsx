@@ -15,6 +15,7 @@ import { useLogoutMutation, useMeQuery } from "../gen/graphql";
 import useSpaghetti from "../hooks/useSpaghetti";
 import RoutePattern from "../routes/RoutePattern";
 import Notifications from "./Notifications";
+import { UserAccountType } from "../utils/enums";
 
 const InfoBar = () => {
   const [toggle, setToggle] = useSpaghetti();
@@ -44,7 +45,13 @@ const InfoBar = () => {
           </Link>
         </button>
         <button className="relative" aria-label="notifications">
-          <Link href={RoutePattern.BOOKINGS}>
+          <Link
+            href={
+              me.accountType !== UserAccountType.AGENT
+                ? RoutePattern.BOOKINGS
+                : RoutePattern.APPOINTMENTS
+            }
+          >
             <FontAwesomeIcon icon={faCalendar} />
             {/* <Notifications>10</Notifications> */}
           </Link>

@@ -10,6 +10,8 @@ import Trendings from "../components/Trendings";
 import { useMeQuery, useReadAllMyAppointmentsQuery } from "../gen/graphql";
 import { useGetBookingFromUrl } from "../utils/useGetBookingFromUrl";
 import RoutePattern from "../routes/RoutePattern";
+import { useAuthService } from "../hooks";
+import { useMemo, useState } from "react";
 
 const Bookings = () => {
   const [{ data: appointment, fetching, error }] =
