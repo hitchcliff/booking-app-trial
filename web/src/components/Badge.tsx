@@ -8,7 +8,6 @@ const Badge = () => {
         className="leading-0 bg-primary p-1 rounded-full text-xs"
         icon={faCheck}
         data-label="verified"
-        title="verfied"
       />
     </div>
   );
