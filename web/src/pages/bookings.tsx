@@ -1,17 +1,13 @@
 import { useRouter } from "next/router";
 import Button from "../components/Button";
-import Feeds from "../components/Feeds";
 import FriendSuggestions from "../components/FriendSuggestions";
 import InfoBar from "../components/InfoBar";
 import MyFeeds from "../components/MyFeeds";
 import PrivateRoute from "../components/Route/PrivateRoute";
 import SearchBar from "../components/SearchBar";
 import Trendings from "../components/Trendings";
-import { useMeQuery, useReadAllMyAppointmentsQuery } from "../gen/graphql";
-import { useGetBookingFromUrl } from "../utils/useGetBookingFromUrl";
+import { useReadAllMyAppointmentsQuery } from "../gen/graphql";
 import RoutePattern from "../routes/RoutePattern";
-import { useAuthService } from "../hooks";
-import { useMemo, useState } from "react";
 
 const Bookings = () => {
   const [{ data: appointment, fetching, error }] =

@@ -1,9 +1,8 @@
 import { Cache, cacheExchange } from "@urql/exchange-graphcache";
-import { debugExchange, fetchExchange, Query } from "urql";
+import { fetchExchange } from "urql";
 
 import {
   CreateAppointmentMutation,
-  CreateBookingDocument,
   CreateBookingMutation,
   DeleteAppointmentByIdMutation,
   DeleteBookingByIdMutation,
