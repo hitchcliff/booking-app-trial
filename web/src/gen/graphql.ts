@@ -257,7 +257,7 @@ export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: st
 export type ReadAllAppointmentsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ReadAllAppointmentsQuery = { __typename?: 'Query', readAllAppointments: Array<{ __typename?: 'Appointment', id: number, date: string, from: string, to: string, booking?: { __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string } | null, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null }> };
+export type ReadAllAppointmentsQuery = { __typename?: 'Query', readAllAppointments: Array<{ __typename?: 'Appointment', id: number, date: string, from: string, to: string, booking?: { __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null } | null, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null }> };
 
 export type ReadAllBookingsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1235,6 +1235,9 @@ export const ReadAllAppointmentsDocument = gql`
     ...Appointment
     booking {
       ...Booking
+      user {
+        ...User
+      }
     }
     user {
       ...User

@@ -3,6 +3,9 @@ query ReadAllAppointments {
     ...Appointment
     booking {
       ...Booking
+      user {
+        ...User
+      }
     }
     user {
       ...User
