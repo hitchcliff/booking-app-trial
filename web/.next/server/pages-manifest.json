@@ -4,5 +4,5 @@
   "/_document": "pages/_document.js",
   "/booking/[id]": "pages/booking/[id].js",
   "/home": "pages/home.js",
-  "/login": "pages/login.js"
+  "/bookings": "pages/bookings.js"
 }

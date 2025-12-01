@@ -4,7 +4,6 @@ import BookingButtons from "./BookingButtons";
 import Comments from "./Comments";
 import Loader from "./Loader";
 import PosterInfo from "./PosterInfo";
-import PostReactions from "./PostReactions";
 
 interface FeedsProps {
   appointments?: Appointment[]; // the appointments of the booking

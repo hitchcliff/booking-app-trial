@@ -10,7 +10,7 @@ import PrivateRoute from "../../components/Route/PrivateRoute";
 import SearchBar from "../../components/SearchBar";
 import Trendings from "../../components/Trendings";
 import { useCreateAppointmentMutation, useMeQuery } from "../../gen/graphql";
-import { ThrowSuccess } from "../../utils/swal";
+import { ThrowError, ThrowSuccess } from "../../utils/swal";
 import toRecordError from "../../utils/toRecordError";
 import { useGetBookingFromUrl } from "../../utils/useGetBookingFromUrl";
 
@@ -67,14 +67,25 @@ const Booking = () => {
                 to: "",
               }}
               onSubmit={async (values, { setErrors, resetForm }) => {
-                const { data } = await setAppointment({ options: values });
+                try {
+                  const { data, error } = await setAppointment({
+                    options: values,
+                  });
 
-                if (data?.createAppointment.errors) {
-                  setErrors(toRecordError(data.createAppointment.errors));
-                } else if (data?.createAppointment.appointment) {
-                  ThrowSuccess({ text: "Appointment successfully!" });
+                  if (data?.createAppointment.errors) {
+                    setErrors(toRecordError(data.createAppointment.errors));
+                    console.log(data.createAppointment.errors);
+                  } else if (data?.createAppointment.appointment) {
+                    ThrowSuccess({ text: "You booked an appointment!" });
 
-                  resetForm();
+                    resetForm();
+                  } else {
+                    throw new Error(error?.message);
+                  }
+                } catch (errors: any) {
+                  ThrowError({
+                    text: errors,
+                  });
                 }
               }}
             >
