@@ -51,7 +51,7 @@ const Appointments = () => {
       <div className="relative py-7 w-full flex flex-col gap-7">
         {appointment.readAllAppointments.length <= 0 && (
           <div className="flex flex-row gap-5 items-center">
-            <span>You have no bookings yet.</span>
+            <span>You have no appointments yet.</span>
             <Button
               onClick={() => {
                 router.push(RoutePattern.HOME);
