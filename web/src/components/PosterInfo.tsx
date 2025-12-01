@@ -65,7 +65,7 @@ const PosterInfo = ({
               icon={faDotCircle}
               className="mr-2 text-green-400"
             />
-            {date}
+            {date} ago
           </span>
         </div>
 
