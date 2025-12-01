@@ -6,6 +6,7 @@ import isAuthAdmin from "../middleware/is_auth_admin";
 import { FieldInput } from "../utils/enums";
 import { BookingResponse, CreateBookingInput } from "../utils/type";
 import getUser from "../helpers/get_user";
+import Appointment from "../entities/Appointment";
 
 @Resolver()
 export default class BookingResolver {
@@ -49,6 +50,7 @@ export default class BookingResolver {
       },
       relations: {
         user: true,
+        appointments: true,
       },
     });
 
@@ -74,7 +76,23 @@ export default class BookingResolver {
         where: { id },
       });
 
-      if (!Booking) throw Error("no Booking");
+      if (!booking) throw Error("no Booking");
+
+      // find also appointments that has booking
+      const appoinments = await Appointment.find({
+        where: {
+          booking: {
+            id,
+          },
+        },
+      });
+
+      if (appoinments.length) {
+        // remove appointments
+        appoinments.every((appointment) => {
+          appointment.remove();
+        });
+      }
 
       await booking?.remove();
       return true;

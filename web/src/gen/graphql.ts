@@ -216,6 +216,20 @@ export type DeleteAllAppointmentsMutationVariables = Exact<{ [key: string]: neve
 
 export type DeleteAllAppointmentsMutation = { __typename?: 'Mutation', deleteAllAppointments: boolean };
 
+export type DeleteAppointmentByIdMutationVariables = Exact<{
+  id: Scalars['Float']['input'];
+}>;
+
+
+export type DeleteAppointmentByIdMutation = { __typename?: 'Mutation', deleteAppointmentById: boolean };
+
+export type DeleteBookingByIdMutationVariables = Exact<{
+  id: Scalars['Float']['input'];
+}>;
+
+
+export type DeleteBookingByIdMutation = { __typename?: 'Mutation', deleteBookingById: boolean };
+
 export type LoginMutationVariables = Exact<{
   options: LoginInput;
 }>;
@@ -1154,6 +1168,24 @@ export const DeleteAllAppointmentsDocument = gql`
 
 export function useDeleteAllAppointmentsMutation() {
   return Urql.useMutation<DeleteAllAppointmentsMutation, DeleteAllAppointmentsMutationVariables>(DeleteAllAppointmentsDocument);
+};
+export const DeleteAppointmentByIdDocument = gql`
+    mutation DeleteAppointmentById($id: Float!) {
+  deleteAppointmentById(id: $id)
+}
+    `;
+
+export function useDeleteAppointmentByIdMutation() {
+  return Urql.useMutation<DeleteAppointmentByIdMutation, DeleteAppointmentByIdMutationVariables>(DeleteAppointmentByIdDocument);
+};
+export const DeleteBookingByIdDocument = gql`
+    mutation DeleteBookingById($id: Float!) {
+  deleteBookingById(id: $id)
+}
+    `;
+
+export function useDeleteBookingByIdMutation() {
+  return Urql.useMutation<DeleteBookingByIdMutation, DeleteBookingByIdMutationVariables>(DeleteBookingByIdDocument);
 };
 export const LoginDocument = gql`
     mutation Login($options: LoginInput!) {

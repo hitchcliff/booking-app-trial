@@ -1,19 +1,26 @@
-import { faDotCircle, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import {
+  faDeleteLeft,
+  faDotCircle,
+  faPenToSquare,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { User } from "../gen/graphql";
+import { useDeleteBookingByIdMutation, User } from "../gen/graphql";
 import { useAuthService, useDayJs } from "../hooks";
 import Badge from "./Badge";
+import { UserAccountType } from "../utils/enums";
 
 interface PosterInfoProps {
+  id: number;
   title: string;
   body: string;
   updatedAt: string;
   user?: User | null;
 }
 
-const PosterInfo = ({ body, title, user, updatedAt }: PosterInfoProps) => {
-  const [{ user: u }] = useAuthService();
+const PosterInfo = ({ id, body, title, user, updatedAt }: PosterInfoProps) => {
   const date = useDayJs({ fromNow: updatedAt });
+  const [, deleteBooking] = useDeleteBookingByIdMutation();
 
   return (
     <>
@@ -32,11 +39,16 @@ const PosterInfo = ({ body, title, user, updatedAt }: PosterInfoProps) => {
             {date}
           </span>
         </div>
-        {/* {u!.id === user?.id && (
-          <div className="ml-auto cursor-pointer hover:opacity-80">
-            <FontAwesomeIcon icon={faPenToSquare} />
-          </div>
-        )} */}
+        {user?.accountType === UserAccountType.AGENT && (
+          <button
+            onClick={() => {
+              deleteBooking({ id: id });
+            }}
+            className="ml-auto cursor-pointer hover:opacity-80 text-red-500"
+          >
+            <FontAwesomeIcon icon={faTrash} />
+          </button>
+        )}
       </div>
       <div className="mt-2">
         <span className="whitespace-nowrap overflow-ellipses font-bold">

@@ -1,0 +1,3 @@
+mutation DeleteAppointmentById($id: Float!) {
+  deleteAppointmentById(id: $id)
+}

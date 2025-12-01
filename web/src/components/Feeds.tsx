@@ -13,7 +13,7 @@ interface FeedsProps {
 
 const Feeds = ({ booking, showBookingButton = true, ...post }: FeedsProps) => {
   const { toggleComments } = useGlobalSelector();
-  const { title, body, updatedAt, user } = booking;
+  const { id, title, body, updatedAt, user } = booking;
 
   if (!post) return <Loader />;
 
@@ -34,6 +34,7 @@ const Feeds = ({ booking, showBookingButton = true, ...post }: FeedsProps) => {
 
         <div className="px-5 w-full">
           <PosterInfo
+            id={id}
             title={title}
             body={body}
             user={user}
