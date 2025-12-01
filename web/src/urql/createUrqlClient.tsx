@@ -5,6 +5,7 @@ import {
   CreateAppointmentMutation,
   CreateBookingDocument,
   CreateBookingMutation,
+  DeleteAppointmentByIdMutation,
   DeleteBookingByIdMutation,
   LoginMutation,
   LogoutMutation,
@@ -12,6 +13,8 @@ import {
   MeQuery,
   ReadAllBookingsDocument,
   ReadAllBookingsQuery,
+  ReadAllMyAppointmentsDocument,
+  ReadAllMyAppointmentsQuery,
   ReadBookingByIdDocument,
   ReadBookingByIdQuery,
   RegisterMutation,
@@ -41,6 +44,48 @@ const createUrqlClient = (ssrExchange: any, ctx: any) => {
       cacheExchange({
         updates: {
           Mutation: {
+            deleteAppointmentById: (
+              result: DeleteAppointmentByIdMutation,
+              _args,
+              cache: Cache,
+              _info
+            ) => {
+              const appointment = result.deleteAppointmentById;
+
+              if (!appointment) return;
+
+              const fields = cache.inspectFields("Query");
+              const fieldInfos = fields.filter(
+                (filter) => filter.fieldName === "readAllMyAppointments"
+              );
+
+              fieldInfos.forEach((fi) => {
+                cache.updateQuery(
+                  {
+                    query: ReadAllMyAppointmentsDocument,
+                    variables: fi.arguments,
+                  },
+                  (
+                    data: ReadAllMyAppointmentsQuery | null
+                  ): ReadAllMyAppointmentsQuery | null => {
+                    if (data) {
+                      console.log(_args);
+                      const foundIndex = data.readAllMyAppointments?.findIndex(
+                        (appointment) => {
+                          return appointment.id === _args.id;
+                        }
+                      );
+
+                      if (foundIndex === -1) return data;
+
+                      data.readAllMyAppointments?.splice(foundIndex!, 1);
+                    }
+
+                    return data;
+                  }
+                );
+              });
+            },
             createAppointment: (
               result: CreateAppointmentMutation,
               _args,
@@ -74,8 +119,6 @@ const createUrqlClient = (ssrExchange: any, ctx: any) => {
                   }
                 );
               });
-
-              console.log(fields, fieldInfos, _args);
             },
             deleteBookingById: (
               result: DeleteBookingByIdMutation,

@@ -2,7 +2,7 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/booking/[id]": "pages/booking/[id].js",
   "/home": "pages/home.js",
-  "/bookings": "pages/bookings.js"
+  "/bookings": "pages/bookings.js",
+  "/booking/[id]": "pages/booking/[id].js"
 }
