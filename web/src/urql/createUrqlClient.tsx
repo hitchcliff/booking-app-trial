@@ -1,5 +1,5 @@
 import { Cache, cacheExchange } from "@urql/exchange-graphcache";
-import { debugExchange, fetchExchange } from "urql";
+import { debugExchange, fetchExchange, Query } from "urql";
 
 import {
   CreateAppointmentMutation,
@@ -19,6 +19,7 @@ import {
   ReadBookingByIdQuery,
   RegisterMutation,
 } from "../gen/graphql";
+import Invalidate from "./cache/invalidate";
 
 const createUrqlClient = (ssrExchange: any, ctx: any) => {
   let cookie = "";
@@ -53,6 +54,8 @@ const createUrqlClient = (ssrExchange: any, ctx: any) => {
               const appointment = result.deleteAppointmentById;
 
               if (!appointment) return;
+              // invalidate the bookings
+              new Invalidate().readAllBookings(cache);
 
               const fields = cache.inspectFields("Query");
               const fieldInfos = fields.filter(
@@ -69,7 +72,6 @@ const createUrqlClient = (ssrExchange: any, ctx: any) => {
                     data: ReadAllMyAppointmentsQuery | null
                   ): ReadAllMyAppointmentsQuery | null => {
                     if (data) {
-                      console.log(_args);
                       const foundIndex = data.readAllMyAppointments?.findIndex(
                         (appointment) => {
                           return appointment.id === _args.id;
@@ -96,6 +98,9 @@ const createUrqlClient = (ssrExchange: any, ctx: any) => {
 
               if (!appointment) return;
 
+              // invalidate the appointments
+              new Invalidate().readAllMyAppointments(cache);
+
               const fields = cache.inspectFields("Query");
               const fieldInfos = fields.filter(
                 (filter) => filter.fieldName === "readBookingById"
@@ -112,7 +117,6 @@ const createUrqlClient = (ssrExchange: any, ctx: any) => {
                   ): ReadBookingByIdQuery | null => {
                     if (data) {
                       data.readBookingById?.appointments?.unshift(appointment);
-                      return data;
                     }
 
                     return data;
@@ -128,6 +132,7 @@ const createUrqlClient = (ssrExchange: any, ctx: any) => {
             ) => {
               // check if deleted
               if (!result.deleteBookingById) return;
+
               const id = _args.id;
 
               const fields = cache.inspectFields("Query");
