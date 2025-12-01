@@ -44,6 +44,8 @@ const MyFeeds = ({
             body={booking!.body}
             user={booking!.user}
             updatedAt={booking?.updatedAt}
+            showBookMarker={false}
+            showCancelAppointmentButton={true}
           />
           <div className="mt-5">
             <span className="opacity-80 mr-2 font-bold">

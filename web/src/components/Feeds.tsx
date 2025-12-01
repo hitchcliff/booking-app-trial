@@ -46,6 +46,7 @@ const Feeds = ({
             user={user}
             updatedAt={updatedAt}
             appointments={appointments}
+            showBookMarker={true}
           />
           {showBookingButton && <BookingButtons booking={booking} />}
           {toggleComments && <Comments />}

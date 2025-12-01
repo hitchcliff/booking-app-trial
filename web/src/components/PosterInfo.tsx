@@ -24,6 +24,8 @@ interface PosterInfoProps {
   updatedAt: string;
   user?: User | null;
   appointments?: Appointment[];
+  showBookMarker?: boolean;
+  showCancelAppointmentButton?: boolean;
 }
 
 const PosterInfo = ({
@@ -33,6 +35,8 @@ const PosterInfo = ({
   updatedAt,
   user,
   appointments,
+  showBookMarker = true,
+  showCancelAppointmentButton = false,
 }: PosterInfoProps) => {
   const date = useDayJs({ fromNow: updatedAt });
   const [, deleteBooking] = useDeleteBookingByIdMutation();
@@ -76,11 +80,22 @@ const PosterInfo = ({
         )}
 
         {/* if they are already booked at this feed */}
-        {me?.accountType !== UserAccountType.AGENT && isUserBooked && (
-          <span className="text-green-500 whitespace-nowrap">
-            <FontAwesomeIcon icon={faCheckCircle} /> Already booked
-          </span>
-        )}
+        {showBookMarker &&
+          me?.accountType !== UserAccountType.AGENT &&
+          isUserBooked && (
+            <span className="text-green-500 whitespace-nowrap">
+              <FontAwesomeIcon icon={faCheckCircle} /> Already booked
+            </span>
+          )}
+
+        {/* if they are already booked at this feed */}
+        {showCancelAppointmentButton &&
+          me?.accountType !== UserAccountType.AGENT &&
+          isUserBooked && (
+            <span className="text-red-500 whitespace-nowrap">
+              <FontAwesomeIcon icon={faTrash} /> Cancel appointment
+            </span>
+          )}
       </div>
       <div className="mt-2">
         <span className="whitespace-nowrap overflow-ellipses font-bold">
