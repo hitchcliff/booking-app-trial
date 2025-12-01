@@ -132,7 +132,6 @@ const createUrqlClient = (ssrExchange: any, ctx: any) => {
                 if (result.login.errors) {
                   return null as any;
                 } else {
-                  console.log(result.login.user);
                   return {
                     me: result.login.user,
                   };

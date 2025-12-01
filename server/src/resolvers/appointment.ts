@@ -75,10 +75,15 @@ export default class AppointmentResolver {
   @Query(() => [Appointment], { nullable: true })
   async readAllMyAppointments(): Promise<Appointment[] | undefined> {
     const id = getUserId();
+
     const user = await User.findOne({
       where: { id: id },
       relations: {
-        appointments: true,
+        appointments: {
+          booking: {
+            user: true,
+          },
+        },
       },
     });
 

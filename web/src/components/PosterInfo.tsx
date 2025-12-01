@@ -9,6 +9,7 @@ import { useDeleteBookingByIdMutation, User } from "../gen/graphql";
 import { useAuthService, useDayJs } from "../hooks";
 import Badge from "./Badge";
 import { UserAccountType } from "../utils/enums";
+import Button from "./Button";
 
 interface PosterInfoProps {
   id: number;
@@ -22,6 +23,8 @@ const PosterInfo = ({ id, body, title, user, updatedAt }: PosterInfoProps) => {
   const date = useDayJs({ fromNow: updatedAt });
   const [, deleteBooking] = useDeleteBookingByIdMutation();
   const [{ user: me }] = useAuthService();
+
+  console.log(user);
 
   return (
     <>
@@ -50,6 +53,10 @@ const PosterInfo = ({ id, body, title, user, updatedAt }: PosterInfoProps) => {
             <FontAwesomeIcon icon={faTrash} />
           </button>
         )}
+
+        <Button className="text-red-500 whitespace-nowrap">
+          Cancel appointment <FontAwesomeIcon icon={faTrash} />
+        </Button>
       </div>
       <div className="mt-2">
         <span className="whitespace-nowrap overflow-ellipses font-bold">

@@ -72,7 +72,11 @@ let AppointmentResolver = class AppointmentResolver {
         const user = await User_1.default.findOne({
             where: { id: id },
             relations: {
-                appointments: true,
+                appointments: {
+                    booking: {
+                        user: true,
+                    },
+                },
             },
         });
         return user === null || user === void 0 ? void 0 : user.appointments;
