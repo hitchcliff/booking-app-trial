@@ -4,6 +4,7 @@ import { debugExchange, fetchExchange } from "urql";
 import {
   CreateBookingDocument,
   CreateBookingMutation,
+  DeleteBookingByIdMutation,
   LoginMutation,
   LogoutMutation,
   MeDocument,
@@ -37,6 +38,50 @@ const createUrqlClient = (ssrExchange: any, ctx: any) => {
       cacheExchange({
         updates: {
           Mutation: {
+            deleteBookingById: (
+              result: DeleteBookingByIdMutation,
+              _args,
+              cache: Cache,
+              _info
+            ) => {
+              // check if deleted
+              if (!result.deleteBookingById) return;
+              const id = _args.id;
+
+              const fields = cache.inspectFields("Query");
+              const fieldInfos = fields.filter(
+                (field) => field.fieldName === "readAllBookings"
+              );
+
+              fieldInfos.forEach((fieldInfo) => {
+                cache.updateQuery(
+                  {
+                    query: ReadAllBookingsDocument,
+                    variables: fieldInfo.arguments,
+                  },
+                  (
+                    data: ReadAllBookingsQuery | null
+                  ): ReadAllBookingsQuery | null => {
+                    // check if we have data in the cache
+                    if (data) {
+                      // put it in the first array
+                      const foundBookingIndex = data.readAllBookings.findIndex(
+                        (booking) => {
+                          return booking.id === id;
+                        }
+                      );
+                      data.readAllBookings.splice(foundBookingIndex, 1);
+
+                      return data;
+                    }
+
+                    return data;
+                  }
+                );
+              });
+
+              console.log(_args);
+            },
             createBooking: (
               result: CreateBookingMutation,
               _args,

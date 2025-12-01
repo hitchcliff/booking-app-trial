@@ -42,6 +42,7 @@ const MyFeeds = ({
 
         <div className="px-5 w-full">
           <PosterInfo
+            id={booking!.id}
             title={booking!.title}
             body={booking!.body}
             user={booking!.user}
