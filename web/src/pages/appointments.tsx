@@ -6,10 +6,7 @@ import MyFeeds from "../components/MyFeeds";
 import PrivateRoute from "../components/Route/PrivateRoute";
 import SearchBar from "../components/SearchBar";
 import Trendings from "../components/Trendings";
-import {
-  useReadAllAppointmentsQuery,
-  useReadAllMyAppointmentsQuery,
-} from "../gen/graphql";
+import { useReadAllAppointmentsQuery } from "../gen/graphql";
 import RoutePattern from "../routes/RoutePattern";
 
 const Appointments = () => {

@@ -45,9 +45,10 @@ let BookingResolver = class BookingResolver {
             booking,
         };
     }
-    async readAllBookings() {
+    async readAllBookings(options) {
         const bookings = await Booking_1.default.find({
-            take: 10,
+            take: options.take,
+            skip: options.skip,
             order: {
                 id: "DESC",
             },
@@ -127,8 +128,9 @@ __decorate([
 ], BookingResolver.prototype, "createBooking", null);
 __decorate([
     (0, type_graphql_1.Query)(() => [Booking_1.default]),
+    __param(0, (0, type_graphql_1.Arg)(enums_1.FieldInput.OPTIONS)),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [type_1.ReadBookingInput]),
     __metadata("design:returntype", Promise)
 ], BookingResolver.prototype, "readAllBookings", null);
 __decorate([

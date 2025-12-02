@@ -4,7 +4,11 @@ import getUserId from "../helpers/get_user_id";
 import { MyValidation } from "../helpers/validation";
 import isAuthAdmin from "../middleware/is_auth_admin";
 import { FieldInput } from "../utils/enums";
-import { BookingResponse, CreateBookingInput } from "../utils/type";
+import {
+  BookingResponse,
+  CreateBookingInput,
+  ReadBookingInput,
+} from "../utils/type";
 import getUser from "../helpers/get_user";
 import Appointment from "../entities/Appointment";
 
@@ -42,9 +46,12 @@ export default class BookingResolver {
   }
 
   @Query(() => [Booking])
-  async readAllBookings(): Promise<Booking[]> {
+  async readAllBookings(
+    @Arg(FieldInput.OPTIONS) options: ReadBookingInput
+  ): Promise<Booking[]> {
     const bookings = await Booking.find({
-      take: 10,
+      take: options.take,
+      skip: options.skip,
       order: {
         id: "DESC",
       },

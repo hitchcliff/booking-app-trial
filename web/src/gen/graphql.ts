@@ -134,6 +134,11 @@ export type Query = {
 };
 
 
+export type QueryReadAllBookingsArgs = {
+  options: ReadBookingInput;
+};
+
+
 export type QueryReadAppointmentsByBookingIdArgs = {
   id: Scalars['Float']['input'];
 };
@@ -141,6 +146,11 @@ export type QueryReadAppointmentsByBookingIdArgs = {
 
 export type QueryReadBookingByIdArgs = {
   id: Scalars['Float']['input'];
+};
+
+export type ReadBookingInput = {
+  skip: Scalars['Float']['input'];
+  take: Scalars['Float']['input'];
 };
 
 export type RegisterInput = {
@@ -259,7 +269,9 @@ export type ReadAllAppointmentsQueryVariables = Exact<{ [key: string]: never; }>
 
 export type ReadAllAppointmentsQuery = { __typename?: 'Query', readAllAppointments: Array<{ __typename?: 'Appointment', id: number, date: string, from: string, to: string, booking?: { __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null } | null, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null }> };
 
-export type ReadAllBookingsQueryVariables = Exact<{ [key: string]: never; }>;
+export type ReadAllBookingsQueryVariables = Exact<{
+  options: ReadBookingInput;
+}>;
 
 
 export type ReadAllBookingsQuery = { __typename?: 'Query', readAllBookings: Array<{ __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null, appointments?: Array<{ __typename?: 'Appointment', id: number, date: string, from: string, to: string, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null }> | null }> };
@@ -775,7 +787,18 @@ export default {
                 }
               }
             },
-            "args": []
+            "args": [
+              {
+                "name": "options",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
           },
           {
             "name": "readAllMyAppointments",
@@ -1255,8 +1278,8 @@ export function useReadAllAppointmentsQuery(options?: Omit<Urql.UseQueryArgs<Rea
   return Urql.useQuery<ReadAllAppointmentsQuery, ReadAllAppointmentsQueryVariables>({ query: ReadAllAppointmentsDocument, ...options });
 };
 export const ReadAllBookingsDocument = gql`
-    query ReadAllBookings {
-  readAllBookings {
+    query ReadAllBookings($options: ReadBookingInput!) {
+  readAllBookings(options: $options) {
     ...Booking
     user {
       ...User
@@ -1273,7 +1296,7 @@ export const ReadAllBookingsDocument = gql`
 ${UserFragmentDoc}
 ${AppointmentFragmentDoc}`;
 
-export function useReadAllBookingsQuery(options?: Omit<Urql.UseQueryArgs<ReadAllBookingsQueryVariables>, 'query'>) {
+export function useReadAllBookingsQuery(options: Omit<Urql.UseQueryArgs<ReadAllBookingsQueryVariables>, 'query'>) {
   return Urql.useQuery<ReadAllBookingsQuery, ReadAllBookingsQueryVariables>({ query: ReadAllBookingsDocument, ...options });
 };
 export const ReadAllMyAppointmentsDocument = gql`

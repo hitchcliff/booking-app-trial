@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppointmentResponse = exports.CreateAppointmentInput = exports.BookingResponse = exports.CreateBookingInput = exports.UpdateRoleInput = exports.UserResponse = exports.RegisterInput = exports.LoginInput = exports.FieldError = void 0;
+exports.AppointmentResponse = exports.CreateAppointmentInput = exports.BookingResponse = exports.ReadBookingInput = exports.CreateBookingInput = exports.UpdateRoleInput = exports.UserResponse = exports.RegisterInput = exports.LoginInput = exports.FieldError = void 0;
 const type_graphql_1 = require("type-graphql");
 const User_1 = __importDefault(require("../entities/User"));
 const Booking_1 = __importDefault(require("../entities/Booking"));
@@ -125,6 +125,20 @@ __decorate([
 exports.CreateBookingInput = CreateBookingInput = __decorate([
     (0, type_graphql_1.InputType)()
 ], CreateBookingInput);
+let ReadBookingInput = class ReadBookingInput {
+};
+exports.ReadBookingInput = ReadBookingInput;
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", Number)
+], ReadBookingInput.prototype, "take", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", Number)
+], ReadBookingInput.prototype, "skip", void 0);
+exports.ReadBookingInput = ReadBookingInput = __decorate([
+    (0, type_graphql_1.InputType)()
+], ReadBookingInput);
 let BookingResponse = class BookingResponse {
 };
 exports.BookingResponse = BookingResponse;

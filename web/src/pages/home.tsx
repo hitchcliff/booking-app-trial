@@ -2,24 +2,25 @@ import { useState } from "react";
 import Button from "../components/Button";
 import CreateFeed from "../components/CreateFeed";
 import Feeds from "../components/Feeds";
-import Layout from "../components/Layout";
+import FriendSuggestions from "../components/FriendSuggestions";
+import InfoBar from "../components/InfoBar";
 import Loader from "../components/Loader";
 import PrivateRoute from "../components/Route/PrivateRoute";
-import { useMeQuery, useReadAllBookingsQuery } from "../gen/graphql";
-import FriendSuggestions from "../components/FriendSuggestions";
 import SearchBar from "../components/SearchBar";
 import Trendings from "../components/Trendings";
-import InfoBar from "../components/InfoBar";
+import { useMeQuery, useReadAllBookingsQuery } from "../gen/graphql";
 
 const Home = () => {
-  const [take, setTake] = useState<number>(3);
-  // const [{ data: fetchPosts, fetching }] = usePostsQuery({
-  //   variables: {
-  //     skip: 0,
-  //     take,
-  //   },
-  // });
-  const [{ data, fetching }] = useReadAllBookingsQuery();
+  const [take, setTake] = useState<number>(2);
+  const [{ data, fetching }] = useReadAllBookingsQuery({
+    variables: {
+      options: {
+        skip: 0,
+        take,
+      },
+    },
+  });
+
   const [{ data: user }] = useMeQuery();
 
   if (!data?.readAllBookings) return <Loader />;
@@ -47,7 +48,7 @@ const Home = () => {
           <Button
             isSubmitting={fetching}
             onClick={() => {
-              setTake((prev) => prev + 3);
+              setTake((prev) => prev + 2);
             }}
           >
             Load More

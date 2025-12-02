@@ -1,5 +1,5 @@
-query ReadAllBookings {
-  readAllBookings {
+query ReadAllBookings($options: ReadBookingInput!) {
+  readAllBookings(options: $options) {
     ...Booking
     user {
       ...User

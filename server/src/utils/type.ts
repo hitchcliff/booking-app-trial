@@ -87,6 +87,15 @@ export class CreateBookingInput {
   body: string;
 }
 
+@InputType()
+export class ReadBookingInput {
+  @Field()
+  take: number;
+
+  @Field()
+  skip: number;
+}
+
 @ObjectType()
 export class BookingResponse {
   @Field(() => [FieldError], { nullable: true })
