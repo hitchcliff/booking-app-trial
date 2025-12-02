@@ -39,6 +39,10 @@ you can use the postgres database in vscode :)
 
 - admin can create many booking
 - booking will be own by admin role
+- user can like many bookings
+- user can like a single booking
+- booking can have many like from users
+  - user {likes: []}, bookings: {likes: [{user}]}
 
 <!-- many to many -->
 <!-- user <-> booking -->
