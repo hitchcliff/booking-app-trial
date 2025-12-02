@@ -12,6 +12,7 @@ import {
 } from "typeorm";
 import Appointment from "./Appointment";
 import User from "./User";
+import Like from "./Like";
 
 @ObjectType()
 @Entity("booking")
@@ -46,4 +47,13 @@ export default class Booking extends BaseEntity {
   @Field(() => [Appointment], { nullable: true })
   @OneToMany(() => Appointment, (appointment) => appointment.booking)
   appointments: Appointment[];
+
+  // likes from user
+  @Field(() => [Like], { nullable: true })
+  @OneToMany(() => Like, (like) => like.booking)
+  userLikes: Like[];
+
+  @Field({ nullable: true })
+  @Column({ type: "int", default: 0 })
+  likes?: number;
 }

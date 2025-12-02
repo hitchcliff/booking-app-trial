@@ -17,6 +17,7 @@ const typeorm_1 = require("typeorm");
 const enums_1 = require("../utils/enums");
 const Appointment_1 = __importDefault(require("./Appointment"));
 const Booking_1 = __importDefault(require("./Booking"));
+const Like_1 = __importDefault(require("./Like"));
 let User = class User extends typeorm_1.BaseEntity {
 };
 __decorate([
@@ -93,6 +94,11 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => Appointment_1.default, (appointment) => appointment.user),
     __metadata("design:type", Array)
 ], User.prototype, "appointments", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(() => [Like_1.default], { nullable: true }),
+    (0, typeorm_1.OneToMany)(() => Like_1.default, (like) => like.user),
+    __metadata("design:type", Array)
+], User.prototype, "bookingLikes", void 0);
 User = __decorate([
     (0, type_graphql_1.ObjectType)(),
     (0, typeorm_1.Entity)("user")

@@ -42,7 +42,9 @@ you can use the postgres database in vscode :)
 - user can like many bookings
 - user can like a single booking
 - booking can have many like from users
-  - user {likes: []}, bookings: {likes: [{user}]}
+  - user {likes: Bookings[]}, bookings: {userLikes: User[]}
+  - join table Like
+  - like { user: User, booking: Booking}
 
 <!-- many to many -->
 <!-- user <-> booking -->

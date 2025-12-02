@@ -11,6 +11,7 @@ import {
 import { UserAccountType, UserRole } from "../utils/enums";
 import Appointment from "./Appointment";
 import Booking from "./Booking";
+import Like from "./Like";
 
 @ObjectType()
 @Entity("user")
@@ -76,6 +77,11 @@ class User extends BaseEntity {
   @Field(() => [Appointment], { nullable: true })
   @OneToMany(() => Appointment, (appointment) => appointment.user)
   appointments: Appointment[];
+
+  // booking likes
+  @Field(() => [Like], { nullable: true })
+  @OneToMany(() => Like, (like) => like.user)
+  bookingLikes: Like[];
 }
 
 export default User;

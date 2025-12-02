@@ -16,6 +16,7 @@ const type_graphql_1 = require("type-graphql");
 const typeorm_1 = require("typeorm");
 const Appointment_1 = __importDefault(require("./Appointment"));
 const User_1 = __importDefault(require("./User"));
+const Like_1 = __importDefault(require("./Like"));
 let Booking = class Booking extends typeorm_1.BaseEntity {
 };
 __decorate([
@@ -54,6 +55,16 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => Appointment_1.default, (appointment) => appointment.booking),
     __metadata("design:type", Array)
 ], Booking.prototype, "appointments", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(() => [Like_1.default], { nullable: true }),
+    (0, typeorm_1.OneToMany)(() => Like_1.default, (like) => like.booking),
+    __metadata("design:type", Array)
+], Booking.prototype, "userLikes", void 0);
+__decorate([
+    (0, type_graphql_1.Field)({ nullable: true }),
+    (0, typeorm_1.Column)({ type: "int", default: 0 }),
+    __metadata("design:type", Number)
+], Booking.prototype, "likes", void 0);
 Booking = __decorate([
     (0, type_graphql_1.ObjectType)(),
     (0, typeorm_1.Entity)("booking")
