@@ -11,6 +11,7 @@ import {
 } from "../utils/type";
 import getUser from "../helpers/get_user";
 import Appointment from "../entities/Appointment";
+import Search from "../helpers/search";
 
 @Resolver()
 export default class BookingResolver {
@@ -49,6 +50,24 @@ export default class BookingResolver {
   async readAllBookings(
     @Arg(FieldInput.OPTIONS) options: ReadBookingInput
   ): Promise<Booking[]> {
+    if (options.search?.length) {
+      const search = new Search().byText(
+        options.search,
+        await Booking.find({
+          order: {
+            id: "DESC",
+          },
+          relations: {
+            user: true,
+            appointments: true,
+          },
+        })
+      );
+
+      // console.log(search);
+      return search;
+    }
+
     const bookings = await Booking.find({
       take: options.take,
       skip: options.skip,

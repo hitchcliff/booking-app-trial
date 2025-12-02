@@ -94,6 +94,9 @@ export class ReadBookingInput {
 
   @Field()
   skip: number;
+
+  @Field(() => String, { nullable: true })
+  search?: string;
 }
 
 @ObjectType()

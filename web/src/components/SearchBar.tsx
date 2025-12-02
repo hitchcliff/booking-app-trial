@@ -3,15 +3,17 @@ import InputField from "./Form/InputField";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import IconButton from "./IconButton";
+import useGlobalService from "../hooks/useGlobalService";
 
 const SearchBar = () => {
+  const { setSearch } = useGlobalService();
   return (
     <div className="flex flex-col w-full text-dark dark:text-light ">
       <h2 className="font-bold">Search</h2>
       <Formik
         initialValues={{ search: "" }}
-        onSubmit={() => {
-          console.log("submitted");
+        onSubmit={(values) => {
+          setSearch(values.search);
         }}
       >
         {() => (

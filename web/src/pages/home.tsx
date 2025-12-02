@@ -9,14 +9,17 @@ import PrivateRoute from "../components/Route/PrivateRoute";
 import SearchBar from "../components/SearchBar";
 import Trendings from "../components/Trendings";
 import { useMeQuery, useReadAllBookingsQuery } from "../gen/graphql";
+import { useGlobalSelector } from "../redux/features/global.selector";
 
 const Home = () => {
-  const [take, setTake] = useState<number>(2);
+  const [take, setTake] = useState<number>(5);
+  const { search } = useGlobalSelector();
   const [{ data, fetching }] = useReadAllBookingsQuery({
     variables: {
       options: {
         skip: 0,
         take,
+        search,
       },
     },
   });

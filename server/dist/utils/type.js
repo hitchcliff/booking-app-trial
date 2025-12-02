@@ -136,6 +136,10 @@ __decorate([
     (0, type_graphql_1.Field)(),
     __metadata("design:type", Number)
 ], ReadBookingInput.prototype, "skip", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(() => String, { nullable: true }),
+    __metadata("design:type", String)
+], ReadBookingInput.prototype, "search", void 0);
 exports.ReadBookingInput = ReadBookingInput = __decorate([
     (0, type_graphql_1.InputType)()
 ], ReadBookingInput);

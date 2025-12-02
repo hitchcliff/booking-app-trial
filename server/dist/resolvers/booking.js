@@ -24,6 +24,7 @@ const enums_1 = require("../utils/enums");
 const type_1 = require("../utils/type");
 const get_user_1 = __importDefault(require("../helpers/get_user"));
 const Appointment_1 = __importDefault(require("../entities/Appointment"));
+const search_1 = __importDefault(require("../helpers/search"));
 let BookingResolver = class BookingResolver {
     async createBooking(options) {
         const userId = (0, get_user_id_1.default)();
@@ -46,6 +47,19 @@ let BookingResolver = class BookingResolver {
         };
     }
     async readAllBookings(options) {
+        var _a;
+        if ((_a = options.search) === null || _a === void 0 ? void 0 : _a.length) {
+            const search = new search_1.default().byText(options.search, await Booking_1.default.find({
+                order: {
+                    id: "DESC",
+                },
+                relations: {
+                    user: true,
+                    appointments: true,
+                },
+            }));
+            return search;
+        }
         const bookings = await Booking_1.default.find({
             take: options.take,
             skip: options.skip,

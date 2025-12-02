@@ -149,6 +149,7 @@ export type QueryReadBookingByIdArgs = {
 };
 
 export type ReadBookingInput = {
+  search?: InputMaybe<Scalars['String']['input']>;
   skip: Scalars['Float']['input'];
   take: Scalars['Float']['input'];
 };
