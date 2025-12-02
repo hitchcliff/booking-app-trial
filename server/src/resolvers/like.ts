@@ -1,4 +1,4 @@
-import { Arg, Mutation, Resolver, UseMiddleware } from "type-graphql";
+import { Arg, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import Booking from "../entities/Booking";
 import Like from "../entities/Like";
 import getUser from "../helpers/get_user";
@@ -6,9 +6,22 @@ import getUserId from "../helpers/get_user_id";
 import isAuth from "../middleware/is_auth";
 import { FieldInput, FieldMessage, UserAccountType } from "../utils/enums";
 import { LikeBookingInput, LikeResponse } from "../utils/type";
+import isAuthAdmin from "../middleware/is_auth_admin";
+import User from "../entities/User";
 
 @Resolver()
 export default class LikeResolver {
+  @UseMiddleware(isAuth)
+  @Query(() => [Like])
+  async readAllLikes(): Promise<Like[]> {
+    return await Like.find({
+      relations: {
+        user: true,
+        booking: true,
+      },
+    });
+  }
+
   @UseMiddleware(isAuth)
   @Mutation(() => LikeResponse)
   async likeBooking(
@@ -130,5 +143,40 @@ export default class LikeResolver {
     return {
       like,
     };
+  }
+
+  @UseMiddleware(isAuthAdmin)
+  @Mutation(() => Boolean)
+  async resetLikes(): Promise<boolean> {
+    const likes = await Like.find({
+      relations: {
+        booking: true,
+        user: true,
+      },
+    });
+
+    likes.every(async (like) => {
+      const booking = await Booking.findOne({
+        where: {
+          id: like.booking.id,
+        },
+      });
+
+      booking!.likes = 0;
+      booking!.userLikes = [];
+
+      const user = await User.findOne({
+        where: {
+          id: like.user.id,
+        },
+      });
+      user!.bookingLikes = [];
+
+      await booking?.save();
+      await user?.save();
+      await like.remove();
+    });
+
+    return true;
   }
 }

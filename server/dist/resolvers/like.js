@@ -23,7 +23,17 @@ const get_user_id_1 = __importDefault(require("../helpers/get_user_id"));
 const is_auth_1 = __importDefault(require("../middleware/is_auth"));
 const enums_1 = require("../utils/enums");
 const type_1 = require("../utils/type");
+const is_auth_admin_1 = __importDefault(require("../middleware/is_auth_admin"));
+const User_1 = __importDefault(require("../entities/User"));
 let LikeResolver = class LikeResolver {
+    async readAllLikes() {
+        return await Like_1.default.find({
+            relations: {
+                user: true,
+                booking: true,
+            },
+        });
+    }
     async likeBooking(options) {
         var _a;
         const booking = await Booking_1.default.findOne({
@@ -110,7 +120,41 @@ let LikeResolver = class LikeResolver {
             like,
         };
     }
+    async resetLikes() {
+        const likes = await Like_1.default.find({
+            relations: {
+                booking: true,
+                user: true,
+            },
+        });
+        likes.every(async (like) => {
+            const booking = await Booking_1.default.findOne({
+                where: {
+                    id: like.booking.id,
+                },
+            });
+            booking.likes = 0;
+            booking.userLikes = [];
+            const user = await User_1.default.findOne({
+                where: {
+                    id: like.user.id,
+                },
+            });
+            user.bookingLikes = [];
+            await (booking === null || booking === void 0 ? void 0 : booking.save());
+            await (user === null || user === void 0 ? void 0 : user.save());
+            await like.remove();
+        });
+        return true;
+    }
 };
+__decorate([
+    (0, type_graphql_1.UseMiddleware)(is_auth_1.default),
+    (0, type_graphql_1.Query)(() => [Like_1.default]),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], LikeResolver.prototype, "readAllLikes", null);
 __decorate([
     (0, type_graphql_1.UseMiddleware)(is_auth_1.default),
     (0, type_graphql_1.Mutation)(() => type_1.LikeResponse),
@@ -127,6 +171,13 @@ __decorate([
     __metadata("design:paramtypes", [type_1.LikeBookingInput]),
     __metadata("design:returntype", Promise)
 ], LikeResolver.prototype, "dislikeBooking", null);
+__decorate([
+    (0, type_graphql_1.UseMiddleware)(is_auth_admin_1.default),
+    (0, type_graphql_1.Mutation)(() => Boolean),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], LikeResolver.prototype, "resetLikes", null);
 LikeResolver = __decorate([
     (0, type_graphql_1.Resolver)()
 ], LikeResolver);
