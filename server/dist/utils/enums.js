@@ -24,12 +24,14 @@ var FieldInput;
     FieldInput["TIME"] = "time";
     FieldInput["FROM"] = "from";
     FieldInput["TO"] = "to";
+    FieldInput["VALUE"] = "value";
 })(FieldInput || (exports.FieldInput = FieldInput = {}));
 var FieldMessage;
 (function (FieldMessage) {
     FieldMessage["REQUIRED"] = "required";
     FieldMessage["NOT_BOOKER"] = "not a booker";
     FieldMessage["DUPLICATE"] = "duplicate";
+    FieldMessage["NOT_AVAILABLE"] = "not available";
 })(FieldMessage || (exports.FieldMessage = FieldMessage = {}));
 (0, type_graphql_1.registerEnumType)(UserRole, {
     name: "UserRole",

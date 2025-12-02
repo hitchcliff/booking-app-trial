@@ -21,12 +21,14 @@ export enum FieldInput {
   TIME = "time",
   FROM = "from",
   TO = "to",
+  VALUE = "value",
 }
 
 export enum FieldMessage {
   REQUIRED = "required",
   NOT_BOOKER = "not a booker",
   DUPLICATE = "duplicate",
+  NOT_AVAILABLE = "not available",
 }
 
 registerEnumType(UserRole, {

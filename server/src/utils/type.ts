@@ -5,6 +5,7 @@ import { Field, InputType, ObjectType } from "type-graphql";
 import User from "../entities/User";
 import Booking from "../entities/Booking";
 import Appointment from "../entities/Appointment";
+import Like from "../entities/Like";
 
 export type MyContext = {
   req: Request & {
@@ -130,4 +131,22 @@ export class AppointmentResponse {
 
   @Field(() => Appointment, { nullable: true })
   appointment?: Appointment;
+}
+
+@InputType()
+export class LikeBookingInput {
+  @Field()
+  bookingId: number;
+
+  @Field()
+  value: number;
+}
+
+@ObjectType()
+export class LikeResponse {
+  @Field(() => [FieldError], { nullable: true })
+  errors?: FieldError[];
+
+  @Field(() => Like, { nullable: true })
+  like?: Like;
 }

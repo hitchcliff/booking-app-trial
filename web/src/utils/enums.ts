@@ -19,6 +19,7 @@ export enum FieldInput {
   TIME = "time",
   FROM = "from",
   TO = "to",
+  VALUE = "value",
 }
 
 export enum FieldMessage {

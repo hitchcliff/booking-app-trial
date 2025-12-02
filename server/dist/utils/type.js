@@ -12,11 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppointmentResponse = exports.CreateAppointmentInput = exports.BookingResponse = exports.ReadBookingInput = exports.CreateBookingInput = exports.UpdateRoleInput = exports.UserResponse = exports.RegisterInput = exports.LoginInput = exports.FieldError = void 0;
+exports.LikeResponse = exports.LikeBookingInput = exports.AppointmentResponse = exports.CreateAppointmentInput = exports.BookingResponse = exports.ReadBookingInput = exports.CreateBookingInput = exports.UpdateRoleInput = exports.UserResponse = exports.RegisterInput = exports.LoginInput = exports.FieldError = void 0;
 const type_graphql_1 = require("type-graphql");
 const User_1 = __importDefault(require("../entities/User"));
 const Booking_1 = __importDefault(require("../entities/Booking"));
 const Appointment_1 = __importDefault(require("../entities/Appointment"));
+const Like_1 = __importDefault(require("../entities/Like"));
 let FieldError = class FieldError {
 };
 exports.FieldError = FieldError;
@@ -193,3 +194,31 @@ __decorate([
 exports.AppointmentResponse = AppointmentResponse = __decorate([
     (0, type_graphql_1.ObjectType)()
 ], AppointmentResponse);
+let LikeBookingInput = class LikeBookingInput {
+};
+exports.LikeBookingInput = LikeBookingInput;
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", Number)
+], LikeBookingInput.prototype, "bookingId", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", Number)
+], LikeBookingInput.prototype, "value", void 0);
+exports.LikeBookingInput = LikeBookingInput = __decorate([
+    (0, type_graphql_1.InputType)()
+], LikeBookingInput);
+let LikeResponse = class LikeResponse {
+};
+exports.LikeResponse = LikeResponse;
+__decorate([
+    (0, type_graphql_1.Field)(() => [FieldError], { nullable: true }),
+    __metadata("design:type", Array)
+], LikeResponse.prototype, "errors", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(() => Like_1.default, { nullable: true }),
+    __metadata("design:type", Like_1.default)
+], LikeResponse.prototype, "like", void 0);
+exports.LikeResponse = LikeResponse = __decorate([
+    (0, type_graphql_1.ObjectType)()
+], LikeResponse);

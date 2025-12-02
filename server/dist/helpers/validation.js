@@ -27,6 +27,26 @@ class MyValidation {
         this.emptyText(enums_1.FieldInput.TO, options.to);
         return this.errors;
     }
+    validateLike(options) {
+        this.emptyText(enums_1.FieldInput.VALUE, options.value);
+        if (options.value <= 0 || options.value > 1) {
+            this.errors.push({
+                message: "must be 1 only",
+                field: enums_1.FieldInput.VALUE,
+            });
+        }
+        return this.errors;
+    }
+    validateDislike(options) {
+        this.emptyText(enums_1.FieldInput.VALUE, options.value);
+        if (options.value >= 0 || options.value <= -2) {
+            this.errors.push({
+                message: "must be -1 only",
+                field: enums_1.FieldInput.VALUE,
+            });
+        }
+        return this.errors;
+    }
     emptyText(field, text) {
         if (text === null || text.length === 0) {
             this.errors.push({
