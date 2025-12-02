@@ -1,5 +1,8 @@
 import { Form, Formik } from "formik";
 import InputField from "./Form/InputField";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import IconButton from "./IconButton";
 
 const SearchBar = () => {
   return (
@@ -12,12 +15,15 @@ const SearchBar = () => {
         }}
       >
         {() => (
-          <Form>
+          <Form className="relative">
             <InputField
               name="search"
               placeholder="Search something..."
               className="bg-light text-dark dark:bg-dark dark:text-light p-2 rounded-md"
             />
+            <div className="absolute top-1/2 -translate-y-1/2 right-2 z-10 ">
+              <IconButton type="submit" icon={faSearch} />
+            </div>
           </Form>
         )}
       </Formik>
