@@ -1,8 +1,8 @@
 import { Arg, Mutation, Resolver, UseMiddleware } from "type-graphql";
+import Booking from "../entities/Booking";
 import Like from "../entities/Like";
 import getUser from "../helpers/get_user";
 import getUserId from "../helpers/get_user_id";
-import { MyValidation } from "../helpers/validation";
 import isAuth from "../middleware/is_auth";
 import { FieldInput, FieldMessage, UserAccountType } from "../utils/enums";
 import { LikeBookingInput, LikeResponse } from "../utils/type";
@@ -14,13 +14,15 @@ export default class LikeResolver {
   async likeBooking(
     @Arg(FieldInput.OPTIONS) options: LikeBookingInput
   ): Promise<LikeResponse> {
-    // validate
-    const errors = new MyValidation().validateLike(options);
+    // increment the bookingLikes
+    const booking = await Booking.findOne({
+      where: {
+        id: options.bookingId,
+      },
+    });
 
-    if (errors.length) {
-      return {
-        errors,
-      };
+    if (!booking) {
+      throw FieldMessage.NOT_AVAILABLE;
     }
 
     // check for user if they are a booker
@@ -44,20 +46,28 @@ export default class LikeResolver {
       },
     });
 
-    if (isAlreadyLiked) {
+    // if already liked and has a value
+    if (isAlreadyLiked && isAlreadyLiked.value >= 1) {
       throw FieldMessage.DUPLICATE;
     }
+    let like = new Like();
 
-    // saves the like
-    const like = await Like.save({
-      ...options,
-      user: {
-        id: userId, // save the whole User in Appointment
-      },
-      booking: {
-        id: options.bookingId, // save the whole Booking in Appointment
-      },
-    });
+    // if already like and value is 0
+    if (isAlreadyLiked && isAlreadyLiked.value <= 0) {
+      isAlreadyLiked.value = 1;
+      like = await isAlreadyLiked.save();
+    } else {
+      // if no like, create a new one
+      like.value = 1;
+      like.user = user;
+      like.booking = booking;
+      // saves the like
+      like = await like.save();
+    }
+
+    const likes = booking.likes ?? 0;
+    booking.likes = likes + 1;
+    await booking.save();
 
     return {
       like,
@@ -68,14 +78,16 @@ export default class LikeResolver {
   @Mutation(() => LikeResponse)
   async dislikeBooking(
     @Arg(FieldInput.OPTIONS) options: LikeBookingInput
-  ): Promise<LikeResponse> {
-    // validate
-    const errors = new MyValidation().validateDislike(options);
+  ): Promise<LikeResponse | boolean> {
+    // increment the bookingLikes
+    const booking = await Booking.findOne({
+      where: {
+        id: options.bookingId,
+      },
+    });
 
-    if (errors.length) {
-      return {
-        errors,
-      };
+    if (!booking) {
+      throw FieldMessage.NOT_AVAILABLE;
     }
 
     // check for user if they are a booker
@@ -103,8 +115,17 @@ export default class LikeResolver {
       throw FieldMessage.NOT_AVAILABLE;
     }
 
+    if (isAlreadyLiked.value <= 0) {
+      throw FieldMessage.NOT_AVAILABLE;
+    }
+
+    // remove the like so user can like again
     isAlreadyLiked.value = 0;
     const like = await isAlreadyLiked.save();
+
+    const likes = booking.likes ?? 0;
+    booking.likes = likes - 1;
+    await booking.save();
 
     return {
       like,

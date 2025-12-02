@@ -201,10 +201,6 @@ __decorate([
     (0, type_graphql_1.Field)(),
     __metadata("design:type", Number)
 ], LikeBookingInput.prototype, "bookingId", void 0);
-__decorate([
-    (0, type_graphql_1.Field)(),
-    __metadata("design:type", Number)
-], LikeBookingInput.prototype, "value", void 0);
 exports.LikeBookingInput = LikeBookingInput = __decorate([
     (0, type_graphql_1.InputType)()
 ], LikeBookingInput);

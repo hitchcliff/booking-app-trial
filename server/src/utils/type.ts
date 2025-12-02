@@ -137,9 +137,6 @@ export class AppointmentResponse {
 export class LikeBookingInput {
   @Field()
   bookingId: number;
-
-  @Field()
-  value: number;
 }
 
 @ObjectType()

@@ -16,20 +16,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const type_graphql_1 = require("type-graphql");
+const Booking_1 = __importDefault(require("../entities/Booking"));
 const Like_1 = __importDefault(require("../entities/Like"));
 const get_user_1 = __importDefault(require("../helpers/get_user"));
 const get_user_id_1 = __importDefault(require("../helpers/get_user_id"));
-const validation_1 = require("../helpers/validation");
 const is_auth_1 = __importDefault(require("../middleware/is_auth"));
 const enums_1 = require("../utils/enums");
 const type_1 = require("../utils/type");
 let LikeResolver = class LikeResolver {
     async likeBooking(options) {
-        const errors = new validation_1.MyValidation().validateLike(options);
-        if (errors.length) {
-            return {
-                errors,
-            };
+        var _a;
+        const booking = await Booking_1.default.findOne({
+            where: {
+                id: options.bookingId,
+            },
+        });
+        if (!booking) {
+            throw enums_1.FieldMessage.NOT_AVAILABLE;
         }
         const userId = (0, get_user_id_1.default)();
         const user = await (0, get_user_1.default)({ id: userId });
@@ -46,28 +49,36 @@ let LikeResolver = class LikeResolver {
                 },
             },
         });
-        if (isAlreadyLiked) {
+        if (isAlreadyLiked && isAlreadyLiked.value >= 1) {
             throw enums_1.FieldMessage.DUPLICATE;
         }
-        const like = await Like_1.default.save({
-            ...options,
-            user: {
-                id: userId,
-            },
-            booking: {
-                id: options.bookingId,
-            },
-        });
+        let like = new Like_1.default();
+        if (isAlreadyLiked && isAlreadyLiked.value <= 0) {
+            isAlreadyLiked.value = 1;
+            like = await isAlreadyLiked.save();
+        }
+        else {
+            like.value = 1;
+            like.user = user;
+            like.booking = booking;
+            like = await like.save();
+        }
+        const likes = (_a = booking.likes) !== null && _a !== void 0 ? _a : 0;
+        booking.likes = likes + 1;
+        await booking.save();
         return {
             like,
         };
     }
     async dislikeBooking(options) {
-        const errors = new validation_1.MyValidation().validateDislike(options);
-        if (errors.length) {
-            return {
-                errors,
-            };
+        var _a;
+        const booking = await Booking_1.default.findOne({
+            where: {
+                id: options.bookingId,
+            },
+        });
+        if (!booking) {
+            throw enums_1.FieldMessage.NOT_AVAILABLE;
         }
         const userId = (0, get_user_id_1.default)();
         const user = await (0, get_user_1.default)({ id: userId });
@@ -87,8 +98,14 @@ let LikeResolver = class LikeResolver {
         if (!isAlreadyLiked) {
             throw enums_1.FieldMessage.NOT_AVAILABLE;
         }
+        if (isAlreadyLiked.value <= 0) {
+            throw enums_1.FieldMessage.NOT_AVAILABLE;
+        }
         isAlreadyLiked.value = 0;
         const like = await isAlreadyLiked.save();
+        const likes = (_a = booking.likes) !== null && _a !== void 0 ? _a : 0;
+        booking.likes = likes - 1;
+        await booking.save();
         return {
             like,
         };

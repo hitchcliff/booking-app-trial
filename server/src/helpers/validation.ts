@@ -3,7 +3,6 @@ import {
   CreateAppointmentInput,
   CreateBookingInput,
   FieldError,
-  LikeBookingInput,
   RegisterInput,
 } from "../utils/type";
 
@@ -37,30 +36,6 @@ export class MyValidation {
     this.emptyText(FieldInput.DATE, options.date);
     this.emptyText(FieldInput.FROM, options.from);
     this.emptyText(FieldInput.TO, options.to);
-
-    return this.errors;
-  }
-
-  public validateLike(options: LikeBookingInput) {
-    this.emptyText(FieldInput.VALUE, options.value);
-    if (options.value <= 0 || options.value > 1) {
-      this.errors.push({
-        message: "must be 1 only",
-        field: FieldInput.VALUE,
-      });
-    }
-
-    return this.errors;
-  }
-
-  public validateDislike(options: LikeBookingInput) {
-    this.emptyText(FieldInput.VALUE, options.value);
-    if (options.value >= 0 || options.value <= -2) {
-      this.errors.push({
-        message: "must be -1 only",
-        field: FieldInput.VALUE,
-      });
-    }
 
     return this.errors;
   }
