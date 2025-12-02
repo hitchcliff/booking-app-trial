@@ -47,16 +47,18 @@ const Home = () => {
             appointments={booking.appointments!}
           />
         ))}
-        <div className="text-center">
-          <Button
-            isSubmitting={fetching}
-            onClick={() => {
-              setTake((prev) => prev + 2);
-            }}
-          >
-            Load More
-          </Button>
-        </div>
+        {search.length <= 0 && (
+          <div className="text-center">
+            <Button
+              isSubmitting={fetching}
+              onClick={() => {
+                setTake((prev) => prev + 2);
+              }}
+            >
+              Load More
+            </Button>
+          </div>
+        )}
       </div>
       <div className="relative py-7 pr-7 w-1/2">
         <div className="flex flex-col gap-7">
