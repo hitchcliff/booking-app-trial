@@ -1,17 +1,13 @@
 import { Arg, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import Booking from "../entities/Booking";
 import Like from "../entities/Like";
+import User from "../entities/User";
 import getUser from "../helpers/get_user";
 import getUserId from "../helpers/get_user_id";
 import isAuth from "../middleware/is_auth";
-import { FieldInput, FieldMessage, UserAccountType } from "../utils/enums";
-import {
-  LikeBookingInput,
-  LikeResponse,
-  ReadBookingInput,
-} from "../utils/type";
 import isAuthAdmin from "../middleware/is_auth_admin";
-import User from "../entities/User";
+import { FieldInput, FieldMessage, UserAccountType } from "../utils/enums";
+import { LikeBookingInput, LikeResponse } from "../utils/type";
 
 @Resolver()
 export default class LikeResolver {

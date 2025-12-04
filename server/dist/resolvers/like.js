@@ -18,13 +18,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const type_graphql_1 = require("type-graphql");
 const Booking_1 = __importDefault(require("../entities/Booking"));
 const Like_1 = __importDefault(require("../entities/Like"));
+const User_1 = __importDefault(require("../entities/User"));
 const get_user_1 = __importDefault(require("../helpers/get_user"));
 const get_user_id_1 = __importDefault(require("../helpers/get_user_id"));
 const is_auth_1 = __importDefault(require("../middleware/is_auth"));
+const is_auth_admin_1 = __importDefault(require("../middleware/is_auth_admin"));
 const enums_1 = require("../utils/enums");
 const type_1 = require("../utils/type");
-const is_auth_admin_1 = __importDefault(require("../middleware/is_auth_admin"));
-const User_1 = __importDefault(require("../entities/User"));
 let LikeResolver = class LikeResolver {
     async readAllLikes() {
         return await Like_1.default.find({

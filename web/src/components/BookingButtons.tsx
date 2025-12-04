@@ -1,24 +1,18 @@
-import {
-  faComment,
-  faThumbsDown,
-  faThumbsUp,
-} from "@fortawesome/free-solid-svg-icons";
+import { faComment, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import {
   Booking,
   Maybe,
   useDislikeBookingMutation,
   useLikeBookingMutation,
-  useMeQuery,
-  useReadBookingByIdQuery,
 } from "../gen/graphql";
 import { useAuthService } from "../hooks";
 import useGlobalService from "../hooks/useGlobalService";
 import { useGlobalSelector } from "../redux/features/global.selector";
 import RoutePattern from "../routes/RoutePattern";
 import { UserAccountType } from "../utils/enums";
-import { useCallback, useState } from "react";
 
 interface BookingButtons {
   booking?: Maybe<Booking>;

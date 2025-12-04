@@ -105,7 +105,7 @@ const createUrqlClient = (ssrExchange: any, ctx: any) => {
                 { id: like.booking?.id }
               ) as BookingFragment;
 
-              const likes = data?.likes ? data.likes + 1 : 1;
+              if (!data) return;
 
               cache.writeFragment(
                 gql`
@@ -116,7 +116,7 @@ const createUrqlClient = (ssrExchange: any, ctx: any) => {
                 `,
                 {
                   id: like.booking?.id,
-                  likes: likes,
+                  likes: data.likes + 1,
                 }
               );
 
