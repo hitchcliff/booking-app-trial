@@ -27,6 +27,7 @@ const Home = () => {
   const [{ data: user }] = useMeQuery();
 
   if (!data?.readAllBookings) return <Loader />;
+  console.log(data.readAllBookings[0].likes, " + likes");
 
   return (
     <div className="relative bg-light-mode dark:bg-dark-mode flex flex-row min-h-screen gap-7 transition-all w-full">

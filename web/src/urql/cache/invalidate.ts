@@ -18,8 +18,6 @@ export default class Invalidate {
       (info) => info.fieldName === "readAllBookings"
     );
 
-    console.log(allFields);
-
     fieldInfos.forEach((fi) => {
       cache.invalidate("Query", "readAllBookings");
     });

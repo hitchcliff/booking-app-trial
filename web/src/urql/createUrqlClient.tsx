@@ -6,6 +6,8 @@ import {
   CreateBookingMutation,
   DeleteAppointmentByIdMutation,
   DeleteBookingByIdMutation,
+  DislikeBookingMutation,
+  LikeBookingMutation,
   LoginMutation,
   LogoutMutation,
   MeDocument,
@@ -44,6 +46,83 @@ const createUrqlClient = (ssrExchange: any, ctx: any) => {
       cacheExchange({
         updates: {
           Mutation: {
+            dislikeBooking: (
+              result: DislikeBookingMutation,
+              _args,
+              cache: Cache,
+              _info
+            ) => {
+              const like = result.dislikeBooking;
+
+              if (!like) return;
+
+              const fields = cache.inspectFields("Query");
+              const fieldInfos = fields.filter(
+                (filter) => filter.fieldName === "readAllBookings"
+              );
+
+              fieldInfos.forEach((fi) => {
+                cache.updateQuery(
+                  {
+                    query: ReadAllBookingsDocument,
+                    variables: fi.arguments,
+                  },
+                  (
+                    data: ReadAllBookingsQuery | null
+                  ): ReadAllBookingsQuery | null => {
+                    if (data) {
+                      const booking = data.readAllBookings.filter((booking) => {
+                        return booking.id === like.like?.booking?.id;
+                      })[0];
+
+                      booking.likes = booking!.likes! - 1;
+                    }
+
+                    console.log(data?.readAllBookings[0].likes);
+                    return data;
+                  }
+                );
+              });
+            },
+            likeBooking: (
+              result: LikeBookingMutation,
+              _args,
+              cache: Cache,
+              _info
+            ) => {
+              const like = result.likeBooking;
+
+              if (!like) return;
+
+              const fields = cache.inspectFields("Query");
+              const fieldInfos = fields.filter(
+                (filter) => filter.fieldName === "readAllBookings"
+              );
+
+              fieldInfos.forEach((fi) => {
+                cache.updateQuery(
+                  {
+                    query: ReadAllBookingsDocument,
+                    variables: fi.arguments,
+                  },
+                  (
+                    data: ReadAllBookingsQuery | null
+                  ): ReadAllBookingsQuery | null => {
+                    if (data) {
+                      const booking = data.readAllBookings.filter((booking) => {
+                        return booking.id === like.like?.booking?.id;
+                      })[0];
+
+                      booking.likes = booking!.likes! + 1;
+                    }
+
+                    console.log(data?.readAllBookings[0].likes);
+
+                    return data;
+                  }
+                );
+              });
+            },
             deleteAppointmentById: (
               result: DeleteAppointmentByIdMutation,
               _args,

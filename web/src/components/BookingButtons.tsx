@@ -1,4 +1,8 @@
-import { faComment, faThumbsUp } from "@fortawesome/free-solid-svg-icons";
+import {
+  faComment,
+  faThumbsDown,
+  faThumbsUp,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRouter } from "next/router";
 import {
@@ -27,11 +31,16 @@ export default function BookingButtons({
 }: BookingButtons) {
   const { setToggleComments } = useGlobalService();
   const { toggleComments } = useGlobalSelector();
-  const [{ data }] = useMeQuery();
   const router = useRouter();
   const [, likeBooking] = useLikeBookingMutation();
   const [, dislikeBooking] = useDislikeBookingMutation();
   const [{ user: me }] = useAuthService();
+
+  // iterate userLikes to check if my id already liked it
+  const myLike = booking?.userLikes?.filter((like) => {
+    return like.user?.id === me!.id;
+  })[0];
+  const isLiked = myLike && myLike.value === 1;
 
   return (
     <div className="mt-5 flex flex-row">
@@ -66,22 +75,17 @@ export default function BookingButtons({
       {/* Like button, they must be booker to like this */}
       {me?.accountType === UserAccountType.BOOKER && (
         <button
-          className="ml-auto"
-          onClick={() => {
-            // iterate userLikes to check if my id already liked it
-            const myLike = booking?.userLikes?.filter((like) => {
-              return like.user?.id === me!.id;
-            })[0];
-
+          className={`ml-auto ${isLiked ? "text-blue-500" : "text-inherit"}`}
+          onClick={async () => {
             // check if user already liked the booking
-            if (myLike && myLike.value === 1) {
-              dislikeBooking({
+            if (isLiked) {
+              await dislikeBooking({
                 options: {
                   bookingId: booking!.id,
                 },
               });
             } else {
-              likeBooking({
+              await likeBooking({
                 options: {
                   bookingId: booking!.id,
                 },
