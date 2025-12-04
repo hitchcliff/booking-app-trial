@@ -12,6 +12,7 @@ import {
 import getUser from "../helpers/get_user";
 import Appointment from "../entities/Appointment";
 import Search from "../helpers/search";
+import Like from "../entities/Like";
 
 @Resolver()
 export default class BookingResolver {
@@ -60,6 +61,7 @@ export default class BookingResolver {
           relations: {
             user: true,
             appointments: true,
+            userLikes: true,
           },
         })
       );
@@ -77,6 +79,7 @@ export default class BookingResolver {
       relations: {
         user: true,
         appointments: true,
+        userLikes: true,
       },
     });
 
@@ -111,6 +114,11 @@ export default class BookingResolver {
             id: userId,
           },
         },
+        relations: {
+          userLikes: true,
+          appointments: true,
+          user: true,
+        },
       }); // that owns the booking
 
       if (!booking) throw Error("no Booking");
@@ -130,6 +138,17 @@ export default class BookingResolver {
           appointment.remove();
         });
       }
+
+      // delete also the likes to fix error of PK_
+      const like = await Like.findOne({
+        where: {
+          booking: {
+            id: id,
+          },
+        },
+      });
+
+      await like?.remove();
 
       await booking?.remove();
       return true;

@@ -204,6 +204,9 @@ const createUrqlClient = (ssrExchange: any, ctx: any) => {
               cache: Cache,
               _info
             ) => {
+              console.log(result.deleteBookingById);
+              console.log(result);
+
               // check if deleted
               if (!result.deleteBookingById) return;
 

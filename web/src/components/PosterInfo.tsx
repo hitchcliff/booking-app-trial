@@ -43,7 +43,7 @@ const PosterInfo = ({
   showCancelAppointmentButton = false,
 }: PosterInfoProps) => {
   const date = useDayJs({ fromNow: createdAt });
-  const [, deleteBooking] = useDeleteBookingByIdMutation();
+  const [, deleteBookingById] = useDeleteBookingByIdMutation();
   const [{ user: me }] = useAuthService();
   const [, deleteAppointmentById] = useDeleteAppointmentByIdMutation();
 
@@ -74,8 +74,8 @@ const PosterInfo = ({
         {/* if agent or the owner */}
         {me?.accountType === UserAccountType.AGENT && me?.id === user?.id && (
           <button
-            onClick={() => {
-              deleteBooking({ id: id });
+            onClick={async () => {
+              await deleteBookingById({ id: id });
             }}
             className="ml-auto cursor-pointer hover:opacity-80 text-red-500"
           >
