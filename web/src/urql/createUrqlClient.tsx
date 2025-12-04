@@ -1,7 +1,8 @@
 import { Cache, cacheExchange } from "@urql/exchange-graphcache";
-import { fetchExchange } from "urql";
+import { fetchExchange, gql } from "urql";
 
 import {
+  BookingFragment,
   CreateAppointmentMutation,
   CreateBookingMutation,
   DeleteAppointmentByIdMutation,
@@ -56,33 +57,31 @@ const createUrqlClient = (ssrExchange: any, ctx: any) => {
 
               if (!like) return;
 
-              const fields = cache.inspectFields("Query");
-              const fieldInfos = fields.filter(
-                (filter) => filter.fieldName === "readAllBookings"
-              );
-
-              fieldInfos.forEach((fi) => {
-                cache.updateQuery(
-                  {
-                    query: ReadAllBookingsDocument,
-                    variables: fi.arguments,
-                  },
-                  (
-                    data: ReadAllBookingsQuery | null
-                  ): ReadAllBookingsQuery | null => {
-                    if (data) {
-                      const booking = data.readAllBookings.filter((booking) => {
-                        return booking.id === like.like?.booking?.id;
-                      })[0];
-
-                      booking.likes = booking!.likes! - 1;
-                    }
-
-                    console.log(data?.readAllBookings[0].likes);
-                    return data;
+              // inspect fields  doesn't work when updating a single value
+              const data = cache.readFragment(
+                gql`
+                  fragment _ on Booking {
+                    id
+                    likes
                   }
-                );
-              });
+                `,
+                { id: like.like?.booking?.id }
+              ) as BookingFragment;
+
+              const likes = data?.likes! - 1;
+
+              cache.writeFragment(
+                gql`
+                  fragment _ on Booking {
+                    id
+                    likes
+                  }
+                `,
+                {
+                  id: like.like?.booking?.id,
+                  likes: likes,
+                }
+              );
             },
             likeBooking: (
               result: LikeBookingMutation,
@@ -94,34 +93,31 @@ const createUrqlClient = (ssrExchange: any, ctx: any) => {
 
               if (!like) return;
 
-              const fields = cache.inspectFields("Query");
-              const fieldInfos = fields.filter(
-                (filter) => filter.fieldName === "readAllBookings"
-              );
-
-              fieldInfos.forEach((fi) => {
-                cache.updateQuery(
-                  {
-                    query: ReadAllBookingsDocument,
-                    variables: fi.arguments,
-                  },
-                  (
-                    data: ReadAllBookingsQuery | null
-                  ): ReadAllBookingsQuery | null => {
-                    if (data) {
-                      const booking = data.readAllBookings.filter((booking) => {
-                        return booking.id === like.like?.booking?.id;
-                      })[0];
-
-                      booking.likes = booking!.likes! + 1;
-                    }
-
-                    console.log(data?.readAllBookings[0].likes);
-
-                    return data;
+              // inspect fields  doesn't work when updating a single value
+              const data = cache.readFragment(
+                gql`
+                  fragment _ on Booking {
+                    id
+                    likes
                   }
-                );
-              });
+                `,
+                { id: like.like?.booking?.id }
+              ) as BookingFragment;
+
+              const likes = data?.likes! + 1;
+
+              cache.writeFragment(
+                gql`
+                  fragment _ on Booking {
+                    id
+                    likes
+                  }
+                `,
+                {
+                  id: like.like?.booking?.id,
+                  likes: likes,
+                }
+              );
             },
             deleteAppointmentById: (
               result: DeleteAppointmentByIdMutation,
