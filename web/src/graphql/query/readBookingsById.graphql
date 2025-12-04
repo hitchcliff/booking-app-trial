@@ -10,5 +10,14 @@ query ReadBookingById($id: Float!) {
         ...User
       }
     }
+    userLikes {
+      ...Like
+      user {
+        ...User
+      }
+      booking {
+        ...Booking
+      }
+    }
   }
 }

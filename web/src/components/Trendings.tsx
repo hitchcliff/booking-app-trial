@@ -1,3 +1,5 @@
+import { useReadAllBookingsQuery } from "../gen/graphql";
+
 const Trendings = () => {
   return (
     <div className="flex flex-col w-full text-dark dark:text-light">

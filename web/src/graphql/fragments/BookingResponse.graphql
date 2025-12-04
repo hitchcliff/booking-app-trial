@@ -16,5 +16,8 @@ fragment BookingResponse on BookingResponse {
         ...Booking
       }
     }
+    userLikes {
+      ...Like
+    }
   }
 }

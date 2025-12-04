@@ -11,12 +11,14 @@ import {
   useDislikeBookingMutation,
   useLikeBookingMutation,
   useMeQuery,
+  useReadBookingByIdQuery,
 } from "../gen/graphql";
 import { useAuthService } from "../hooks";
 import useGlobalService from "../hooks/useGlobalService";
 import { useGlobalSelector } from "../redux/features/global.selector";
 import RoutePattern from "../routes/RoutePattern";
 import { UserAccountType } from "../utils/enums";
+import { useCallback, useState } from "react";
 
 interface BookingButtons {
   booking?: Maybe<Booking>;
@@ -35,12 +37,14 @@ export default function BookingButtons({
   const [, likeBooking] = useLikeBookingMutation();
   const [, dislikeBooking] = useDislikeBookingMutation();
   const [{ user: me }] = useAuthService();
-
   // iterate userLikes to check if my id already liked it
   const myLike = booking?.userLikes?.filter((like) => {
     return like.user?.id === me!.id;
   })[0];
+
   const isLiked = myLike && myLike.value === 1;
+
+  const [liked, setLiked] = useState(isLiked);
 
   return (
     <div className="mt-5 flex flex-row">
@@ -75,21 +79,23 @@ export default function BookingButtons({
       {/* Like button, they must be booker to like this */}
       {me?.accountType === UserAccountType.BOOKER && (
         <button
-          className={`ml-auto ${isLiked ? "text-blue-500" : "text-inherit"}`}
+          className={`ml-auto ${liked ? "text-blue-500" : "text-inherit"}`}
           onClick={async () => {
             // check if user already liked the booking
-            if (isLiked) {
+            if (liked) {
               await dislikeBooking({
                 options: {
                   bookingId: booking!.id,
                 },
               });
+              setLiked(false);
             } else {
               await likeBooking({
                 options: {
                   bookingId: booking!.id,
                 },
               });
+              setLiked(true);
             }
           }}
         >

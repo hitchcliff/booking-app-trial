@@ -48,6 +48,28 @@ export default class BookingResolver {
   }
 
   @Query(() => [Booking])
+  async readBookingTrending(): Promise<Booking[]> {
+    const bookings = await Booking.find({
+      take: 50,
+    });
+
+    let trends: Booking[] = Array.from({ length: 5 }, (_, i) => bookings[i]);
+    bookings.forEach((booking) => {
+      if (!trends.length) {
+        trends.push(booking);
+      } else {
+        trends.forEach((trend, idx) => {
+          if (trend.likes! <= booking.likes!) {
+            trends[idx] = booking;
+          }
+        });
+      }
+    });
+
+    return trends;
+  }
+
+  @Query(() => [Booking])
   async readAllBookings(
     @Arg(FieldInput.OPTIONS) options: ReadBookingInput
   ): Promise<Booking[]> {

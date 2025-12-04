@@ -89,11 +89,12 @@ const createUrqlClient = (ssrExchange: any, ctx: any) => {
               cache: Cache,
               _info
             ) => {
-              const like = result.likeBooking;
+              const like = result.likeBooking.like;
 
               if (!like) return;
 
               // inspect fields  doesn't work when updating a single value
+              // increment the +1
               const data = cache.readFragment(
                 gql`
                   fragment _ on Booking {
@@ -101,10 +102,10 @@ const createUrqlClient = (ssrExchange: any, ctx: any) => {
                     likes
                   }
                 `,
-                { id: like.like?.booking?.id }
+                { id: like.booking?.id }
               ) as BookingFragment;
 
-              const likes = data?.likes! + 1;
+              const likes = data?.likes ? data.likes + 1 : 1;
 
               cache.writeFragment(
                 gql`
@@ -114,10 +115,12 @@ const createUrqlClient = (ssrExchange: any, ctx: any) => {
                   }
                 `,
                 {
-                  id: like.like?.booking?.id,
+                  id: like.booking?.id,
                   likes: likes,
                 }
               );
+
+              // push to userLikes
             },
             deleteAppointmentById: (
               result: DeleteAppointmentByIdMutation,
@@ -204,9 +207,6 @@ const createUrqlClient = (ssrExchange: any, ctx: any) => {
               cache: Cache,
               _info
             ) => {
-              console.log(result.deleteBookingById);
-              console.log(result);
-
               // check if deleted
               if (!result.deleteBookingById) return;
 

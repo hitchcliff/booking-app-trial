@@ -53,7 +53,7 @@ export default class Booking extends BaseEntity {
   @OneToMany(() => Like, (like) => like.booking)
   userLikes: Like[];
 
-  @Field({ nullable: true })
+  @Field()
   @Column({ type: "int", default: 0 })
-  likes?: number;
+  likes: number;
 }

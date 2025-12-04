@@ -5,7 +5,11 @@ import getUser from "../helpers/get_user";
 import getUserId from "../helpers/get_user_id";
 import isAuth from "../middleware/is_auth";
 import { FieldInput, FieldMessage, UserAccountType } from "../utils/enums";
-import { LikeBookingInput, LikeResponse } from "../utils/type";
+import {
+  LikeBookingInput,
+  LikeResponse,
+  ReadBookingInput,
+} from "../utils/type";
 import isAuthAdmin from "../middleware/is_auth_admin";
 import User from "../entities/User";
 

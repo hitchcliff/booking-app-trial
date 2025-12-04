@@ -61,7 +61,7 @@ __decorate([
     __metadata("design:type", Array)
 ], Booking.prototype, "userLikes", void 0);
 __decorate([
-    (0, type_graphql_1.Field)({ nullable: true }),
+    (0, type_graphql_1.Field)(),
     (0, typeorm_1.Column)({ type: "int", default: 0 }),
     __metadata("design:type", Number)
 ], Booking.prototype, "likes", void 0);
