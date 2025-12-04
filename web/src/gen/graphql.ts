@@ -40,9 +40,11 @@ export type Booking = {
   body: Scalars['String']['output'];
   createdAt: Scalars['DateTimeISO']['output'];
   id: Scalars['Float']['output'];
+  likes?: Maybe<Scalars['Float']['output']>;
   title: Scalars['String']['output'];
   updatedAt: Scalars['DateTimeISO']['output'];
   user?: Maybe<User>;
+  userLikes?: Maybe<Array<Like>>;
 };
 
 export type BookingResponse = {
@@ -69,6 +71,24 @@ export type FieldError = {
   message?: Maybe<Scalars['String']['output']>;
 };
 
+export type Like = {
+  __typename?: 'Like';
+  booking?: Maybe<Booking>;
+  id: Scalars['Float']['output'];
+  user?: Maybe<User>;
+  value: Scalars['Float']['output'];
+};
+
+export type LikeBookingInput = {
+  bookingId: Scalars['Float']['input'];
+};
+
+export type LikeResponse = {
+  __typename?: 'LikeResponse';
+  errors?: Maybe<Array<FieldError>>;
+  like?: Maybe<Like>;
+};
+
 export type LoginInput = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
@@ -82,9 +102,12 @@ export type Mutation = {
   deleteAllBookings: Scalars['Boolean']['output'];
   deleteAppointmentById: Scalars['Boolean']['output'];
   deleteBookingById: Scalars['Boolean']['output'];
+  dislikeBooking: LikeResponse;
+  likeBooking: LikeResponse;
   login: UserResponse;
   logout: Scalars['Boolean']['output'];
   register: UserResponse;
+  resetLikes: Scalars['Boolean']['output'];
   updateRole: UserResponse;
 };
 
@@ -109,6 +132,16 @@ export type MutationDeleteBookingByIdArgs = {
 };
 
 
+export type MutationDislikeBookingArgs = {
+  options: LikeBookingInput;
+};
+
+
+export type MutationLikeBookingArgs = {
+  options: LikeBookingInput;
+};
+
+
 export type MutationLoginArgs = {
   options: LoginInput;
 };
@@ -128,6 +161,7 @@ export type Query = {
   me?: Maybe<User>;
   readAllAppointments: Array<Appointment>;
   readAllBookings: Array<Booking>;
+  readAllLikes: Array<Like>;
   readAllMyAppointments?: Maybe<Array<Appointment>>;
   readAppointmentsByBookingId?: Maybe<Array<Appointment>>;
   readBookingById?: Maybe<Booking>;
@@ -175,6 +209,7 @@ export type User = {
   acceptedTermsAndConditions: Scalars['Boolean']['output'];
   accountType: Scalars['String']['output'];
   appointments?: Maybe<Array<Appointment>>;
+  bookingLikes?: Maybe<Array<Like>>;
   bookings?: Maybe<Array<Booking>>;
   createdAt: Scalars['DateTimeISO']['output'];
   dialCode: Scalars['String']['output'];
@@ -198,11 +233,15 @@ export type AppointmentFragment = { __typename?: 'Appointment', id: number, date
 
 export type AppointmentResponseFragment = { __typename?: 'AppointmentResponse', errors?: Array<{ __typename?: 'FieldError', field?: string | null, message?: string | null }> | null, appointment?: { __typename?: 'Appointment', id: number, date: string, from: string, to: string } | null };
 
-export type BookingFragment = { __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string };
+export type BookingFragment = { __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string, likes?: number | null };
 
-export type BookingResponseFragment = { __typename?: 'BookingResponse', errors?: Array<{ __typename?: 'FieldError', field?: string | null, message?: string | null }> | null, booking?: { __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null, appointments?: Array<{ __typename?: 'Appointment', id: number, date: string, from: string, to: string, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null, booking?: { __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string } | null }> | null } | null };
+export type BookingResponseFragment = { __typename?: 'BookingResponse', errors?: Array<{ __typename?: 'FieldError', field?: string | null, message?: string | null }> | null, booking?: { __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string, likes?: number | null, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null, appointments?: Array<{ __typename?: 'Appointment', id: number, date: string, from: string, to: string, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null, booking?: { __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string, likes?: number | null } | null }> | null } | null };
 
 export type FieldErrorFragment = { __typename?: 'FieldError', field?: string | null, message?: string | null };
+
+export type LikeFragment = { __typename?: 'Like', id: number, value: number };
+
+export type LikeResponseFragment = { __typename?: 'LikeResponse', errors?: Array<{ __typename?: 'FieldError', field?: string | null, message?: string | null }> | null, like?: { __typename?: 'Like', id: number, value: number, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null, booking?: { __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string, likes?: number | null } | null } | null };
 
 export type UserFragment = { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string };
 
@@ -220,7 +259,7 @@ export type CreateBookingMutationVariables = Exact<{
 }>;
 
 
-export type CreateBookingMutation = { __typename?: 'Mutation', createBooking: { __typename?: 'BookingResponse', errors?: Array<{ __typename?: 'FieldError', field?: string | null, message?: string | null }> | null, booking?: { __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null, appointments?: Array<{ __typename?: 'Appointment', id: number, date: string, from: string, to: string, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null, booking?: { __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string } | null }> | null } | null } };
+export type CreateBookingMutation = { __typename?: 'Mutation', createBooking: { __typename?: 'BookingResponse', errors?: Array<{ __typename?: 'FieldError', field?: string | null, message?: string | null }> | null, booking?: { __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string, likes?: number | null, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null, appointments?: Array<{ __typename?: 'Appointment', id: number, date: string, from: string, to: string, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null, booking?: { __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string, likes?: number | null } | null }> | null } | null } };
 
 export type DeleteAllAppointmentsMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -240,6 +279,20 @@ export type DeleteBookingByIdMutationVariables = Exact<{
 
 
 export type DeleteBookingByIdMutation = { __typename?: 'Mutation', deleteBookingById: boolean };
+
+export type DislikeBookingMutationVariables = Exact<{
+  options: LikeBookingInput;
+}>;
+
+
+export type DislikeBookingMutation = { __typename?: 'Mutation', dislikeBooking: { __typename?: 'LikeResponse', errors?: Array<{ __typename?: 'FieldError', field?: string | null, message?: string | null }> | null, like?: { __typename?: 'Like', id: number, value: number, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null, booking?: { __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string, likes?: number | null } | null } | null } };
+
+export type LikeBookingMutationVariables = Exact<{
+  options: LikeBookingInput;
+}>;
+
+
+export type LikeBookingMutation = { __typename?: 'Mutation', likeBooking: { __typename?: 'LikeResponse', errors?: Array<{ __typename?: 'FieldError', field?: string | null, message?: string | null }> | null, like?: { __typename?: 'Like', id: number, value: number, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null, booking?: { __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string, likes?: number | null } | null } | null } };
 
 export type LoginMutationVariables = Exact<{
   options: LoginInput;
@@ -268,26 +321,26 @@ export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: st
 export type ReadAllAppointmentsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ReadAllAppointmentsQuery = { __typename?: 'Query', readAllAppointments: Array<{ __typename?: 'Appointment', id: number, date: string, from: string, to: string, booking?: { __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null } | null, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null }> };
+export type ReadAllAppointmentsQuery = { __typename?: 'Query', readAllAppointments: Array<{ __typename?: 'Appointment', id: number, date: string, from: string, to: string, booking?: { __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string, likes?: number | null, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null } | null, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null }> };
 
 export type ReadAllBookingsQueryVariables = Exact<{
   options: ReadBookingInput;
 }>;
 
 
-export type ReadAllBookingsQuery = { __typename?: 'Query', readAllBookings: Array<{ __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null, appointments?: Array<{ __typename?: 'Appointment', id: number, date: string, from: string, to: string, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null }> | null }> };
+export type ReadAllBookingsQuery = { __typename?: 'Query', readAllBookings: Array<{ __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string, likes?: number | null, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null, appointments?: Array<{ __typename?: 'Appointment', id: number, date: string, from: string, to: string, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null }> | null, userLikes?: Array<{ __typename?: 'Like', id: number, value: number, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null, booking?: { __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string, likes?: number | null } | null }> | null }> };
 
 export type ReadAllMyAppointmentsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ReadAllMyAppointmentsQuery = { __typename?: 'Query', readAllMyAppointments?: Array<{ __typename?: 'Appointment', id: number, date: string, from: string, to: string, booking?: { __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null } | null, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null }> | null };
+export type ReadAllMyAppointmentsQuery = { __typename?: 'Query', readAllMyAppointments?: Array<{ __typename?: 'Appointment', id: number, date: string, from: string, to: string, booking?: { __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string, likes?: number | null, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null } | null, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null }> | null };
 
 export type ReadBookingByIdQueryVariables = Exact<{
   id: Scalars['Float']['input'];
 }>;
 
 
-export type ReadBookingByIdQuery = { __typename?: 'Query', readBookingById?: { __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null, appointments?: Array<{ __typename?: 'Appointment', id: number, date: string, from: string, to: string, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null }> | null } | null };
+export type ReadBookingByIdQuery = { __typename?: 'Query', readBookingById?: { __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string, likes?: number | null, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null, appointments?: Array<{ __typename?: 'Appointment', id: number, date: string, from: string, to: string, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null }> | null } | null };
 
 import { IntrospectionQuery } from 'graphql';
 export default {
@@ -455,6 +508,14 @@ export default {
             "args": []
           },
           {
+            "name": "likes",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Any"
+            },
+            "args": []
+          },
+          {
             "name": "title",
             "type": {
               "kind": "NON_NULL",
@@ -482,6 +543,21 @@ export default {
               "kind": "OBJECT",
               "name": "User",
               "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "userLikes",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Like",
+                  "ofType": null
+                }
+              }
             },
             "args": []
           }
@@ -536,6 +612,84 @@ export default {
             "type": {
               "kind": "SCALAR",
               "name": "Any"
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "Like",
+        "fields": [
+          {
+            "name": "booking",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Booking",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "id",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "user",
+            "type": {
+              "kind": "OBJECT",
+              "name": "User",
+              "ofType": null
+            },
+            "args": []
+          },
+          {
+            "name": "value",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
+          }
+        ],
+        "interfaces": []
+      },
+      {
+        "kind": "OBJECT",
+        "name": "LikeResponse",
+        "fields": [
+          {
+            "name": "errors",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "FieldError",
+                  "ofType": null
+                }
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "like",
+            "type": {
+              "kind": "OBJECT",
+              "name": "Like",
+              "ofType": null
             },
             "args": []
           }
@@ -659,6 +813,52 @@ export default {
             ]
           },
           {
+            "name": "dislikeBooking",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "LikeResponse",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "options",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
+            "name": "likeBooking",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "LikeResponse",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "options",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
             "name": "login",
             "type": {
               "kind": "NON_NULL",
@@ -714,6 +914,17 @@ export default {
                 }
               }
             ]
+          },
+          {
+            "name": "resetLikes",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Any"
+              }
+            },
+            "args": []
           },
           {
             "name": "updateRole",
@@ -800,6 +1011,24 @@ export default {
                 }
               }
             ]
+          },
+          {
+            "name": "readAllLikes",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "Like",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": []
           },
           {
             "name": "readAllMyAppointments",
@@ -900,6 +1129,21 @@ export default {
                 "ofType": {
                   "kind": "OBJECT",
                   "name": "Appointment",
+                  "ofType": null
+                }
+              }
+            },
+            "args": []
+          },
+          {
+            "name": "bookingLikes",
+            "type": {
+              "kind": "LIST",
+              "ofType": {
+                "kind": "NON_NULL",
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Like",
                   "ofType": null
                 }
               }
@@ -1102,6 +1346,7 @@ export const BookingFragmentDoc = gql`
   updatedAt
   body
   title
+  likes
 }
     `;
 export const UserFragmentDoc = gql`
@@ -1145,6 +1390,31 @@ export const BookingResponseFragmentDoc = gql`
 ${BookingFragmentDoc}
 ${UserFragmentDoc}
 ${AppointmentFragmentDoc}`;
+export const LikeFragmentDoc = gql`
+    fragment Like on Like {
+  id
+  value
+}
+    `;
+export const LikeResponseFragmentDoc = gql`
+    fragment LikeResponse on LikeResponse {
+  errors {
+    ...FieldError
+  }
+  like {
+    ...Like
+    user {
+      ...User
+    }
+    booking {
+      ...Booking
+    }
+  }
+}
+    ${FieldErrorFragmentDoc}
+${LikeFragmentDoc}
+${UserFragmentDoc}
+${BookingFragmentDoc}`;
 export const UserResponseFragmentDoc = gql`
     fragment UserResponse on UserResponse {
   errors {
@@ -1213,6 +1483,28 @@ export const DeleteBookingByIdDocument = gql`
 
 export function useDeleteBookingByIdMutation() {
   return Urql.useMutation<DeleteBookingByIdMutation, DeleteBookingByIdMutationVariables>(DeleteBookingByIdDocument);
+};
+export const DislikeBookingDocument = gql`
+    mutation DislikeBooking($options: LikeBookingInput!) {
+  dislikeBooking(options: $options) {
+    ...LikeResponse
+  }
+}
+    ${LikeResponseFragmentDoc}`;
+
+export function useDislikeBookingMutation() {
+  return Urql.useMutation<DislikeBookingMutation, DislikeBookingMutationVariables>(DislikeBookingDocument);
+};
+export const LikeBookingDocument = gql`
+    mutation LikeBooking($options: LikeBookingInput!) {
+  likeBooking(options: $options) {
+    ...LikeResponse
+  }
+}
+    ${LikeResponseFragmentDoc}`;
+
+export function useLikeBookingMutation() {
+  return Urql.useMutation<LikeBookingMutation, LikeBookingMutationVariables>(LikeBookingDocument);
 };
 export const LoginDocument = gql`
     mutation Login($options: LoginInput!) {
@@ -1291,11 +1583,21 @@ export const ReadAllBookingsDocument = gql`
         ...User
       }
     }
+    userLikes {
+      ...Like
+      user {
+        ...User
+      }
+      booking {
+        ...Booking
+      }
+    }
   }
 }
     ${BookingFragmentDoc}
 ${UserFragmentDoc}
-${AppointmentFragmentDoc}`;
+${AppointmentFragmentDoc}
+${LikeFragmentDoc}`;
 
 export function useReadAllBookingsQuery(options: Omit<Urql.UseQueryArgs<ReadAllBookingsQueryVariables>, 'query'>) {
   return Urql.useQuery<ReadAllBookingsQuery, ReadAllBookingsQueryVariables>({ query: ReadAllBookingsDocument, ...options });

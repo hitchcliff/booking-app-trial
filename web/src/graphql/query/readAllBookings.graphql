@@ -10,5 +10,14 @@ query ReadAllBookings($options: ReadBookingInput!) {
         ...User
       }
     }
+    userLikes {
+      ...Like
+      user {
+        ...User
+      }
+      booking {
+        ...Booking
+      }
+    }
   }
 }

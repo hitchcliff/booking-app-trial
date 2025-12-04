@@ -1,0 +1,5 @@
+mutation DislikeBooking($options: LikeBookingInput!) {
+  dislikeBooking(options: $options) {
+    ...LikeResponse
+  }
+}

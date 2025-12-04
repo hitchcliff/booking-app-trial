@@ -4,4 +4,5 @@ fragment Booking on Booking {
   updatedAt
   body
   title
+  likes
 }

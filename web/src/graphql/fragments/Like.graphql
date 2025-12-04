@@ -1,0 +1,4 @@
+fragment Like on Like {
+  id
+  value
+}

@@ -1,9 +1,12 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Appointment, Booking } from "../gen/graphql";
 import { useGlobalSelector } from "../redux/features/global.selector";
 import BookingButtons from "./BookingButtons";
 import Comments from "./Comments";
 import Loader from "./Loader";
 import PosterInfo from "./PosterInfo";
+import { faThumbsUp } from "@fortawesome/free-solid-svg-icons";
+import Divider from "./Divider";
 
 interface FeedsProps {
   appointments?: Appointment[]; // the appointments of the booking
@@ -18,7 +21,15 @@ const Feeds = ({
   ...post
 }: FeedsProps) => {
   const { toggleComments } = useGlobalSelector();
-  const { id, title, body, updatedAt, user, appointments: appoints } = booking;
+  const {
+    id,
+    title,
+    body,
+    createdAt,
+    updatedAt,
+    user,
+    appointments: appoints,
+  } = booking;
 
   if (!post) return <Loader />;
 
@@ -44,6 +55,7 @@ const Feeds = ({
             body={body}
             user={user}
             updatedAt={updatedAt}
+            createdAt={createdAt}
             appointments={appointments}
             showBookMarker={true}
           />

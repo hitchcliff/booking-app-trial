@@ -22,6 +22,7 @@ interface PosterInfoProps {
   title: string;
   body: string;
   updatedAt: string;
+  createdAt: string;
   user?: User | null;
   appointment?: Appointment; // single appointment
   appointments?: Appointment[];
@@ -34,13 +35,14 @@ const PosterInfo = ({
   body,
   title,
   updatedAt,
+  createdAt,
   user,
   appointment,
   appointments,
   showBookMarker = true,
   showCancelAppointmentButton = false,
 }: PosterInfoProps) => {
-  const date = useDayJs({ fromNow: updatedAt });
+  const date = useDayJs({ fromNow: createdAt });
   const [, deleteBooking] = useDeleteBookingByIdMutation();
   const [{ user: me }] = useAuthService();
   const [, deleteAppointmentById] = useDeleteAppointmentByIdMutation();
@@ -65,7 +67,7 @@ const PosterInfo = ({
               icon={faDotCircle}
               className="mr-2 text-green-400"
             />
-            {date} ago
+            {date}
           </span>
         </div>
 

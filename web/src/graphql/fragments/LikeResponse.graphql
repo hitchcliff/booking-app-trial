@@ -1,0 +1,14 @@
+fragment LikeResponse on LikeResponse {
+  errors {
+    ...FieldError
+  }
+  like {
+    ...Like
+    user {
+      ...User
+    }
+    booking {
+      ...Booking
+    }
+  }
+}
