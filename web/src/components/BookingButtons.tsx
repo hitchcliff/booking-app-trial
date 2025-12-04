@@ -12,6 +12,7 @@ import { useAuthService } from "../hooks";
 import useGlobalService from "../hooks/useGlobalService";
 import { useGlobalSelector } from "../redux/features/global.selector";
 import RoutePattern from "../routes/RoutePattern";
+import { UserAccountType } from "../utils/enums";
 
 interface BookingButtons {
   booking?: Maybe<Booking>;
@@ -62,33 +63,35 @@ export default function BookingButtons({
         </button>
       )}
 
-      {/* Like button */}
-      <button
-        className="ml-auto"
-        onClick={() => {
-          // iterate userLikes to check if my id already liked it
-          const myLike = booking?.userLikes?.filter((like) => {
-            return like.user?.id === me!.id;
-          })[0];
+      {/* Like button, they must be booker to like this */}
+      {me?.accountType === UserAccountType.BOOKER && (
+        <button
+          className="ml-auto"
+          onClick={() => {
+            // iterate userLikes to check if my id already liked it
+            const myLike = booking?.userLikes?.filter((like) => {
+              return like.user?.id === me!.id;
+            })[0];
 
-          // check if user already liked the booking
-          if (myLike && myLike.value === 1) {
-            dislikeBooking({
-              options: {
-                bookingId: booking!.id,
-              },
-            });
-          } else {
-            likeBooking({
-              options: {
-                bookingId: booking!.id,
-              },
-            });
-          }
-        }}
-      >
-        <FontAwesomeIcon icon={faThumbsUp} /> {booking?.likes}
-      </button>
+            // check if user already liked the booking
+            if (myLike && myLike.value === 1) {
+              dislikeBooking({
+                options: {
+                  bookingId: booking!.id,
+                },
+              });
+            } else {
+              likeBooking({
+                options: {
+                  bookingId: booking!.id,
+                },
+              });
+            }
+          }}
+        >
+          <FontAwesomeIcon icon={faThumbsUp} /> {booking?.likes}
+        </button>
+      )}
     </div>
   );
 }

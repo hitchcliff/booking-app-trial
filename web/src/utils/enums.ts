@@ -6,7 +6,6 @@ export enum UserRole {
 export enum UserAccountType {
   BOOKER = "booker",
   AGENT = "agent",
-  SELLER = "seller",
 }
 
 export enum FieldInput {
