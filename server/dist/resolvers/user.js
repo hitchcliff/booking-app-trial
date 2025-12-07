@@ -19,12 +19,12 @@ const type_graphql_1 = require("type-graphql");
 const User_1 = __importDefault(require("../entities/User"));
 const firebase_auth_exceptions_1 = __importDefault(require("../exceptions/firebase_auth_exceptions"));
 const get_user_id_1 = __importDefault(require("../helpers/get_user_id"));
-const is_auth_1 = __importDefault(require("../middleware/is_auth"));
-const auth_repository_1 = __importDefault(require("../repository/auth_repository"));
-const type_1 = require("../utils/type");
 const validation_1 = require("../helpers/validation");
+const is_auth_1 = __importDefault(require("../middleware/is_auth"));
 const is_auth_admin_1 = __importDefault(require("../middleware/is_auth_admin"));
+const auth_repository_1 = __importDefault(require("../repository/auth_repository"));
 const enums_1 = require("../utils/enums");
+const type_1 = require("../utils/type");
 let UserResolver = class UserResolver {
     constructor() {
         this.authRepository = new auth_repository_1.default();
@@ -38,6 +38,11 @@ let UserResolver = class UserResolver {
             relations: {
                 bookings: true,
             },
+        });
+    }
+    async getLatestUsers() {
+        return await User_1.default.find({
+            take: 5,
         });
     }
     async register(options) {
@@ -180,12 +185,20 @@ let UserResolver = class UserResolver {
     }
 };
 __decorate([
+    (0, type_graphql_1.UseMiddleware)(is_auth_1.default),
     (0, type_graphql_1.Query)(() => User_1.default),
     __param(0, (0, type_graphql_1.Arg)(enums_1.FieldInput.ID)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "readAgentById", null);
+__decorate([
+    (0, type_graphql_1.UseMiddleware)(is_auth_1.default),
+    (0, type_graphql_1.Query)(() => [User_1.default]),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], UserResolver.prototype, "getLatestUsers", null);
 __decorate([
     (0, type_graphql_1.Mutation)(() => type_1.UserResponse),
     __param(0, (0, type_graphql_1.Arg)("options")),

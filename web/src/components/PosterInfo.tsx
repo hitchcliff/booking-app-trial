@@ -16,6 +16,8 @@ import { useAuthService, useDayJs } from "../hooks";
 import Badge from "./Badge";
 import { UserAccountType } from "../utils/enums";
 import Button from "./Button";
+import Link from "next/link";
+import RoutePattern from "../routes/RoutePattern";
 
 interface PosterInfoProps {
   id: number;
@@ -56,7 +58,10 @@ const PosterInfo = ({
   return (
     <>
       <div className="flex justify-between w-full">
-        <div className="flex w-full">
+        <Link
+          href={`/${RoutePattern.USER}/${user?.id}`}
+          className="flex w-full"
+        >
           <h6 className="heading mr-2">
             {user?.name}
             {user?.emailVerified && <Badge />}
@@ -69,7 +74,7 @@ const PosterInfo = ({
             />
             {date}
           </span>
-        </div>
+        </Link>
 
         {/* if agent or the owner */}
         {me?.accountType === UserAccountType.AGENT && me?.id === user?.id && (

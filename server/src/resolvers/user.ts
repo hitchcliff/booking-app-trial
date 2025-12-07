@@ -3,8 +3,11 @@ import { Arg, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import User from "../entities/User";
 import FirebaseAuthException from "../exceptions/firebase_auth_exceptions";
 import getUserId from "../helpers/get_user_id";
+import { MyValidation } from "../helpers/validation";
 import isAuth from "../middleware/is_auth";
+import isAuthAdmin from "../middleware/is_auth_admin";
 import AuthRepository from "../repository/auth_repository";
+import { FieldInput } from "../utils/enums";
 import {
   FieldError,
   LoginInput,
@@ -12,15 +15,13 @@ import {
   UpdateRoleInput,
   UserResponse,
 } from "../utils/type";
-import { MyValidation } from "../helpers/validation";
-import isAuthAdmin from "../middleware/is_auth_admin";
-import { FieldInput } from "../utils/enums";
 
 @Resolver()
 export default class UserResolver {
   private authRepository = new AuthRepository();
   private firebaseAuthException = new FirebaseAuthException();
 
+  @UseMiddleware(isAuth)
   @Query(() => User)
   async readAgentById(@Arg(FieldInput.ID) id: string): Promise<User | null> {
     return await User.findOne({
@@ -30,6 +31,14 @@ export default class UserResolver {
       relations: {
         bookings: true, // agent bookings
       },
+    });
+  }
+
+  @UseMiddleware(isAuth)
+  @Query(() => [User])
+  async getLatestUsers(): Promise<User[]> {
+    return await User.find({
+      take: 5,
     });
   }
 
