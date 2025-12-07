@@ -60,20 +60,19 @@ const UserFeed = ({ user, ...post }: UserFeedProps) => {
             {bookings?.map((booking) => (
               <Link
                 href={`/${RoutePattern.BOOKING}/${booking.id}`}
-                className="opacity-80 mr-2 flex flex-row gap-2"
+                className="opacity-80 mr-2 flex flex-col"
               >
                 <span>{booking.title}</span>
-                <span>
-                  <FontAwesomeIcon
-                    icon={faCalendar}
-                    className="text-green-400 mr-1"
-                  />
-                  {useDayJs({ fromNow: booking.createdAt })}
-                </span>
-                <span>
-                  <FontAwesomeIcon icon={faHeart} className="mr-1" />
-                  {booking.likes}
-                </span>
+                <div className="flex flex-row gap-2">
+                  <span>
+                    <FontAwesomeIcon icon={faCalendar} className="mr-1" />
+                    {useDayJs({ fromNow: booking.createdAt })}
+                  </span>
+                  <span>
+                    <FontAwesomeIcon icon={faHeart} className="mr-1" />
+                    {booking.likes}
+                  </span>
+                </div>
               </Link>
             ))}
           </div>
