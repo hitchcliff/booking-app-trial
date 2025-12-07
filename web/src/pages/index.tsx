@@ -24,9 +24,7 @@ const Index = () => {
       <div className="flex flex-row justify-between items-center mx-auto h-screen">
         <div className="w-full h-full px-10 flex flex-col relative">
           <div className="my-auto">
-            <h1 className="text-5xl uppercase font-brand text-primary">
-              Booking Appointments
-            </h1>
+            <h1 className="heading">Booking Appointments</h1>
             <p className="mt-5 text-2xl">
               A lightweight booking app,{" "}
               <span className="text-primary font-bold">WELCOME!</span>

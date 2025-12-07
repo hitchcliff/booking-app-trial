@@ -10,6 +10,7 @@ const RoutePattern = {
   BOOKING: "/booking",
   BOOKINGS: "/bookings",
   APPOINTMENTS: "/appointments",
+  USER: "/user",
 };
 
 export default RoutePattern;

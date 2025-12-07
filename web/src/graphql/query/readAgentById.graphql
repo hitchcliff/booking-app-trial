@@ -1,0 +1,8 @@
+query ReadAgentById($id: String!) {
+  readAgentById(id: $id) {
+    ...User
+    bookings {
+      ...Booking
+    }
+  }
+}

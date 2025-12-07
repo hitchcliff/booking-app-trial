@@ -1,10 +1,7 @@
 import {
   faArrowRightFromBracket,
-  faBell,
   faCalendar,
-  faGear,
   faHome,
-  faMessage,
   faMoon,
   faSun,
 } from "@fortawesome/free-solid-svg-icons";
@@ -14,7 +11,6 @@ import { useRouter } from "next/router";
 import { useLogoutMutation, useMeQuery } from "../gen/graphql";
 import useSpaghetti from "../hooks/useSpaghetti";
 import RoutePattern from "../routes/RoutePattern";
-import Notifications from "./Notifications";
 import { UserAccountType } from "../utils/enums";
 
 const InfoBar = () => {

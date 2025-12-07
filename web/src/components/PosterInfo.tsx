@@ -57,10 +57,10 @@ const PosterInfo = ({
     <>
       <div className="flex justify-between w-full">
         <div className="flex w-full">
-          <h2 className="font-bold capitalize mr-2">
+          <h6 className="heading mr-2">
             {user?.name}
             {user?.emailVerified && <Badge />}
-          </h2>
+          </h6>
           <span className="opacity-80 mr-2">{user?.email}</span>
           <span className="opacity-80 mr-2">
             <FontAwesomeIcon

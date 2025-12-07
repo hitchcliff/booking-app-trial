@@ -14,11 +14,24 @@ import {
 } from "../utils/type";
 import { MyValidation } from "../helpers/validation";
 import isAuthAdmin from "../middleware/is_auth_admin";
+import { FieldInput } from "../utils/enums";
 
 @Resolver()
 export default class UserResolver {
   private authRepository = new AuthRepository();
   private firebaseAuthException = new FirebaseAuthException();
+
+  @Query(() => User)
+  async readAgentById(@Arg(FieldInput.ID) id: string): Promise<User | null> {
+    return await User.findOne({
+      where: {
+        id,
+      },
+      relations: {
+        bookings: true, // agent bookings
+      },
+    });
+  }
 
   /**
    * Register a User

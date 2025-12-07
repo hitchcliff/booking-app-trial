@@ -159,6 +159,7 @@ export type MutationUpdateRoleArgs = {
 export type Query = {
   __typename?: 'Query';
   me?: Maybe<User>;
+  readAgentById: User;
   readAllAppointments: Array<Appointment>;
   readAllBookings: Array<Booking>;
   readAllLikes: Array<Like>;
@@ -166,6 +167,11 @@ export type Query = {
   readAppointmentsByBookingId?: Maybe<Array<Appointment>>;
   readBookingById?: Maybe<Booking>;
   readBookingTrending: Array<Booking>;
+};
+
+
+export type QueryReadAgentByIdArgs = {
+  id: Scalars['String']['input'];
 };
 
 
@@ -318,6 +324,13 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null };
+
+export type ReadAgentByIdQueryVariables = Exact<{
+  id: Scalars['String']['input'];
+}>;
+
+
+export type ReadAgentByIdQuery = { __typename?: 'Query', readAgentById: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string, bookings?: Array<{ __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string, likes: number }> | null } };
 
 export type ReadAllAppointmentsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -975,6 +988,29 @@ export default {
             "args": []
           },
           {
+            "name": "readAgentById",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "User",
+                "ofType": null
+              }
+            },
+            "args": [
+              {
+                "name": "id",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
             "name": "readAllAppointments",
             "type": {
               "kind": "NON_NULL",
@@ -1578,6 +1614,21 @@ export const MeDocument = gql`
 
 export function useMeQuery(options?: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'>) {
   return Urql.useQuery<MeQuery, MeQueryVariables>({ query: MeDocument, ...options });
+};
+export const ReadAgentByIdDocument = gql`
+    query ReadAgentById($id: String!) {
+  readAgentById(id: $id) {
+    ...User
+    bookings {
+      ...Booking
+    }
+  }
+}
+    ${UserFragmentDoc}
+${BookingFragmentDoc}`;
+
+export function useReadAgentByIdQuery(options: Omit<Urql.UseQueryArgs<ReadAgentByIdQueryVariables>, 'query'>) {
+  return Urql.useQuery<ReadAgentByIdQuery, ReadAgentByIdQueryVariables>({ query: ReadAgentByIdDocument, ...options });
 };
 export const ReadAllAppointmentsDocument = gql`
     query ReadAllAppointments {

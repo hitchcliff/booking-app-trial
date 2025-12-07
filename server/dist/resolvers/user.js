@@ -24,10 +24,21 @@ const auth_repository_1 = __importDefault(require("../repository/auth_repository
 const type_1 = require("../utils/type");
 const validation_1 = require("../helpers/validation");
 const is_auth_admin_1 = __importDefault(require("../middleware/is_auth_admin"));
+const enums_1 = require("../utils/enums");
 let UserResolver = class UserResolver {
     constructor() {
         this.authRepository = new auth_repository_1.default();
         this.firebaseAuthException = new firebase_auth_exceptions_1.default();
+    }
+    async readAgentById(id) {
+        return await User_1.default.findOne({
+            where: {
+                id,
+            },
+            relations: {
+                bookings: true,
+            },
+        });
     }
     async register(options) {
         try {
@@ -168,6 +179,13 @@ let UserResolver = class UserResolver {
         }
     }
 };
+__decorate([
+    (0, type_graphql_1.Query)(() => User_1.default),
+    __param(0, (0, type_graphql_1.Arg)(enums_1.FieldInput.ID)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UserResolver.prototype, "readAgentById", null);
 __decorate([
     (0, type_graphql_1.Mutation)(() => type_1.UserResponse),
     __param(0, (0, type_graphql_1.Arg)("options")),

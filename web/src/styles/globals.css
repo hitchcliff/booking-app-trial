@@ -49,3 +49,15 @@ button {
 .link {
   @apply text-blue-500 italic;
 }
+
+h1.heading {
+  @apply text-5xl uppercase font-brand text-primary;
+}
+
+h2.heading {
+  @apply text-2xl uppercase font-brand;
+}
+
+h6.heading {
+  @apply font-bold capitalize;
+}
