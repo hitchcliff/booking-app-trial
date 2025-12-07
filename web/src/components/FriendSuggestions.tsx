@@ -15,7 +15,7 @@ const FriendSuggestions = () => {
   const route = useRouter();
   return (
     <div className="flex flex-col w-full text-dark dark:text-light">
-      <h2 className="font-bold">Friend suggestions</h2>
+      <h2 className="font-bold">Latest Users</h2>
       <div className="bg-light text-dark dark:bg-dark dark:text-light p-5 overflow-hidden shadow-sm rounded-md ">
         {data?.getLatestUsers.map((user) => (
           <div
