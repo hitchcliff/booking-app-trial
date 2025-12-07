@@ -17,13 +17,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const type_graphql_1 = require("type-graphql");
 const Booking_1 = __importDefault(require("../entities/Booking"));
+const get_user_1 = __importDefault(require("../helpers/get_user"));
 const get_user_id_1 = __importDefault(require("../helpers/get_user_id"));
+const search_1 = __importDefault(require("../helpers/search"));
 const validation_1 = require("../helpers/validation");
 const is_auth_admin_1 = __importDefault(require("../middleware/is_auth_admin"));
 const enums_1 = require("../utils/enums");
 const type_1 = require("../utils/type");
-const get_user_1 = __importDefault(require("../helpers/get_user"));
-const search_1 = __importDefault(require("../helpers/search"));
 let BookingResolver = class BookingResolver {
     async createBooking(options) {
         const userId = (0, get_user_id_1.default)();
@@ -50,17 +50,12 @@ let BookingResolver = class BookingResolver {
             take: 50,
         });
         let trends = Array.from({ length: 5 }, (_, i) => bookings[i]);
-        bookings.forEach((booking) => {
-            if (!trends.length) {
-                trends.push(booking);
-            }
-            else {
-                trends.forEach((trend, idx) => {
-                    if (trend.likes <= booking.likes) {
-                        trends[idx] = booking;
-                    }
-                });
-            }
+        trends.forEach((trend, idx) => {
+            bookings.forEach((booking) => {
+                if (booking.likes > trend.likes) {
+                    trends[idx] = booking;
+                }
+            });
         });
         return trends;
     }

@@ -1,0 +1,8 @@
+query ReadBookingTrending {
+  readBookingTrending {
+    ...Booking
+    user {
+      ...User
+    }
+  }
+}

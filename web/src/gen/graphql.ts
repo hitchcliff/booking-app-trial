@@ -336,6 +336,11 @@ export type ReadAllMyAppointmentsQueryVariables = Exact<{ [key: string]: never; 
 
 export type ReadAllMyAppointmentsQuery = { __typename?: 'Query', readAllMyAppointments?: Array<{ __typename?: 'Appointment', id: number, date: string, from: string, to: string, booking?: { __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string, likes: number, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null } | null, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null }> | null };
 
+export type ReadBookingTrendingQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ReadBookingTrendingQuery = { __typename?: 'Query', readBookingTrending: Array<{ __typename?: 'Booking', id: number, createdAt: any, updatedAt: any, body: string, title: string, likes: number, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null }> };
+
 export type ReadBookingByIdQueryVariables = Exact<{
   id: Scalars['Float']['input'];
 }>;
@@ -1649,6 +1654,21 @@ ${UserFragmentDoc}`;
 
 export function useReadAllMyAppointmentsQuery(options?: Omit<Urql.UseQueryArgs<ReadAllMyAppointmentsQueryVariables>, 'query'>) {
   return Urql.useQuery<ReadAllMyAppointmentsQuery, ReadAllMyAppointmentsQueryVariables>({ query: ReadAllMyAppointmentsDocument, ...options });
+};
+export const ReadBookingTrendingDocument = gql`
+    query ReadBookingTrending {
+  readBookingTrending {
+    ...Booking
+    user {
+      ...User
+    }
+  }
+}
+    ${BookingFragmentDoc}
+${UserFragmentDoc}`;
+
+export function useReadBookingTrendingQuery(options?: Omit<Urql.UseQueryArgs<ReadBookingTrendingQueryVariables>, 'query'>) {
+  return Urql.useQuery<ReadBookingTrendingQuery, ReadBookingTrendingQueryVariables>({ query: ReadBookingTrendingDocument, ...options });
 };
 export const ReadBookingByIdDocument = gql`
     query ReadBookingById($id: Float!) {

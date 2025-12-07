@@ -1,6 +1,8 @@
 import { Arg, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import Booking from "../entities/Booking";
+import getUser from "../helpers/get_user";
 import getUserId from "../helpers/get_user_id";
+import Search from "../helpers/search";
 import { MyValidation } from "../helpers/validation";
 import isAuthAdmin from "../middleware/is_auth_admin";
 import { FieldInput } from "../utils/enums";
@@ -9,10 +11,6 @@ import {
   CreateBookingInput,
   ReadBookingInput,
 } from "../utils/type";
-import getUser from "../helpers/get_user";
-import Appointment from "../entities/Appointment";
-import Search from "../helpers/search";
-import Like from "../entities/Like";
 
 @Resolver()
 export default class BookingResolver {
@@ -54,16 +52,13 @@ export default class BookingResolver {
     });
 
     let trends: Booking[] = Array.from({ length: 5 }, (_, i) => bookings[i]);
-    bookings.forEach((booking) => {
-      if (!trends.length) {
-        trends.push(booking);
-      } else {
-        trends.forEach((trend, idx) => {
-          if (trend.likes! <= booking.likes!) {
-            trends[idx] = booking;
-          }
-        });
-      }
+
+    trends.forEach((trend, idx) => {
+      bookings.forEach((booking) => {
+        if (booking.likes > trend.likes) {
+          trends[idx] = booking;
+        }
+      });
     });
 
     return trends;
