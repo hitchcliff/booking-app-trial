@@ -25,6 +25,7 @@ var FieldInput;
     FieldInput["FROM"] = "from";
     FieldInput["TO"] = "to";
     FieldInput["VALUE"] = "value";
+    FieldInput["TAKE"] = "take";
 })(FieldInput || (exports.FieldInput = FieldInput = {}));
 var FieldMessage;
 (function (FieldMessage) {

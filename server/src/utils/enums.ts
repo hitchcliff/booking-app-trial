@@ -22,6 +22,7 @@ export enum FieldInput {
   FROM = "from",
   TO = "to",
   VALUE = "value",
+  TAKE = "take",
 }
 
 export enum FieldMessage {

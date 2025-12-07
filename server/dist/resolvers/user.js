@@ -40,9 +40,9 @@ let UserResolver = class UserResolver {
             },
         });
     }
-    async getLatestUsers() {
+    async getLatestUsers(take) {
         return await User_1.default.find({
-            take: 5,
+            take,
         });
     }
     async register(options) {
@@ -195,8 +195,9 @@ __decorate([
 __decorate([
     (0, type_graphql_1.UseMiddleware)(is_auth_1.default),
     (0, type_graphql_1.Query)(() => [User_1.default]),
+    __param(0, (0, type_graphql_1.Arg)(enums_1.FieldInput.TAKE)),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "getLatestUsers", null);
 __decorate([

@@ -36,9 +36,9 @@ export default class UserResolver {
 
   @UseMiddleware(isAuth)
   @Query(() => [User])
-  async getLatestUsers(): Promise<User[]> {
+  async getLatestUsers(@Arg(FieldInput.TAKE) take: number): Promise<User[]> {
     return await User.find({
-      take: 5,
+      take,
     });
   }
 

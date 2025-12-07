@@ -1,11 +1,9 @@
-import AgentFeed from "../../components/AgentFeed";
-import Feeds from "../../components/Feeds";
 import FriendSuggestions from "../../components/FriendSuggestions";
 import InfoBar from "../../components/InfoBar";
 import PrivateRoute from "../../components/Route/PrivateRoute";
 import SearchBar from "../../components/SearchBar";
 import Trendings from "../../components/Trendings";
-import { useGetBookingFromUrl } from "../../utils/useGetBookingFromUrl";
+import UserFeed from "../../components/UserFeed";
 import { useGetUserFromUrl } from "../../utils/useGetUserFromUrl";
 
 const User = () => {
@@ -43,7 +41,7 @@ const User = () => {
       </div>
 
       <div className="relative py-7 w-full flex flex-col gap-7">
-        <AgentFeed user={data.readAgentById} />
+        <UserFeed user={data.readAgentById} />
       </div>
 
       <div className="relative py-7 pr-7 w-1/2">
