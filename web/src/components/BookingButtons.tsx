@@ -25,8 +25,8 @@ export default function BookingButtons({
   booking,
   showViewDetailButton = true,
 }: BookingButtons) {
-  const { setToggleComments } = useGlobalService();
-  const { toggleComments } = useGlobalSelector();
+  const { pushCommentSectionId, removeCommentSectionId } = useGlobalService();
+  const { commentSectionIds } = useGlobalSelector();
   const router = useRouter();
   const [, likeBooking] = useLikeBookingMutation();
   const [, dislikeBooking] = useDislikeBookingMutation();
@@ -51,7 +51,16 @@ export default function BookingButtons({
 
       {showCommentButton && (
         <button
-          onClick={() => setToggleComments(!toggleComments)}
+          onClick={() => {
+            const idx = commentSectionIds.findIndex(
+              (sectionId) => sectionId === booking!.id
+            );
+            if (idx === -1) {
+              pushCommentSectionId(booking!.id);
+            } else {
+              removeCommentSectionId(booking!.id);
+            }
+          }}
           className="mr-5"
         >
           <FontAwesomeIcon className="mr-2" icon={faComment} />

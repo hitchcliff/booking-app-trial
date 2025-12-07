@@ -1,4 +1,6 @@
 import {
+  pushCommentSectionId,
+  removeCommentSectionId,
   setLoadingSlice,
   setSearchSlice,
   setToggleCommentsSlice,
@@ -16,5 +18,13 @@ export default class GlobalService {
 
   setSearch(payload: string) {
     Dispatch(setSearchSlice(payload));
+  }
+
+  removeCommentSectionId(payload: number) {
+    Dispatch(removeCommentSectionId(payload));
+  }
+
+  pushCommentSectionId(payload: number) {
+    Dispatch(pushCommentSectionId(payload));
   }
 }

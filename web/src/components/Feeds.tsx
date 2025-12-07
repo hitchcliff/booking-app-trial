@@ -20,7 +20,7 @@ const Feeds = ({
   showBookingButton = true,
   ...post
 }: FeedsProps) => {
-  const { toggleComments } = useGlobalSelector();
+  const { commentSectionIds } = useGlobalSelector();
   const {
     id,
     title,
@@ -60,7 +60,9 @@ const Feeds = ({
             showBookMarker={true}
           />
           {showBookingButton && <BookingButtons booking={booking} />}
-          {toggleComments && <Comments />}
+          {commentSectionIds.map(
+            (sectionId) => sectionId === id && <Comments />
+          )}
         </div>
       </div>
     </div>

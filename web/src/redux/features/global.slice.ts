@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 export interface HelloState {
   loading: boolean;
   toggleComments: boolean;
+  commentSectionIds: number[];
   search: string;
 }
 
@@ -10,6 +11,7 @@ const initialState: HelloState = {
   loading: true,
   toggleComments: false,
   search: "",
+  commentSectionIds: [],
 };
 
 export const globalSlice = createSlice({
@@ -25,8 +27,21 @@ export const globalSlice = createSlice({
     setSearchSlice: (state, { payload }) => {
       state.search = payload;
     },
+    pushCommentSectionId: (state, { payload }) => {
+      state.commentSectionIds.push(payload);
+    },
+    removeCommentSectionId: (state, { payload }) => {
+      state.commentSectionIds = state.commentSectionIds.filter(
+        (item) => item !== payload
+      );
+    },
   },
 });
 
-export const { setLoadingSlice, setToggleCommentsSlice, setSearchSlice } =
-  globalSlice.actions;
+export const {
+  setLoadingSlice,
+  setToggleCommentsSlice,
+  setSearchSlice,
+  removeCommentSectionId,
+  pushCommentSectionId,
+} = globalSlice.actions;
