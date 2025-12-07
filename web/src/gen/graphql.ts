@@ -158,6 +158,7 @@ export type MutationUpdateRoleArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  getLatestUsers: Array<User>;
   me?: Maybe<User>;
   readAgentById: User;
   readAllAppointments: Array<Appointment>;
@@ -167,6 +168,11 @@ export type Query = {
   readAppointmentsByBookingId?: Maybe<Array<Appointment>>;
   readBookingById?: Maybe<Booking>;
   readBookingTrending: Array<Booking>;
+};
+
+
+export type QueryGetLatestUsersArgs = {
+  take: Scalars['Float']['input'];
 };
 
 
@@ -319,6 +325,13 @@ export type RegisterMutationVariables = Exact<{
 
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field?: string | null, message?: string | null }> | null, user?: { __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string } | null } };
+
+export type GetLatestUsersQueryVariables = Exact<{
+  take: Scalars['Float']['input'];
+}>;
+
+
+export type GetLatestUsersQuery = { __typename?: 'Query', getLatestUsers: Array<{ __typename?: 'User', id: string, createdAt: any, updatedAt: any, name: string, email: string, emailVerified: boolean, dialCode: string, phoneNumber: string, acceptedTermsAndConditions: boolean, picture?: string | null, role: string, accountType: string }> };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -979,6 +992,35 @@ export default {
         "name": "Query",
         "fields": [
           {
+            "name": "getLatestUsers",
+            "type": {
+              "kind": "NON_NULL",
+              "ofType": {
+                "kind": "LIST",
+                "ofType": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "OBJECT",
+                    "name": "User",
+                    "ofType": null
+                  }
+                }
+              }
+            },
+            "args": [
+              {
+                "name": "take",
+                "type": {
+                  "kind": "NON_NULL",
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Any"
+                  }
+                }
+              }
+            ]
+          },
+          {
             "name": "me",
             "type": {
               "kind": "OBJECT",
@@ -1603,6 +1645,17 @@ export const RegisterDocument = gql`
 
 export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
+};
+export const GetLatestUsersDocument = gql`
+    query GetLatestUsers($take: Float!) {
+  getLatestUsers(take: $take) {
+    ...User
+  }
+}
+    ${UserFragmentDoc}`;
+
+export function useGetLatestUsersQuery(options: Omit<Urql.UseQueryArgs<GetLatestUsersQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetLatestUsersQuery, GetLatestUsersQueryVariables>({ query: GetLatestUsersDocument, ...options });
 };
 export const MeDocument = gql`
     query Me {

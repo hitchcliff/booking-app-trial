@@ -1,0 +1,1 @@
+{"c":["webpack"],"r":["pages/user/[id]"],"m":["./node_modules/next/dist/build/webpack/loaders/next-client-pages-loader.js?absolutePagePath=D%3A%5Cdevelop%5Csocial-booking-app%5Cweb%5Csrc%5Cpages%5Cuser%5C%5Bid%5D.tsx&page=%2Fuser%2F%5Bid%5D!","./src/components/AgentFeed.tsx","./src/pages/user/[id].tsx","./src/utils/useGetUserFromUrl.ts"]}

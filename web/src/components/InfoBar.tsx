@@ -90,7 +90,7 @@ const InfoBar = () => {
             router.push(RoutePattern.LOGIN);
           }}
           aria-label="logout button"
-          className="p-2 rounded-full bg-red-500 w-10 h-10 text-white"
+          className="p-2 rounded-full bg-red-500 w-10 h-10 text-white hover:opacity-80"
         >
           <FontAwesomeIcon icon={faArrowRightFromBracket} />
         </button>

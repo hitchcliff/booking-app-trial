@@ -15,6 +15,7 @@ const LogoutButton = () => {
         await logout({});
         route.push(RoutePattern.LANDING_PAGE);
       }}
+      className="hover:opacity-80"
     >
       Logout
     </Button>

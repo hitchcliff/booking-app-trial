@@ -1,0 +1,5 @@
+query GetLatestUsers($take: Float!) {
+  getLatestUsers(take: $take) {
+    ...User
+  }
+}
