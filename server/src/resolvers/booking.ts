@@ -144,33 +144,7 @@ export default class BookingResolver {
       }); // that owns the booking
 
       if (!booking) throw Error("no Booking");
-
-      // find also appointments that has booking
-      const appoinments = await Appointment.find({
-        where: {
-          booking: {
-            id,
-          },
-        },
-      });
-
-      if (appoinments.length) {
-        // remove appointments
-        appoinments.every((appointment) => {
-          appointment.remove();
-        });
-      }
-
-      // delete also the likes to fix error of PK_
-      const like = await Like.findOne({
-        where: {
-          booking: {
-            id: id,
-          },
-        },
-      });
-
-      await like?.remove();
+      // if booking is deleted, remove the appointments and likes
 
       await booking?.remove();
       return true;

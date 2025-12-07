@@ -86,12 +86,16 @@ __decorate([
 ], User.prototype, "picture", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => [Booking_1.default], { nullable: true }),
-    (0, typeorm_1.OneToMany)(() => Booking_1.default, (booking) => booking.user),
+    (0, typeorm_1.OneToMany)(() => Booking_1.default, (booking) => booking.user, {
+        onDelete: "CASCADE",
+    }),
     __metadata("design:type", Array)
 ], User.prototype, "bookings", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => [Appointment_1.default], { nullable: true }),
-    (0, typeorm_1.OneToMany)(() => Appointment_1.default, (appointment) => appointment.user),
+    (0, typeorm_1.OneToMany)(() => Appointment_1.default, (appointment) => appointment.user, {
+        onDelete: "CASCADE",
+    }),
     __metadata("design:type", Array)
 ], User.prototype, "appointments", void 0);
 __decorate([

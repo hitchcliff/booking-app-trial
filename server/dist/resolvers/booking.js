@@ -23,9 +23,7 @@ const is_auth_admin_1 = __importDefault(require("../middleware/is_auth_admin"));
 const enums_1 = require("../utils/enums");
 const type_1 = require("../utils/type");
 const get_user_1 = __importDefault(require("../helpers/get_user"));
-const Appointment_1 = __importDefault(require("../entities/Appointment"));
 const search_1 = __importDefault(require("../helpers/search"));
-const Like_1 = __importDefault(require("../entities/Like"));
 let BookingResolver = class BookingResolver {
     async createBooking(options) {
         const userId = (0, get_user_id_1.default)();
@@ -125,26 +123,6 @@ let BookingResolver = class BookingResolver {
             });
             if (!booking)
                 throw Error("no Booking");
-            const appoinments = await Appointment_1.default.find({
-                where: {
-                    booking: {
-                        id,
-                    },
-                },
-            });
-            if (appoinments.length) {
-                appoinments.every((appointment) => {
-                    appointment.remove();
-                });
-            }
-            const like = await Like_1.default.findOne({
-                where: {
-                    booking: {
-                        id: id,
-                    },
-                },
-            });
-            await (like === null || like === void 0 ? void 0 : like.remove());
             await (booking === null || booking === void 0 ? void 0 : booking.remove());
             return true;
         }

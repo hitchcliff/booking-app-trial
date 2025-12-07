@@ -46,18 +46,23 @@ __decorate([
 ], Booking.prototype, "title", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => User_1.default, { nullable: true }),
-    (0, typeorm_1.ManyToOne)(() => User_1.default, (user) => user.bookings, { eager: true }),
+    (0, typeorm_1.ManyToOne)(() => User_1.default, (user) => user.bookings, {
+        eager: true,
+        onDelete: "CASCADE",
+    }),
     (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", User_1.default)
 ], Booking.prototype, "user", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => [Appointment_1.default], { nullable: true }),
-    (0, typeorm_1.OneToMany)(() => Appointment_1.default, (appointment) => appointment.booking),
+    (0, typeorm_1.OneToMany)(() => Appointment_1.default, (appointment) => appointment.booking, {
+        onDelete: "CASCADE",
+    }),
     __metadata("design:type", Array)
 ], Booking.prototype, "appointments", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => [Like_1.default], { nullable: true }),
-    (0, typeorm_1.OneToMany)(() => Like_1.default, (like) => like.booking),
+    (0, typeorm_1.OneToMany)(() => Like_1.default, (like) => like.booking, { onDelete: "CASCADE" }),
     __metadata("design:type", Array)
 ], Booking.prototype, "userLikes", void 0);
 __decorate([

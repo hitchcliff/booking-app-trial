@@ -22,12 +22,18 @@ export default class Like extends BaseEntity {
   value: number; // either 1 or 0
 
   @Field(() => User, { nullable: true })
-  @ManyToOne(() => User, (user) => user.bookingLikes, { eager: true })
+  @ManyToOne(() => User, (user) => user.bookingLikes, {
+    eager: true,
+    onDelete: "CASCADE",
+  })
   @JoinColumn()
   user: User;
 
   @Field(() => Booking, { nullable: true })
-  @ManyToOne(() => Booking, (booking) => booking.userLikes, { eager: true })
+  @ManyToOne(() => Booking, (booking) => booking.userLikes, {
+    eager: true,
+    onDelete: "CASCADE",
+  })
   @JoinColumn()
   booking: Booking;
 }

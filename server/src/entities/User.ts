@@ -70,12 +70,16 @@ class User extends BaseEntity {
 
   // the one who created the booking
   @Field(() => [Booking], { nullable: true })
-  @OneToMany(() => Booking, (booking) => booking.user)
+  @OneToMany(() => Booking, (booking) => booking.user, {
+    onDelete: "CASCADE",
+  })
   bookings: Booking[];
 
   // appointment/scheduled bookings
   @Field(() => [Appointment], { nullable: true })
-  @OneToMany(() => Appointment, (appointment) => appointment.user)
+  @OneToMany(() => Appointment, (appointment) => appointment.user, {
+    onDelete: "CASCADE",
+  })
   appointments: Appointment[];
 
   // booking likes

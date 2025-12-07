@@ -30,12 +30,17 @@ export default class Appointment extends BaseEntity {
   to: string;
 
   @Field(() => Booking, { nullable: true })
-  @ManyToOne(() => Booking, (booking) => booking.appointments, { eager: true })
+  @ManyToOne(() => Booking, (booking) => booking.appointments, {
+    eager: true,
+    onDelete: "CASCADE",
+  })
   @JoinColumn()
   booking: Booking;
 
   @Field(() => User, { nullable: true })
-  @ManyToOne(() => User, (user) => user.appointments, { eager: true })
+  @ManyToOne(() => User, (user) => user.appointments, {
+    eager: true,
+  })
   @JoinColumn()
   user: User;
 }

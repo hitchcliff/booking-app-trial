@@ -30,13 +30,19 @@ __decorate([
 ], Like.prototype, "value", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => User_1.default, { nullable: true }),
-    (0, typeorm_1.ManyToOne)(() => User_1.default, (user) => user.bookingLikes, { eager: true }),
+    (0, typeorm_1.ManyToOne)(() => User_1.default, (user) => user.bookingLikes, {
+        eager: true,
+        onDelete: "CASCADE",
+    }),
     (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", User_1.default)
 ], Like.prototype, "user", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => Booking_1.default, { nullable: true }),
-    (0, typeorm_1.ManyToOne)(() => Booking_1.default, (booking) => booking.userLikes, { eager: true }),
+    (0, typeorm_1.ManyToOne)(() => Booking_1.default, (booking) => booking.userLikes, {
+        eager: true,
+        onDelete: "CASCADE",
+    }),
     (0, typeorm_1.JoinColumn)(),
     __metadata("design:type", Booking_1.default)
 ], Like.prototype, "booking", void 0);

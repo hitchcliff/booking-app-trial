@@ -39,18 +39,23 @@ export default class Booking extends BaseEntity {
 
   // owner of the booking
   @Field(() => User, { nullable: true })
-  @ManyToOne(() => User, (user) => user.bookings, { eager: true })
+  @ManyToOne(() => User, (user) => user.bookings, {
+    eager: true,
+    onDelete: "CASCADE",
+  })
   @JoinColumn()
   user: User;
 
   // appointment of the booking
   @Field(() => [Appointment], { nullable: true })
-  @OneToMany(() => Appointment, (appointment) => appointment.booking)
+  @OneToMany(() => Appointment, (appointment) => appointment.booking, {
+    onDelete: "CASCADE",
+  })
   appointments: Appointment[];
 
   // likes from user
   @Field(() => [Like], { nullable: true })
-  @OneToMany(() => Like, (like) => like.booking)
+  @OneToMany(() => Like, (like) => like.booking, { onDelete: "CASCADE" })
   userLikes: Like[];
 
   @Field()
