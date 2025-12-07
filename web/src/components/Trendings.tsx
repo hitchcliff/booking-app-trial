@@ -1,7 +1,5 @@
-import {
-  useReadAllBookingsQuery,
-  useReadBookingTrendingQuery,
-} from "../gen/graphql";
+import Link from "next/link";
+import { useReadBookingTrendingQuery } from "../gen/graphql";
 
 const Trendings = () => {
   const [{ data: trends }] = useReadBookingTrendingQuery();
@@ -13,7 +11,10 @@ const Trendings = () => {
         <ul className="flex flex-col gap-5">
           {trends?.readBookingTrending.map((trend) => (
             <li className="border border-dark dark:border-white rounded-md p-2">
-              {trend.title} ({trend.likes} likes) by: {trend.user?.name}
+              {trend.title} ({trend.likes} likes) by:{" "}
+              <Link href="/" className="link">
+                {trend.user?.name}
+              </Link>
             </li>
           ))}
         </ul>

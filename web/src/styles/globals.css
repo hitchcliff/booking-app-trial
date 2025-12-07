@@ -45,3 +45,7 @@ button {
 .infobar-icons > button {
   @apply relative hover:text-secondary transition-all;
 }
+
+.link {
+  @apply text-blue-500 italic;
+}
