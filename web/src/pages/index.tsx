@@ -7,6 +7,10 @@ import PublicRoute from "../components/Route/PublicRoute";
 import useLoadingState from "../hooks/useLoadingState";
 import { RootState } from "../redux/store";
 import RoutePattern from "../routes/RoutePattern";
+import { Assets } from "../assets/assets";
+import Image from "next/image";
+
+// const LOGO_IMG = '../assets/images/sbook.png';
 
 const Index = () => {
   const loading = useSelector((state: RootState) => state.global.loading);
@@ -24,9 +28,15 @@ const Index = () => {
       <div className="flex flex-row justify-between items-center mx-auto h-screen">
         <div className="w-full h-full px-10 flex flex-col relative">
           <div className="my-auto">
-            <h1 className="heading">Booking Appointments</h1>
+            <Image
+              width={150}
+              className="rounded-md"
+              alt="sbook"
+              src={Assets.LOGO_IMG}
+            />
+            <h1 className="heading">SBook</h1>
             <p className="mt-5 text-2xl">
-              A lightweight booking app,{" "}
+              A lightweight social booking app,{" "}
               <span className="text-primary font-bold">WELCOME!</span>
             </p>
             <p className="text-xl mt-5">
